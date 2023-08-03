@@ -13,6 +13,8 @@ build/
 .idea/gradle.xml
 .idea/vcs.xml
 .idea/git_toolbox_prj.xml
+.idea/misc.xml
+.idea/.gitignore
 *.iws
 *.iml
 *.ipr
