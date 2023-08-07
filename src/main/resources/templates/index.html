@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 <head>
     <meta charset="UTF-8">
     <title>Chess Database</title>
 </head>
 <body>
-    <h1>Welcome to Chess Database App</h1>
-    <p>Here you can view and manage chess games. </p>
+    <p>
+        User: <span sec:authentication="name"></span>
+        Role: <span sec:authentication="principal.authorities"></span>
+    </p>
+    <form action="#" th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout"/>
+
+    </form>
+    <hr>
+
+    <h1>Welcome to Chess Database</h1>
+    <hr>
+    <p> Here you can view and manage chess games. </p>
+
 </body>
 </html>
