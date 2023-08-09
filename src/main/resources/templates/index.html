@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
     <title>Chess Database</title>
@@ -11,22 +11,29 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div th:if="${#authorization.expression('isAuthenticated()')}"
+            <div sec:authorize="isAuthenticated()"
                  class="d-flex justify-content-between align-items-center">
                 <p>
                     User: <span sec:authentication="name"></span>
-                    Role: <span sec:authentication="principal.authorities"></span>
+                    <span sec:authentication="principal.authorities"></span>
                 </p>
-                <form action="#" th:action="@{/logout}" method="POST">
-                    <input type="submit" value="Logout" class="btn btn-danger"/>
-                </form>
+
+                <div class="d-flex">
+                    <div sec:authorize="hasRole('ADMINISTRATOR')">
+                        <a href="/admin" class="btn btn-primary">Admin Panel</a>
+                    </div>
+
+                    <form action="#" th:action="@{/logout}" method="POST" class="ml-2">
+                        <input type="submit" value="Logout" class="btn btn-danger"/>
+                    </form>
+                </div>
             </div>
 
-            <div th:if="${#authorization.expression('isAnonymous()')}"
+
+            <div sec:authorize="isAnonymous()"
                  class="d-flex justify-content-between align-items-center">
                 <a href="/login" class="btn btn-primary">Login</a>
             </div>
-
 
             <hr>
             <h1>Welcome to Chess Database</h1>

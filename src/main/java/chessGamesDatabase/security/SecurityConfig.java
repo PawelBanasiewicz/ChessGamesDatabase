@@ -33,6 +33,7 @@ public class SecurityConfig  {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/home", "/games", "/players", "/openings").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMINISTRATOR")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -43,6 +44,9 @@ public class SecurityConfig  {
                 .logout(logout -> logout
                         .permitAll()
                         .logoutSuccessUrl("/")
+                )
+                .exceptionHandling(configurer ->
+                        configurer.accessDeniedPage("/access-denied")
                 );
 
         return http.build();
