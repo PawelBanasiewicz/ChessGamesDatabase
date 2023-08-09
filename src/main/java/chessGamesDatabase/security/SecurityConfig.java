@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -28,20 +29,19 @@ public class SecurityConfig  {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.authorizeHttpRequests(configurer ->
-                        configurer.anyRequest().authenticated()).
-
-                formLogin(form ->
-                        form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/authenticateUser")
-                                .permitAll()
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .addFilterBefore(new AutoLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/", "/home", "/games", "/players", "/openings").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
 
-        return httpSecurity.build();
+        return http.build();
     }
 }
