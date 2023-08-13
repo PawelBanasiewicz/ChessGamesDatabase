@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+</head>
+<body>
+<h2>Edit User</h2>
+
+<form th:object="${user}" th:action="@{/admin/save}" method="POST">
+    <input type="hidden" th:field="${user.userId}" />
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" th:field="${user.username}" required />
+    <br/>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="${user.email}" required />
+    <br/>
+
+    <div class="form-group">
+        <label for="newPassword">New Password:</label>
+        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="If blank old password stays">
+    </div>
+
+    <label for="enabled">Enabled:</label>
+    <input type="checkbox" id="enabled" th:field="${user.enabled}" />
+    <br/>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+</body>
+</html>
