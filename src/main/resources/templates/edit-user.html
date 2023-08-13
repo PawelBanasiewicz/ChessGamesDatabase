@@ -27,6 +27,12 @@
     <input type="checkbox" id="enabled" th:field="${user.enabled}" />
     <br/>
 
+    <label for="roles">Roles:</label>
+    <select id="roles" name="roles" th:field="${user.roles}" multiple="multiple">
+        <option th:each="role : ${allRoles}" th:value="${role.roleId}" th:text="${role.roleName}" th:selected="${user.roles.contains(role)}"></option>
+    </select>
+    <br/>
+
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 </body>

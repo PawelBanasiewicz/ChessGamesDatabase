@@ -1,5 +1,6 @@
 package chessGamesDatabase.controller;
 
+import chessGamesDatabase.entity.Role;
 import chessGamesDatabase.entity.User;
 import chessGamesDatabase.service.RoleService;
 import chessGamesDatabase.service.UserService;
@@ -38,19 +39,22 @@ public class AdminController {
     @GetMapping("/admin/edit")
     public String editUser(@RequestParam long userId, Model model) {
         User user = userService.findById(userId);
+        List<Role> allRoles = roleService.findAll();
+
         model.addAttribute("user", user);
+        model.addAttribute("allRoles", allRoles);
 
         return "edit-user";
     }
 
     @PostMapping("/admin/save")
     public String saveEditedUser(@ModelAttribute User editedUser,
-                                 @RequestParam("newPassword") String newPassword) {
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("roles") List<Role> chosenRoles) {
         User originalUser = userService.findById(editedUser.getUserId());
         editedUser.setCreatedAt(originalUser.getCreatedAt());
         editedUser.setLastLogin(originalUser.getLastLogin());
-        editedUser.setRoles(originalUser.getRoles());
-
+        editedUser.setRoles(chosenRoles);
 
         if (!newPassword.isEmpty()) {
             editedUser.setPassword(passwordEncoder.encode(newPassword));
