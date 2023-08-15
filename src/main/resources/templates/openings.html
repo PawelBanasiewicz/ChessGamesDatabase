@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Openings</title>
+    <style>
+        .current-page {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+<h2>Openings</h2>
 
+<table style="width: 100%; border-collapse: collapse; text-align: center;">
+    <thead>
+    <tr style="background-color: #f2f2f2;">
+        <th style="border: 1px solid #dddddd; padding: 8px;">Code</th>
+        <th style="border: 1px solid #dddddd; padding: 8px;">Name</th>
+        <th style="border: 1px solid #dddddd; padding: 8px;">Pgn</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="opening : ${actualPage.content}" style="border: 1px solid #dddddd;">
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${opening.code}"></td>
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${opening.name}"></td>
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${opening.pgnMoves}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <ul class="pagination" style="display: flex; list-style: none;">
+        <li th:if="${actualPage.number > 0}" style="margin-right: 10px;">
+            <a th:href="@{/openings(page=1)}" class="page-link">First</a>
+        </li>
+        <li th:if="${actualPage.number > 0}" style="margin-right: 10px;">
+            <a th:href="@{/openings(page=${actualPage.number})}" class="page-link">Previous</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number + 4)}" th:if="${i >= 0 and i < actualPage.totalPages}" style="margin-right: 10px;">
+            <a th:href="@{/openings(page=${i + 1})}" th:text="${i + 1}" th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
+        </li>
+        <li th:if="${actualPage.number < actualPage.totalPages - 1}" style="margin-right: 10px;">
+            <a th:href="@{/openings(page=${actualPage.number + 2})}" class="page-link">Next</a>
+        </li>
+        <li th:if="${actualPage.number < actualPage.totalPages - 1}" style="margin-right: 10px;">
+            <a th:href="@{/openings(page=${actualPage.totalPages})}" class="page-link">Last</a>
+        </li>
+    </ul>
+</div>
+
+<a th:href="@{/}" class="btn btn-primary">Back to Home Page</a>
 </body>
 </html>
