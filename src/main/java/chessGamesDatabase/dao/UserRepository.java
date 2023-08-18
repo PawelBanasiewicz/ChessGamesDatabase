@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
+
     @Query("SELECT DISTINCT u FROM User u WHERE NOT EXISTS (SELECT r FROM u.roles r WHERE r.roleName = :roleName)")
     List<User> findUsersWithoutAdminRole(@Param("roleName") String roleName);
 }

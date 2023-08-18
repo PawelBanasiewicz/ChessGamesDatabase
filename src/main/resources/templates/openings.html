@@ -12,6 +12,21 @@
 <body>
 <h2>Openings</h2>
 
+<form th:action="@{/openings}" method="get">
+    <label for="codeFilter">Code:</label>
+    <input type="text" id="codeFilter" name="codeFilter" th:value="${codeFilter}" />
+
+    <label for="nameFilter">Name:</label>
+    <input type="text" id="nameFilter" name="nameFilter" th:value="${nameFilter}" />
+
+    <label for="pgnMovesFilter">FEN:</label>
+    <input type="text" id="pgnMovesFilter" name="pgnMovesFilter" th:value="${pgnMovesFilter}" />
+
+    <button type="submit">Apply Filters</button>
+</form>
+
+<a th:href="@{/openings}" class="btn btn-secondary">Reset Filters</a>
+
 <table style="width: 100%; border-collapse: collapse; text-align: center;">
     <thead>
     <tr style="background-color: #f2f2f2;">

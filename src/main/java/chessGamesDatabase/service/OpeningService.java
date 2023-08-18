@@ -8,4 +8,10 @@ import org.springframework.data.domain.Pageable;
 public interface OpeningService {
     Page<Opening> findAllPageable(Pageable pageable);
 
+    Page<Opening> findByCodeContainingIgnoreCase(String codeFilter, Pageable pageable);
+
+    Page<Opening> findByNameContainingIgnoreCase(String nameFilter, Pageable pageable);
+
+    Page<Opening> findByPgnMovesContainingIgnoreCase(String pgnMovesFilter, Pageable pageable);
+
 }

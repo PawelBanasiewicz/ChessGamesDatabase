@@ -20,4 +20,19 @@ public class OpeningServiceImpl implements OpeningService {
     public Page<Opening> findAllPageable(Pageable pageable) {
         return openingRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Opening> findByCodeContainingIgnoreCase(String codeFilter, Pageable pageable) {
+        return openingRepository.findByCodeContainingIgnoreCase(codeFilter, pageable);
+    }
+
+    @Override
+    public Page<Opening> findByNameContainingIgnoreCase(String nameFilter, Pageable pageable) {
+        return openingRepository.findByNameContainingIgnoreCase(nameFilter, pageable);
+    }
+
+    @Override
+    public Page<Opening> findByPgnMovesContainingIgnoreCase(String pgnMovesFilter, Pageable pageable) {
+        return openingRepository.findByPgnMovesContainingIgnoreCase(pgnMovesFilter, pageable);
+    }
 }
