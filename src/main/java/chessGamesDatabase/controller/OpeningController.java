@@ -29,12 +29,11 @@ public class OpeningController {
 
         Page<Opening> actualPage;
 
-        if (codeFilter != null && !codeFilter.isEmpty()) {
-            actualPage = openingService.findByCodeContainingIgnoreCase(codeFilter, PageRequest.of(page - 1, 30));
-        } else if (nameFilter != null && !nameFilter.isEmpty()) {
-            actualPage = openingService.findByNameContainingIgnoreCase(nameFilter, PageRequest.of(page - 1, 30));
-        } else if (pgnMovesFilter != null && !pgnMovesFilter.isEmpty()) {
-            actualPage = openingService.findByPgnMovesContainingIgnoreCase(pgnMovesFilter, PageRequest.of(page - 1, 30));
+        if ((codeFilter != null && !codeFilter.isEmpty()) ||
+                (nameFilter != null && !nameFilter.isEmpty()) ||
+                (pgnMovesFilter != null && !pgnMovesFilter.isEmpty())) {
+            actualPage = openingService.findByCodeAndNameAndPgnMovesIgnoreCasePageable(codeFilter, nameFilter, pgnMovesFilter, PageRequest.of(page - 1, 30));
+
         } else {
             actualPage = openingService.findAllPageable(PageRequest.of(page - 1, 30));
         }

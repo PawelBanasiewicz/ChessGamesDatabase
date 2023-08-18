@@ -22,17 +22,23 @@ public class OpeningServiceImpl implements OpeningService {
     }
 
     @Override
-    public Page<Opening> findByCodeContainingIgnoreCase(String codeFilter, Pageable pageable) {
+    public Page<Opening> findByCodeContainingIgnoreCasePageable(String codeFilter, Pageable pageable) {
         return openingRepository.findByCodeContainingIgnoreCase(codeFilter, pageable);
     }
 
     @Override
-    public Page<Opening> findByNameContainingIgnoreCase(String nameFilter, Pageable pageable) {
+    public Page<Opening> findByNameContainingIgnoreCasePageable(String nameFilter, Pageable pageable) {
         return openingRepository.findByNameContainingIgnoreCase(nameFilter, pageable);
     }
 
     @Override
-    public Page<Opening> findByPgnMovesContainingIgnoreCase(String pgnMovesFilter, Pageable pageable) {
+    public Page<Opening> findByPgnMovesContainingIgnoreCasePageable(String pgnMovesFilter, Pageable pageable) {
         return openingRepository.findByPgnMovesContainingIgnoreCase(pgnMovesFilter, pageable);
+    }
+
+    @Override
+    public Page<Opening> findByCodeAndNameAndPgnMovesIgnoreCasePageable(String codeFilter, String nameFilter, String pgnMovesFilter, Pageable pageable) {
+        return openingRepository.findByCodeContainingIgnoreCaseAndNameContainingIgnoreCaseAndPgnMovesContainingIgnoreCase
+                (codeFilter, nameFilter, pgnMovesFilter, pageable);
     }
 }

@@ -11,4 +11,7 @@ public interface OpeningRepository extends JpaRepository<Opening, Long> {
     Page<Opening> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
     Page<Opening> findByPgnMovesContainingIgnoreCase(String pgnMoves, Pageable pageable);
+
+    Page<Opening> findByCodeContainingIgnoreCaseAndNameContainingIgnoreCaseAndPgnMovesContainingIgnoreCase
+            (String code, String name, String pgnMoves, Pageable pageable);
 }
