@@ -1,10 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Players</title>
+
+    <style>
+        .current-page {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
+<h2>Players</h2>
+
+<form th:action="@{/players}" method="get">
+    <label for="firstNameFilter">First name: </label>
+    <input type="text" id="firstNameFilter" name="firstNameFilter" th:value="${firstNameFilter}"/>
+
+    <label for="lastNameFilter">Last name: </label>
+    <input type="text" id="lastNameFilter" name="lastNameFilter" th:value="${lastNameFilter}"/>
+
+    <label for="birthDateFromFilter">Birthdate from:</label>
+    <input type="date" id="birthDateFromFilter" name="birthDateFromFilter" th:value="${birthDateFromFilter}"/>
+
+    <label for="birthDateToFilter">Birthdate to: </label>
+    <input type="date" id="birthDateToFilter" name="birthDateToFilter" th:value="${birthDateToFilter}"/>
+
+    <label for="sexFilter">Sex: </label>
+    <select id="sexFilter" name="sexFilter" th:value="${sexFilter}">
+        <option value="" selected>Any</option>
+        <option value="M">M</option>
+        <option value="F">F</option>
+    </select>
+
+    <label for="eloMinFilter">ELO min:</label>
+    <input type="number" id="eloMinFilter" name="eloMinFilter" th:value="${eloMinFilter}"/>
+
+    <label for="eloMaxFilter">ELO max:</label>
+    <input type="number" id="eloMaxFilter" name="eloMaxFilter" th:value="${eloMaxFilter}"/>
+
+    <button type="submit">Search</button>
+</form>
+
+<a th:href="@{/players}" class="btn btn-secondary">Reset Filters</a>
+
+<table style="width: 100%; border-collapse: collapse; text-align: center;">
+    <thead>
+    <tr style="background-color: f2f2f2">
+        <th style="border: 1px solid #dddddd; padding: 8px;">First name</th>
+        <th style="border: 1px solid #dddddd; padding: 8px;">Last name</th>
+        <th style="border: 1px solid #dddddd; paddingL 8px;">Birth date</th>
+        <th style="border: 1px solid #dddddd; paddingL 8px;">Sex</th>
+        <th style="border: 1px solid #dddddd; paddingL 8px;">Elo</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="player : ${actualPage.content}" style="border: 1px solid #dddddd;">
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${player.firstName}"></td>
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${player.lastName}"></td>
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${player.birthDate}"></td>
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${player.sex}"></td>
+        <td style="border: 1px solid #dddddd; padding: 8px;" th:text="${player.elo}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div style="display: flex; justify-content: center; align align-items: center;">
+    <ul class="pagination" style="display: flex; list-style: none;">
+        <li th:if="${actualPage.number > 0}" style="margin-right: 10px;">
+            <a th:href="@{/players(page=1, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page-link">First</a>
+            <a th:href="@{/players(page=${actualPage.number}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page-link">Previous</a>
+        </li>
+
+        <li th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
+            th:if="${i >= 0 and i < actualPage.totalPages}" style="margin-right: 10px;">
+            <a th:href="@{/players(page=${i + 1}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" th:text="${i + 1}"
+               th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
+        </li>
+
+        <li th:if="${actualPage.number < actualPage.totalPages - 1}" style="margin-right: 10px;">
+            <a th:href="@{/players(page=${actualPage.number +2}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page-link">Next</a>
+            <a th:href="@{/players(page=${actualPage.totalPages}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page=link">Last</a>
+        </li>
+    </ul>
+</div>
+
+
+<a th:href="@{/}"> Back to Home Page</a>
 </body>
 </html>
