@@ -34,6 +34,7 @@ public class PlayersController {
                           Model model) {
 
         Page<Player> actualPage;
+        PageRequest pageRequest = PageRequest.of(page - 1, 30);
 
         if ((firstNameFilter != null && !firstNameFilter.isEmpty()) ||
                 (lastNameFilter != null && !lastNameFilter.isEmpty()) ||
@@ -41,12 +42,12 @@ public class PlayersController {
                 (sexFilter != null) ||
                 (eloMinFilter != null || eloMaxFilter != null)) {
 
-            actualPage = playerService.findAllWithFiltersPageable(
+            actualPage = playerService.findAllPlayersWithFiltersPageable(
                     firstNameFilter, lastNameFilter, birthDateFromFilter, birthDateToFilter,
                     sexFilter, eloMinFilter, eloMaxFilter,
-                    PageRequest.of(page - 1, 30));
+                    pageRequest);
         } else {
-            actualPage = playerService.findAllPageable(PageRequest.of(page - 1, 30));
+            actualPage = playerService.findAllPlayersPageable(pageRequest);
         }
 
         model.addAttribute("actualPage", actualPage);

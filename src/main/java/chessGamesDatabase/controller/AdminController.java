@@ -39,7 +39,7 @@ public class AdminController {
     @GetMapping("/admin/edit")
     public String editUser(@RequestParam long userId, Model model) {
         User user = userService.findById(userId);
-        List<Role> allRoles = roleService.findAll();
+        List<Role> allRoles = roleService.findAllRoles();
 
         model.addAttribute("user", user);
         model.addAttribute("allRoles", allRoles);

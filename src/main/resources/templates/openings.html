@@ -72,6 +72,8 @@
     <button type="submit">Search</button>
 </form>
 
+<a th:href="@{/openings}" class="btn btn-primary">Reset Filters</a>
+
 <table>
     <thead>
     <tr>
@@ -92,17 +94,32 @@
 <div>
     <ul class="pagination">
         <li th:if="${actualPage.number > 0}">
-            <a th:href="@{/openings(page=1, codeFilter=${codeFilter}, nameFilter=${nameFilter}, pgnMovesFilter=${pgnMovesFilter})}" class="page-link">First</a>
-            <a th:href="@{/openings(page=${actualPage.number}, codeFilter=${codeFilter}, nameFilter=${nameFilter}, pgnMovesFilter=${pgnMovesFilter})}" class="page-link">Previous</a>
+            <a th:href="@{/openings(page=1,
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}" class="page-link">First</a>
+            <a th:href="@{/openings(page=${actualPage.number},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}" class="page-link">Previous</a>
         </li>
 
         <li th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number + 4)}" th:if="${i >= 0 and i < actualPage.totalPages}">
-            <a th:href="@{/openings(page=${i + 1}, codeFilter=${codeFilter}, nameFilter=${nameFilter}, pgnMovesFilter=${pgnMovesFilter})}" th:text="${i + 1}" th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
+            <a th:href="@{/openings(page=${i + 1},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}" th:text="${i + 1}" th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
         </li>
 
         <li th:if="${actualPage.number < actualPage.totalPages - 1}">
-            <a th:href="@{/openings(page=${actualPage.number + 2}, codeFilter=${codeFilter}, nameFilter=${nameFilter}, pgnMovesFilter=${pgnMovesFilter})}" class="page-link">Next</a>
-            <a th:href="@{/openings(page=${actualPage.totalPages}, codeFilter=${codeFilter}, nameFilter=${nameFilter}, pgnMovesFilter=${pgnMovesFilter})}" class="page-link">Last</a>
+            <a th:href="@{/openings(page=${actualPage.number + 2},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}" class="page-link">Next</a>
+            <a th:href="@{/openings(page=${actualPage.totalPages},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}" class="page-link">Last</a>
         </li>
     </ul>
 </div>

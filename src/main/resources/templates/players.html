@@ -88,6 +88,8 @@
     <button type="submit">Search</button>
 </form>
 
+<a th:href="@{/players}" class="btn btn-primary">Reset Filters</a>
+
 <table>
     <thead>
     <tr>
@@ -112,19 +114,55 @@
 <div>
     <ul class="pagination">
         <li th:if="${actualPage.number > 0}">
-            <a th:href="@{/players(page=1, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page-link">First</a>
-            <a th:href="@{/players(page=${actualPage.number}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page-link">Previous</a>
+            <a th:href="@{/players(page=1,
+            firstNameFilter=${firstNameFilter},
+            lastNameFilter=${lastNameFilter},
+            birthDateFromFilter=${birthDateFromFilter},
+            birthDateToFilter=${birthDateToFilter},
+            sexFilter=${sexFilter},
+            eloMinFilter=${eloMinFilter},
+            eloMaxFilter=${eloMaxFilter})}" class="page-link">First</a>
+
+            <a th:href="@{/players(page=${actualPage.number},
+            firstNameFilter=${firstNameFilter},
+            lastNameFilter=${lastNameFilter},
+            birthDateFromFilter=${birthDateFromFilter},
+            birthDateToFilter=${birthDateToFilter},
+            sexFilter=${sexFilter},
+            eloMinFilter=${eloMinFilter},
+            eloMaxFilter=${eloMaxFilter})}" class="page-link">Previous</a>
         </li>
 
         <li th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
             th:if="${i >= 0 and i < actualPage.totalPages}">
-            <a th:href="@{/players(page=${i + 1}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" th:text="${i + 1}"
+            <a th:href="@{/players(page=${i + 1},
+            firstNameFilter=${firstNameFilter},
+            lastNameFilter=${lastNameFilter},
+            birthDateFromFilter=${birthDateFromFilter},
+            birthDateToFilter=${birthDateToFilter},
+            sexFilter=${sexFilter},
+            eloMinFilter=${eloMinFilter},
+            eloMaxFilter=${eloMaxFilter})}" th:text="${i + 1}"
                th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
         </li>
 
         <li th:if="${actualPage.number < actualPage.totalPages - 1}">
-            <a th:href="@{/players(page=${actualPage.number +2}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page-link">Next</a>
-            <a th:href="@{/players(page=${actualPage.totalPages}, firstNameFilter=${firstNameFilter}, lastNameFilter=${lastNameFilter}, birthDateFromFilter=${birthDateFromFilter}, birthDateToFilter=${birthDateToFilter}, sexFilter=${sexFilter}, eloMinFilter=${eloMinFilter}, eloMaxFilter=${eloMaxFilter})}" class="page=link">Last</a>
+            <a th:href="@{/players(page=${actualPage.number +2},
+            firstNameFilter=${firstNameFilter},
+            lastNameFilter=${lastNameFilter},
+            birthDateFromFilter=${birthDateFromFilter},
+            birthDateToFilter=${birthDateToFilter},
+            sexFilter=${sexFilter},
+            eloMinFilter=${eloMinFilter},
+            eloMaxFilter=${eloMaxFilter})}" class="page-link">Next</a>
+            <a th:href="@{/players(page=${actualPage.totalPages},
+            firstNameFilter=${firstNameFilter},
+            lastNameFilter=${lastNameFilter},
+            birthDateFromFilter=${birthDateFromFilter},
+            birthDateToFilter=${birthDateToFilter},
+            sexFilter=${sexFilter},
+            eloMinFilter=${eloMinFilter},
+            eloMaxFilter=${eloMaxFilter})}" class="page=link">Last</a>
         </li>
     </ul>
 </div>

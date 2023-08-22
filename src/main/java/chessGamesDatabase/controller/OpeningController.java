@@ -28,14 +28,15 @@ public class OpeningController {
                            Model model) {
 
         Page<Opening> actualPage;
+        PageRequest pageRequest = PageRequest.of(page - 1, 30);
 
         if ((codeFilter != null && !codeFilter.isEmpty()) ||
                 (nameFilter != null && !nameFilter.isEmpty()) ||
                 (pgnMovesFilter != null && !pgnMovesFilter.isEmpty())) {
-            actualPage = openingService.findByCodeAndNameAndPgnMovesIgnoreCasePageable(codeFilter, nameFilter, pgnMovesFilter, PageRequest.of(page - 1, 30));
+            actualPage = openingService.findByCodeAndNameAndPgnMovesIgnoreCasePageable(codeFilter, nameFilter, pgnMovesFilter, pageRequest);
 
         } else {
-            actualPage = openingService.findAllPageable(PageRequest.of(page - 1, 30));
+            actualPage = openingService.findAllPageable(pageRequest);
         }
 
         model.addAttribute("actualPage", actualPage);

@@ -19,13 +19,13 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Page<Player> findAllPageable(Pageable pageable) {
+    public Page<Player> findAllPlayersPageable(Pageable pageable) {
         return playerRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Player> findAllWithFiltersPageable(String firstName, String lastName, LocalDate birthDateFrom, LocalDate birthDateTo,
-                                                   Character sex, Integer eloMin, Integer eloMax, Pageable pageable) {
-        return playerRepository.findAllWithFilters(firstName, lastName, birthDateFrom, birthDateTo, sex, eloMin, eloMax, pageable);
+    public Page<Player> findAllPlayersWithFiltersPageable(String firstName, String lastName, LocalDate birthDateFrom, LocalDate birthDateTo,
+                                                          Character sex, Integer eloMin, Integer eloMax, Pageable pageable) {
+        return playerRepository.findAllPlayersWithFilters(firstName, lastName, birthDateFrom, birthDateTo, sex, eloMin, eloMax, pageable);
     }
 }

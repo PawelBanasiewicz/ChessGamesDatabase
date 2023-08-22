@@ -17,12 +17,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> findAll() {
+    public List<Role> findAllRoles() {
         return roleRepository.findAll();
     }
 
     @Override
-    public List<Role> findByIdIn(List<Long> roleIds) {
+    public List<Role> findRolesByIdIn(List<Long> roleIds) {
         return roleRepository.findByRoleIdIn(roleIds);
     }
 
