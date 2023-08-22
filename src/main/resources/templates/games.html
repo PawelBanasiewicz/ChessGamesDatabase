@@ -59,6 +59,46 @@
 <body>
 <h2>Games</h2>
 
+<form th:action="@{/games}" method="get">
+    <label for="openingCodeFilter">Opening code: </label>
+    <input type="text" id="openingCodeFilter" name="openingCodeFilter" th:value="${openingCodeFilter}"/>
+
+    <label for="player1FirstNameFilter">Player1 first name: </label>
+    <input type="text" id="player1FirstNameFilter" name="player1FirstNameFilter" th:value="${player1FirstNameFilter}">
+
+    <label for="player1LastNameFilter">Player1 last name: </label>
+    <input type="text" id="player1LastNameFilter" name="player1LastNameFilter" th:value="${player1LastNameFilter}">
+
+    <label for="player2FirstNameFilter">Player2 first name: </label>
+    <input type="text" id="player2FirstNameFilter" name="player2FirstNameFilter" th:value="${player2FirstNameFilter}">
+
+    <label for="player2LastNameFilter">Player2 last name: </label>
+    <input type="text" id="player2LastNameFilter" name="player2LastNameFilter" th:value="${player2LastNameFilter}">
+
+    <label for="resultFilter">Result: </label>
+    <select id="resultFilter" name="resultFilter" th:value="${resultFilter}">
+        <option value="" selected>Any</option>
+        <option value="1-0">White wins</option>
+        <option value="0-1">Black wins</option>
+        <option value="1/2-1/2">Draw</option>
+    </select>
+
+    <label for="movesNumberMinFilter">Moves number min: </label>
+    <input type="number" id="movesNumberMinFilter" name="movesNumberMinFilter" th:value="${movesNumberMinFilter}">
+
+    <label for="movesNumberMaxFilter">Moves number max: </label>
+    <input type="number" id="movesNumberMaxFilter" name="movesNumberMaxFilter" th:value="${movesNumberMaxFilter}">
+
+    <label for="dateFromFilter">Date from: </label>
+    <input type="date" id="dateFromFilter" name="dateFromFilter" th:value="${dateFromFilter}">
+
+    <label for="dateToFilter">Date to: </label>
+    <input type="date" id="dateToFilter" name="dateToFilter" th:value="${dateToFilter}">
+
+    <button type="submit">Search</button>
+</form>
+
+<a th:href="@{/games}" class="btn btn-primary">Reset Filters</a>
 
 <table>
     <thead>
@@ -93,13 +133,43 @@
 
         <li th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
             th:if="${i >= 0 and i < actualPage.totalPages}">
-            <a th:href="@{/games(page=${i + 1})}" th:text="${i + 1}"
+            <a th:href="@{/games(page=${i + 1},
+                                 openingCodeFilter=${openingCodeFilter},
+                                 player1FirstNameFilter=${player1FirstNameFilter},
+                                 player1LastNameFilter=${player1LastNameFilter},
+                                 player2FirstNameFilter=${player2FirstNameFilter},
+                                 player2LastNameFilter=${player2LastNameFilter},
+                                 resultFilter=${resultFilter},
+                                 movesNumberMinFilter=${movesNumberMinFilter},
+                                 movesNumberMaxFilter=${movesNumberMaxFilter},
+                                 dateFromFilter=${dateFromFilter},
+                                 dateToFilter=${dateToFilter})}" th:text="${i + 1}"
                th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
         </li>
 
         <li th:if="${actualPage.number < actualPage.totalPages - 1}">
-            <a th:href="@{/games(page=${actualPage.number + 2})}" class="page-link">Next</a>
-            <a th:href="@{/games(page=${actualPage.totalPages})}" class="page-link">Last</a>
+            <a th:href="@{/games(page=${actualPage.number + 2},
+                                 openingCodeFilter=${openingCodeFilter},
+                                 player1FirstNameFilter=${player1FirstNameFilter},
+                                 player1LastNameFilter=${player1LastNameFilter},
+                                 player2FirstNameFilter=${player2FirstNameFilter},
+                                 player2LastNameFilter=${player2LastNameFilter},
+                                 resultFilter=${resultFilter},
+                                 movesNumberMinFilter=${movesNumberMinFilter},
+                                 movesNumberMaxFilter=${movesNumberMaxFilter},
+                                 dateFromFilter=${dateFromFilter},
+                                 dateToFilter=${dateToFilter})}" class="page-link">Next</a>
+            <a th:href="@{/games(page=${actualPage.totalPages},
+                                 openingCodeFilter=${openingCodeFilter},
+                                 player1FirstNameFilter=${player1FirstNameFilter},
+                                 player1LastNameFilter=${player1LastNameFilter},
+                                 player2FirstNameFilter=${player2FirstNameFilter},
+                                 player2LastNameFilter=${player2LastNameFilter},
+                                 resultFilter=${resultFilter},
+                                 movesNumberMinFilter=${movesNumberMinFilter},
+                                 movesNumberMaxFilter=${movesNumberMaxFilter},
+                                 dateFromFilter=${dateFromFilter},
+                                 dateToFilter=${dateToFilter})}" class="page-link">Last</a>
         </li>
     </ul>
 </div>

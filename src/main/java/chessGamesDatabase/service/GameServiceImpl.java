@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class GameServiceImpl implements GameService {
 
@@ -18,7 +20,18 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Page<Game> findAllPageable(Pageable pageable) {
+    public Page<Game> findAllGamesPageable(Pageable pageable) {
         return gameRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Game> findAllGamesWithFiltersPageable(String openingCodeFilter, String player1FirstNameFilter, String player1LastNameFilter,
+                                                      String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
+                                                      Integer movesNumberMinFilter, Integer movesNumberMaxFilter, LocalDate dateFromFilter, LocalDate dateToFilter,
+                                                      Pageable pageable) {
+        return gameRepository.findAllGamesWithFilters(openingCodeFilter, player1FirstNameFilter, player1LastNameFilter, player2FirstNameFilter, player2LastNameFilter,
+                resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageable);
+    }
+
 }
+
