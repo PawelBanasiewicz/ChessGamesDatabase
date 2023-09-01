@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -27,5 +28,11 @@ public class PlayerServiceImpl implements PlayerService {
     public Page<Player> findAllPlayersWithFiltersPageable(String firstName, String lastName, LocalDate birthDateFrom, LocalDate birthDateTo,
                                                           Character sex, Integer eloMin, Integer eloMax, Pageable pageable) {
         return playerRepository.findAllPlayersWithFilters(firstName, lastName, birthDateFrom, birthDateTo, sex, eloMin, eloMax, pageable);
+    }
+
+    @Override
+    public Player findPlayerById(Long playerId) {
+        Optional<Player> player = playerRepository.findById(playerId);
+        return player.orElse(null);
     }
 }

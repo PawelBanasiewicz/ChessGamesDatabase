@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Player Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .pagination li {
+            margin-right: 10px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #333;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s;
+        }
+
+        .pagination a.current-page {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .pagination a:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h2>Player Details</h2>
+<div>
+    <p>First Name: <span th:text="${player.firstName}"></span></p>
+    <p>Last Name: <span th:text="${player.lastName}"></span></p>
+    <p>Birthdate: <span th:text="${player.birthDate}"></span></p>
+    <p>Sex: <span th:text="${player.sex}"></span></p>
+    <p>Elo: <span th:text="${player.elo}"></span></p>
+</div>
+
+<h3>Player's Games</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Opening</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Result</th>
+        <th>Moves Number</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="game : ${actualPage.content}">
+        <td th:text="${game.opening.code}"></td>
+        <td th:text="${game.player1.firstName + ' ' + game.player1.lastName}"></td>
+        <td th:text="${game.player2.firstName + ' ' + game.player2.lastName}"></td>
+        <td th:text="${game.result}"></td>
+        <td th:text="${game.movesNumber}"></td>
+        <td th:text="${game.date}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="pagination">
+    <ul class="pagination">
+        <li th:if="${actualPage.number > 0}">
+            <a th:href="@{/player/{playerId}(playerId=${player.playerId}, page=1)}" class="page-link">First</a>
+        </li>
+
+        <li th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number + 4)}"
+            th:if="${i >= 0 and i < actualPage.totalPages}">
+            <a th:href="@{/player/{playerId}(playerId=${player.playerId}, page=${i + 1})}"
+               th:text="${i + 1}" th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
+        </li>
+
+        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+            <a th:href="@{/player/{playerId}(playerId=${player.playerId}, page=${actualPage.number + 2})}" class="page-link">Next</a>
+            <a th:href="@{/player/{playerId}(playerId=${player.playerId}, page=${actualPage.totalPages})}" class="page-link">Last</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

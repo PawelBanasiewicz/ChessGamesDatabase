@@ -37,5 +37,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
                                        @Param("dateToFilter") LocalDate dateToFilter,
                                        Pageable pageable);
 
+    @Query("SELECT g FROM Game g WHERE g.player1.playerId = :playerId OR g.player2.playerId = :playerId")
+    Page<Game> findAllGamesPlayedByPlayer(@Param("playerId") Long playerId, Pageable pageable);
 
 }

@@ -1,6 +1,8 @@
 package chessGamesDatabase.controller;
 
+import chessGamesDatabase.entity.Game;
 import chessGamesDatabase.entity.Player;
+import chessGamesDatabase.service.GameService;
 import chessGamesDatabase.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -16,10 +19,12 @@ import java.time.LocalDate;
 public class PlayersController {
 
     private final PlayerService playerService;
+    private final GameService gameService;
 
     @Autowired
-    public PlayersController(PlayerService playerService) {
+    public PlayersController(PlayerService playerService, GameService gameService) {
         this.playerService = playerService;
+        this.gameService = gameService;
     }
 
     @GetMapping("/players")
@@ -60,5 +65,17 @@ public class PlayersController {
         model.addAttribute("eloMaxFilter", eloMaxFilter);
 
         return "players";
+    }
+
+    @GetMapping("/player/{playerId}")
+    public String viewPlayer(@PathVariable Long playerId,
+                             @RequestParam(defaultValue = "1") int page,
+                             Model model) {
+        Player player = playerService.findPlayerById(playerId);
+        Page<Game> actualPage = gameService.findAllGamesPlayedByPlayer(playerId, PageRequest.of(page - 1, 20));
+
+        model.addAttribute("player", player);
+        model.addAttribute("actualPage", actualPage);
+        return "player-details";
     }
 }

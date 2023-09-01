@@ -14,4 +14,6 @@ public interface GameService {
                                                String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
                                                Integer movesNumberMinFilter, Integer movesNumberMaxFilter, LocalDate dateFromFilter, LocalDate dateToFilter,
                                                Pageable pageable);
+
+    Page<Game> findAllGamesPlayedByPlayer(Long playerId, Pageable pageable);
 }

@@ -33,5 +33,10 @@ public class GameServiceImpl implements GameService {
                 resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageable);
     }
 
+    @Override
+    public Page<Game> findAllGamesPlayedByPlayer(Long playerId, Pageable pageable) {
+        return gameRepository.findAllGamesPlayedByPlayer(playerId, pageable);
+    }
+
 }
 
