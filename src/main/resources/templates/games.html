@@ -114,8 +114,14 @@
     <tbody>
     <tr th:each="game : ${actualPage.content}">
         <td th:text="${game.opening.code}"></td>
-        <td th:text="${game.player1.firstName + ' ' + game.player1.lastName}"></td>
-        <td th:text="${game.player2.firstName + ' ' + game.player2.lastName}"></td>
+        <td>
+            <a th:href="@{/player/{playerId}(playerId=${game.player1.playerId})}"
+               th:text="${game.player1.firstName + ' ' + game.player1.lastName}"></a>
+        </td>
+        <td>
+            <a th:href="@{/player/{playerId}(playerId=${game.player2.playerId})}"
+               th:text="${game.player2.firstName + ' ' + game.player2.lastName}"></a>
+        </td>
         <td th:text="${game.result}"></td>
         <td th:text="${game.movesNumber}"></td>
         <td th:text="${game.date}"></td>
