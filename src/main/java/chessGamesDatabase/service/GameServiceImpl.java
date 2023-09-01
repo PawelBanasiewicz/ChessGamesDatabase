@@ -46,5 +46,10 @@ public class GameServiceImpl implements GameService {
         return gameRepository.findAllGamesPlayedByPlayerWithFilters(playerId, openingCodeFilter, player1FirstNameFilter, player1LastNameFilter,
                 player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageable);
     }
+
+    @Override
+    public Game findGameById(Long gameId) {
+        return gameRepository.findById(gameId).orElse(null);
+    }
 }
 

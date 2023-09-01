@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -74,5 +75,13 @@ public class GamesController {
         model.addAttribute("dateToFilter", dateToFilter);
 
         return "games";
+    }
+
+    @GetMapping("/game/{gameId}")
+    public String showGame(@PathVariable Long gameId, Model model) {
+        Game game = gameService.findGameById(gameId);
+        model.addAttribute("game", game);
+
+        return "game-details";
     }
 }

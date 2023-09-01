@@ -109,6 +109,7 @@
         <th>Result</th>
         <th>Moves Number</th>
         <th>Date</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -125,6 +126,9 @@
         <td th:text="${game.result}"></td>
         <td th:text="${game.movesNumber}"></td>
         <td th:text="${game.date}"></td>
+        <td>
+            <a th:href="@{/game/{gameId}(gameId=${game.gameId})}" class="btn btn-primary">View</a>
+        </td>
     </tr>
     </tbody>
 </table>
