@@ -70,12 +70,58 @@ public class PlayersController {
     @GetMapping("/player/{playerId}")
     public String viewPlayer(@PathVariable Long playerId,
                              @RequestParam(defaultValue = "1") int page,
+                             @RequestParam(required = false) String openingCodeFilter,
+                             @RequestParam(required = false) String player1FirstNameFilter,
+                             @RequestParam(required = false) String player1LastNameFilter,
+                             @RequestParam(required = false) String player2FirstNameFilter,
+                             @RequestParam(required = false) String player2LastNameFilter,
+                             @RequestParam(required = false) String resultFilter,
+                             @RequestParam(required = false) Integer movesNumberMinFilter,
+                             @RequestParam(required = false) Integer movesNumberMaxFilter,
+                             @RequestParam(required = false) LocalDate dateFromFilter,
+                             @RequestParam(required = false) LocalDate dateToFilter,
                              Model model) {
+
+        Page<Game> actualPage;
+        PageRequest pageRequest = PageRequest.of(page - 1, 20);
+
+        if (openingCodeFilter != null && !openingCodeFilter.isEmpty() ||
+                (player1FirstNameFilter != null && !player1FirstNameFilter.isEmpty()) ||
+                (player1LastNameFilter != null && !player1LastNameFilter.isEmpty()) ||
+                (player2FirstNameFilter != null && !player2FirstNameFilter.isEmpty()) ||
+                (player2LastNameFilter != null && !player2LastNameFilter.isEmpty()) ||
+                (resultFilter != null && !resultFilter.isEmpty()) ||
+                (movesNumberMinFilter != null || movesNumberMaxFilter != null) ||
+                (dateFromFilter != null || dateToFilter != null)) {
+
+            if (openingCodeFilter != null && openingCodeFilter.isEmpty()) {
+                openingCodeFilter = null;
+            }
+
+            if (resultFilter != null && resultFilter.isEmpty()) {
+                resultFilter = null;
+            }
+            actualPage = gameService.findAllGamesPlayedByPlayerWithFilters(playerId, openingCodeFilter, player1FirstNameFilter, player1LastNameFilter,
+                    player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter, movesNumberMaxFilter,
+                    dateFromFilter, dateToFilter, pageRequest);
+        } else {
+            actualPage = gameService.findAllGamesPlayedByPlayer(playerId, pageRequest);
+        }
+
         Player player = playerService.findPlayerById(playerId);
-        Page<Game> actualPage = gameService.findAllGamesPlayedByPlayer(playerId, PageRequest.of(page - 1, 20));
 
         model.addAttribute("player", player);
         model.addAttribute("actualPage", actualPage);
+        model.addAttribute("openingCodeFilter", openingCodeFilter);
+        model.addAttribute("player1FirstNameFilter", player1FirstNameFilter);
+        model.addAttribute("player1LastNameFilter", player1LastNameFilter);
+        model.addAttribute("player2FirstNameFilter", player2FirstNameFilter);
+        model.addAttribute("player2LastNameFilter", player2LastNameFilter);
+        model.addAttribute("resultFilter", resultFilter);
+        model.addAttribute("movesNumberMinFilter", movesNumberMinFilter);
+        model.addAttribute("movesNumberMaxFilter", movesNumberMaxFilter);
+        model.addAttribute("dateFromFilter", dateFromFilter);
+        model.addAttribute("dateToFilter", dateToFilter);
         return "player-details";
     }
 }

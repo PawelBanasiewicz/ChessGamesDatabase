@@ -40,4 +40,30 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("SELECT g FROM Game g WHERE g.player1.playerId = :playerId OR g.player2.playerId = :playerId")
     Page<Game> findAllGamesPlayedByPlayer(@Param("playerId") Long playerId, Pageable pageable);
 
+    @Query("SELECT g FROM Game g " +
+            "WHERE (g.player1.playerId = :playerId OR g.player2.playerId = :playerId) " +
+            "AND (:openingCodeFilter IS NULL OR g.opening.code = :openingCodeFilter) " +
+            "AND (:player1FirstNameFilter IS NULL OR g.player1.firstName LIKE %:player1FirstNameFilter%) " +
+            "AND (:player1LastNameFilter IS NULL OR g.player1.lastName LIKE %:player1LastNameFilter%) " +
+            "AND (:player2FirstNameFilter IS NULL OR g.player2.firstName LIKE %:player2FirstNameFilter%) " +
+            "AND (:player2LastNameFilter IS NULL OR g.player2.lastName LIKE %:player2LastNameFilter%) " +
+            "AND (:resultFilter IS NULL OR g.result = :resultFilter) " +
+            "AND (:movesNumberMinFilter IS NULL OR g.movesNumber >= :movesNumberMinFilter) " +
+            "AND (:movesNumberMaxFilter IS NULL OR g.movesNumber <= :movesNumberMaxFilter) " +
+            "AND (:dateFromFilter IS NULL OR g.date >= :dateFromFilter) " +
+            "AND (:dateToFilter IS NULL OR g.date <= :dateToFilter)"
+    )
+    Page<Game> findAllGamesPlayedByPlayerWithFilters(@Param("playerId") Long playerId,
+                                                     @Param("openingCodeFilter") String openingCodeFilter,
+                                                     @Param("player1FirstNameFilter") String player1FirstNameFilter,
+                                                     @Param("player1LastNameFilter") String player1LastNameFilter,
+                                                     @Param("player2FirstNameFilter") String player2FirstNameFilter,
+                                                     @Param("player2LastNameFilter") String player2LastNameFilter,
+                                                     @Param("resultFilter") String resultFilter,
+                                                     @Param("movesNumberMinFilter") Integer movesNumberMinFilter,
+                                                     @Param("movesNumberMaxFilter") Integer movesNumberMaxFilter,
+                                                     @Param("dateFromFilter") LocalDate dateFromFilter,
+                                                     @Param("dateToFilter") LocalDate dateToFilter,
+                                                     Pageable pageable);
+
 }
