@@ -51,14 +51,14 @@ CREATE TABLE IF NOT EXISTS Players (
 
 CREATE TABLE IF NOT EXISTS Games (
     game_id INT AUTO_INCREMENT PRIMARY KEY,
-    opening_code INT,
+    opening_id INT,
     player1_id INT,
     player2_id INT,
     pgn TEXT,
     result VARCHAR(10),
     moves_number INT,
     date DATE,
-    FOREIGN KEY (opening_code) REFERENCES Openings (opening_id),
+    FOREIGN KEY (opening_id) REFERENCES Openings (opening_id),
     FOREIGN KEY (player1_id) REFERENCES Players (player_id),
     FOREIGN KEY (player2_id) REFERENCES Players (player_id)
 );

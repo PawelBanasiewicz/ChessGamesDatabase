@@ -21,7 +21,7 @@ public class Game {
     private long gameId;
 
     @OneToOne
-    @JoinColumn(name = "opening_code")
+    @JoinColumn(name = "opening_id")
     private Opening opening;
 
     @OneToOne

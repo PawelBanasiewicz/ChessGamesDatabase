@@ -14,7 +14,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "JOIN g.player1 p1 " +
             "JOIN g.player2 p2 " +
             "JOIN g.opening o " +
-            "WHERE (:openingCodeFilter IS NULL OR o.code = :openingCodeFilter) " +
+            "WHERE (:openingIdFilter IS NULL OR o.code = :openingIdFilter) " +
             "AND (:player1FirstNameFilter IS NULL OR p1.firstName LIKE %:player1FirstNameFilter%) " +
             "AND (:player1LastNameFilter IS NULL OR p1.lastName LIKE %:player1LastNameFilter%) " +
             "AND (:player2FirstNameFilter IS NULL OR p2.firstName LIKE %:player2FirstNameFilter%) " +
@@ -25,7 +25,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "AND (:dateFromFilter IS NULL OR g.date >= :dateFromFilter) " +
             "AND (:dateToFilter IS NULL OR g.date <= :dateToFilter)"
     )
-    Page<Game> findAllGamesWithFilters(@Param("openingCodeFilter") String openingCodeFilter,
+    Page<Game> findAllGamesWithFilters(@Param("openingIdFilter") String openingIdFilter,
                                        @Param("player1FirstNameFilter") String player1FirstNameFilter,
                                        @Param("player1LastNameFilter") String player1LastNameFilter,
                                        @Param("player2FirstNameFilter") String player2FirstNameFilter,
