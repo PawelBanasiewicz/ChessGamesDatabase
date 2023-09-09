@@ -1,41 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Game Details</title>
-    <style>
-        .pgn {
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            padding: 10px;
-            white-space: pre-wrap;
-            font-family: monospace;
-            width: 50%;
-            height: 200px;
-            overflow: auto;
-        }
-    </style>
-</head>
-<body>
-<div>
-    <p>Opening code: <span th:text="${game.opening.code}"></span></p>
-    <p>
+    <link th:href="@{/css/pgn.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <p>Opening code: <span th:text="${game.opening.code}"></span></p>
+      <p>
         Player with White:
-        <a th:href="@{/player/{playerId}(playerId=${game.player1.playerId})}"
-           th:text="${game.player1.firstName + ' ' + game.player1.lastName}"></a>
-    </p>
+        <a
+          th:href="@{/player/{playerId}(playerId=${game.player1.playerId})}"
+          th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
+        ></a>
+      </p>
 
-    <p>
+      <p>
         Player with Black:
-        <a th:href="@{/player/{playerId}(playerId=${game.player2.playerId})}"
-           th:text="${game.player2.firstName + ' ' + game.player2.lastName}"></a>
-    </p>
-    <p>Result: <span th:text="${game.result}"></span></p>
-    <p>Moves number: <span th:text="${game.movesNumber}"></span></p>
-    <p>Date: <span th:text="${game.date}"></span></p>
+        <a
+          th:href="@{/player/{playerId}(playerId=${game.player2.playerId})}"
+          th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
+        ></a>
+      </p>
+      <p>Result: <span th:text="${game.result}"></span></p>
+      <p>Moves number: <span th:text="${game.movesNumber}"></span></p>
+      <p>Date: <span th:text="${game.date}"></span></p>
 
-    <h3>PGN:</h3>
-    <pre class="pgn" th:text="${game.pgn}"></pre>
-</div>
-</body>
+      <h3>PGN:</h3>
+      <pre class="pgn" th:text="${game.pgn}"></pre>
+    </div>
+  </body>
 </html>

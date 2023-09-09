@@ -1,178 +1,182 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Players</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 14px;
-            text-align: left;
-        }
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
+    <link th:href="@{/css/table.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <h2>Players</h2>
+    <form th:action="@{/players}" method="get">
+      <label for="firstNameFilter">First name: </label>
+      <input
+        type="text"
+        id="firstNameFilter"
+        name="firstNameFilter"
+        th:value="${firstNameFilter}"
+      />
 
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
+      <label for="lastNameFilter">Last name: </label>
+      <input
+        type="text"
+        id="lastNameFilter"
+        name="lastNameFilter"
+        th:value="${lastNameFilter}"
+      />
 
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
+      <label for="birthDateFromFilter">Birthdate from:</label>
+      <input
+        type="date"
+        id="birthDateFromFilter"
+        name="birthDateFromFilter"
+        th:value="${birthDateFromFilter}"
+      />
 
-        tr:hover {
-            background-color: #f5f5f5;
-        }
+      <label for="birthDateToFilter">Birthdate to: </label>
+      <input
+        type="date"
+        id="birthDateToFilter"
+        name="birthDateToFilter"
+        th:value="${birthDateToFilter}"
+      />
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            list-style: none;
-            margin: 20px 0;
-        }
-
-        .pagination li {
-            margin-right: 10px;
-        }
-
-        .pagination a {
-            text-decoration: none;
-            color: #333;
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            transition: background-color 0.3s;
-        }
-
-        .pagination a.current-page {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .pagination a:hover {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-<h2>Players</h2>
-
-<form th:action="@{/players}" method="get">
-    <label for="firstNameFilter">First name: </label>
-    <input type="text" id="firstNameFilter" name="firstNameFilter" th:value="${firstNameFilter}"/>
-
-    <label for="lastNameFilter">Last name: </label>
-    <input type="text" id="lastNameFilter" name="lastNameFilter" th:value="${lastNameFilter}"/>
-
-    <label for="birthDateFromFilter">Birthdate from:</label>
-    <input type="date" id="birthDateFromFilter" name="birthDateFromFilter" th:value="${birthDateFromFilter}"/>
-
-    <label for="birthDateToFilter">Birthdate to: </label>
-    <input type="date" id="birthDateToFilter" name="birthDateToFilter" th:value="${birthDateToFilter}"/>
-
-    <label for="sexFilter">Sex: </label>
-    <select id="sexFilter" name="sexFilter" th:value="${sexFilter}">
+      <label for="sexFilter">Sex: </label>
+      <select id="sexFilter" name="sexFilter" th:value="${sexFilter}">
         <option value="" selected>Any</option>
         <option value="M">M</option>
         <option value="F">F</option>
-    </select>
+      </select>
 
-    <label for="eloMinFilter">ELO min:</label>
-    <input type="number" id="eloMinFilter" name="eloMinFilter" th:value="${eloMinFilter}"/>
+      <label for="eloMinFilter">ELO min:</label>
+      <input
+        type="number"
+        id="eloMinFilter"
+        name="eloMinFilter"
+        th:value="${eloMinFilter}"
+      />
 
-    <label for="eloMaxFilter">ELO max:</label>
-    <input type="number" id="eloMaxFilter" name="eloMaxFilter" th:value="${eloMaxFilter}"/>
+      <label for="eloMaxFilter">ELO max:</label>
+      <input
+        type="number"
+        id="eloMaxFilter"
+        name="eloMaxFilter"
+        th:value="${eloMaxFilter}"
+      />
 
-    <button type="submit">Search</button>
-</form>
+      <button type="submit">Search</button>
+    </form>
 
-<a th:href="@{/players}" class="btn btn-primary">Reset Filters</a>
+    <a th:href="@{/players}" class="btn btn-primary">Reset Filters</a>
 
-<table>
-    <thead>
-    <tr>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Birth date</th>
-        <th>Sex</th>
-        <th>Elo</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="player : ${actualPage.content}">
-        <td th:text="${player.firstName}"></td>
-        <td th:text="${player.lastName}"></td>
-        <td th:text="${player.birthDate}"></td>
-        <td th:text="${player.sex}"></td>
-        <td th:text="${player.elo}"></td>
+    <table>
+      <thead>
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Birth date</th>
+          <th>Sex</th>
+          <th>Elo</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="player : ${actualPage.content}">
+          <td th:text="${player.firstName}"></td>
+          <td th:text="${player.lastName}"></td>
+          <td th:text="${player.birthDate}"></td>
+          <td th:text="${player.sex}"></td>
+          <td th:text="${player.elo}"></td>
 
-        <td>
-            <a th:href="@{/player/{playerId}(playerId=${player.playerId})}" class="btn btn-primary">View</a>
-        </td>
+          <td>
+            <a
+              th:href="@{/player/{playerId}(playerId=${player.playerId})}"
+              class="btn btn-primary"
+              >View</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-    </tr>
-    </tbody>
-</table>
-
-<div>
-    <ul class="pagination">
+    <div>
+      <ul class="pagination">
         <li th:if="${actualPage.number > 0}">
-            <a th:href="@{/players(page=1,
+          <a
+            th:href="@{/players(page=1,
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
             birthDateToFilter=${birthDateToFilter},
             sexFilter=${sexFilter},
             eloMinFilter=${eloMinFilter},
-            eloMaxFilter=${eloMaxFilter})}" class="page-link">First</a>
+            eloMaxFilter=${eloMaxFilter})}"
+            class="page-link"
+            >First</a
+          >
 
-            <a th:href="@{/players(page=${actualPage.number},
+          <a
+            th:href="@{/players(page=${actualPage.number},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
             birthDateToFilter=${birthDateToFilter},
             sexFilter=${sexFilter},
             eloMinFilter=${eloMinFilter},
-            eloMaxFilter=${eloMaxFilter})}" class="page-link">Previous</a>
+            eloMaxFilter=${eloMaxFilter})}"
+            class="page-link"
+            >Previous</a
+          >
         </li>
 
-        <li th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
-            th:if="${i >= 0 and i < actualPage.totalPages}">
-            <a th:href="@{/players(page=${i + 1},
+        <li
+          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
+          th:if="${i >= 0 and i < actualPage.totalPages}"
+        >
+          <a
+            th:href="@{/players(page=${i + 1},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
             birthDateToFilter=${birthDateToFilter},
             sexFilter=${sexFilter},
             eloMinFilter=${eloMinFilter},
-            eloMaxFilter=${eloMaxFilter})}" th:text="${i + 1}"
-               th:classappend="${i == actualPage.number ? 'current-page' : ''}" class="page-link"></a>
+            eloMaxFilter=${eloMaxFilter})}"
+            th:text="${i + 1}"
+            th:classappend="${i == actualPage.number ? 'current-page' : ''}"
+            class="page-link"
+          ></a>
         </li>
 
         <li th:if="${actualPage.number < actualPage.totalPages - 1}">
-            <a th:href="@{/players(page=${actualPage.number +2},
+          <a
+            th:href="@{/players(page=${actualPage.number +2},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
             birthDateToFilter=${birthDateToFilter},
             sexFilter=${sexFilter},
             eloMinFilter=${eloMinFilter},
-            eloMaxFilter=${eloMaxFilter})}" class="page-link">Next</a>
-            <a th:href="@{/players(page=${actualPage.totalPages},
+            eloMaxFilter=${eloMaxFilter})}"
+            class="page-link"
+            >Next</a
+          >
+          <a
+            th:href="@{/players(page=${actualPage.totalPages},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
             birthDateToFilter=${birthDateToFilter},
             sexFilter=${sexFilter},
             eloMinFilter=${eloMinFilter},
-            eloMaxFilter=${eloMaxFilter})}" class="page=link">Last</a>
+            eloMaxFilter=${eloMaxFilter})}"
+            class="page=link"
+            >Last</a
+          >
         </li>
-    </ul>
-</div>
+      </ul>
+    </div>
 
-<a th:href="@{/}" class="btn btn-primary">Back to Home Page</a>
-</body>
+    <a th:href="@{/}" class="btn btn-primary">Back to Home Page</a>
+  </body>
 </html>

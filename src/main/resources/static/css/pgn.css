@@ -1,0 +1,10 @@
+.pgn {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  padding: 10px;
+  white-space: pre-wrap;
+  font-family: monospace;
+  width: 50%;
+  height: 200px;
+  overflow: auto;
+}
