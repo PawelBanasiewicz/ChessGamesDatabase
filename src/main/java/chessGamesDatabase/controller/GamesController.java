@@ -74,7 +74,7 @@ public class GamesController {
         model.addAttribute("dateFromFilter", dateFromFilter);
         model.addAttribute("dateToFilter", dateToFilter);
 
-        return "games";
+        return "game/games";
     }
 
     @GetMapping("/game/{gameId}")
@@ -82,6 +82,6 @@ public class GamesController {
         Game game = gameService.findGameById(gameId);
         model.addAttribute("game", game);
 
-        return "game-details";
+        return "game/game-details";
     }
 }

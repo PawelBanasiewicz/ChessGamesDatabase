@@ -64,7 +64,7 @@ public class PlayersController {
         model.addAttribute("eloMinFilter", eloMinFilter);
         model.addAttribute("eloMaxFilter", eloMaxFilter);
 
-        return "players";
+        return "player/players";
     }
 
     @GetMapping("/player/{playerId}")
@@ -122,6 +122,6 @@ public class PlayersController {
         model.addAttribute("movesNumberMaxFilter", movesNumberMaxFilter);
         model.addAttribute("dateFromFilter", dateFromFilter);
         model.addAttribute("dateToFilter", dateToFilter);
-        return "player-details";
+        return "player/player-details";
     }
 }

@@ -44,7 +44,7 @@ public class OpeningController {
         model.addAttribute("nameFilter", nameFilter);
         model.addAttribute("pgnMovesFilter", pgnMovesFilter);
 
-        return "openings";
+        return "opening/openings";
     }
 
 }

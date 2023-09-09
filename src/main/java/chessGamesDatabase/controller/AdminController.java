@@ -33,7 +33,7 @@ public class AdminController {
     public String adminPanel(Model model) {
         List<User> users = userService.findUsersWithoutRole("ROLE_ADMINISTRATOR");
         model.addAttribute("users", users);
-        return "admin-panel";
+        return "admin/admin-panel";
     }
 
     @GetMapping("/admin/edit")
@@ -44,7 +44,7 @@ public class AdminController {
         model.addAttribute("user", user);
         model.addAttribute("allRoles", allRoles);
 
-        return "edit-user";
+        return "admin/edit-user";
     }
 
     @PostMapping("/admin/save")
