@@ -1,7 +1,8 @@
-package chessGamesDatabase.service;
+package chessGamesDatabase.service.impl;
 
 import chessGamesDatabase.dao.UserRepository;
 import chessGamesDatabase.entity.User;
+import chessGamesDatabase.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

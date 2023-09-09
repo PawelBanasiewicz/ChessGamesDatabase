@@ -1,7 +1,8 @@
-package chessGamesDatabase.service;
+package chessGamesDatabase.service.impl;
 
 import chessGamesDatabase.dao.PlayerRepository;
 import chessGamesDatabase.entity.Player;
+import chessGamesDatabase.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
