@@ -112,34 +112,42 @@
     <h3>Player's Games</h3>
     <table>
       <thead>
-        <tr>
-          <th>Opening</th>
-          <th>Player 1</th>
-          <th>Player 2</th>
-          <th>Result</th>
-          <th>Moves Number</th>
-          <th>Date</th>
-        </tr>
+      <tr>
+        <th>Opening</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Result</th>
+        <th>Moves Number</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
       </thead>
       <tbody>
-        <tr th:each="game : ${actualPage.content}">
-          <td th:text="${game.opening.code}"></td>
-          <td>
-            <a
-              th:href="@{/player/{playerId}(playerId=${game.player1.playerId})}"
-              th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
-            ></a>
-          </td>
-          <td>
-            <a
-              th:href="@{/player/{playerId}(playerId=${game.player2.playerId})}"
-              th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
-            ></a>
-          </td>
-          <td th:text="${game.result}"></td>
-          <td th:text="${game.movesNumber}"></td>
-          <td th:text="${game.date}"></td>
-        </tr>
+      <tr th:each="game : ${actualPage.content}">
+        <td th:text="${game.opening.code}"></td>
+        <td>
+          <a
+                  th:href="@{/player/{playerId}(playerId=${game.player1.playerId})}"
+                  th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
+          ></a>
+        </td>
+        <td>
+          <a
+                  th:href="@{/player/{playerId}(playerId=${game.player2.playerId})}"
+                  th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
+          ></a>
+        </td>
+        <td th:text="${game.result}"></td>
+        <td th:text="${game.movesNumber}"></td>
+        <td th:text="${game.date}"></td>
+        <td>
+          <a
+                  th:href="@{/game/{gameId}(gameId=${game.gameId})}"
+                  class="btn btn-primary"
+          >View</a
+          >
+        </td>
+      </tr>
       </tbody>
     </table>
 
