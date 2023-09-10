@@ -138,8 +138,35 @@
     <div>
       <ul class="pagination">
         <li th:if="${actualPage.number > 0}">
-          <a th:href="@{/games(page=1)}" class="page-link">First</a>
-          <a th:href="@{/games(page=${actualPage.number})}" class="page-link"
+          <a
+            th:href="@{/games(page=1,
+             openingIdFilter=${openingIdFilter},
+             player1FirstNameFilter=${player1FirstNameFilter},
+             player1LastNameFilter=${player1LastNameFilter},
+             player2FirstNameFilter=${player2FirstNameFilter},
+             player2LastNameFilter=${player2LastNameFilter},
+             resultFilter=${resultFilter},
+             movesNumberMinFilter=${movesNumberMinFilter},
+             movesNumberMaxFilter=${movesNumberMaxFilter},
+             dateFromFilter=${dateFromFilter},
+             dateToFilter=${dateToFilter})}"
+            class="page-link"
+            >First</a
+          >
+
+          <a
+            th:href="@{/games(page=${actualPage.number},
+             openingIdFilter=${openingIdFilter},
+             player1FirstNameFilter=${player1FirstNameFilter},
+             player1LastNameFilter=${player1LastNameFilter},
+             player2FistNameFilter=${player2FistNameFilter},
+             player2LastNameFilter=${player2LastNameFilter},
+             resultFilter=${resultFilter},
+             movesNumberMinFilter=${movesNumberMinFilter},
+             movesNumberMaxFilter=${movesNumberMaxFilter},
+             dateFromFilter=${dateFromFilter},
+             dateToFilter=${dateToFilter})}"
+            class="page-link"
             >Previous</a
           >
         </li>
