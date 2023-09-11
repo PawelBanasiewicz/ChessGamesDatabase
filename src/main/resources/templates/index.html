@@ -52,11 +52,19 @@
           <h1>Welcome to Chess Database</h1>
           <p>Here you can view and manage chess games.</p>
           <hr />
+
           <div class="btn-group" role="group">
-            <a href="/games" class="btn btn-primary">Games</a>
-            <a href="/players" class="btn btn-primary">Players</a>
-            <a href="/openings" class="btn btn-primary">Openings</a>
+            <a th:href="@{/games}" class="btn btn-primary">Games</a>
+            <a th:href="@{/players}" class="btn btn-primary">Players</a>
+            <a th:href="@{/openings}" class="btn btn-primary">Openings</a>
           </div>
+
+          <a
+            sec:authorize="isAuthenticated()"
+            th:href="@{/favorite-games}"
+            class="btn btn-success float-right"
+            >Favorite Games</a
+          >
         </div>
       </div>
     </div>
