@@ -113,14 +113,14 @@
           <td th:text="${game.opening.code}"></td>
           <td>
             <a
-              th:href="@{/player/{playerId}(playerId=${game.player1.playerId})}"
+              th:href="@{/players/{playerId}(playerId=${game.player1.playerId})}"
               th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
             ></a>
           </td>
 
           <td>
             <a
-              th:href="@{/player/{playerId}(playerId=${game.player2.playerId})}"
+              th:href="@{/players/{playerId}(playerId=${game.player2.playerId})}"
               th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
             >
             </a>
@@ -130,16 +130,16 @@
           <td th:text="${game.date}"></td>
           <td>
             <a
-              th:href="@{game/{gameId}(gameId=${game.gameId})}"
+              th:href="@{games/{gameId}(gameId=${game.gameId})}"
               class="btn btn primary"
             >
               View</a
             >
 
             <a
-                    th:href="@{favorite-games/delete(gameId=${game.gameId})}"
-                    class="btn btn-danger"
-                    onclick="return confirm('Are you sure you want to delete this user?')"
+               th:href="@{favorite-games/delete(gameId=${game.gameId})}"
+               class="btn btn-danger"
+               onclick="return confirm('Are you sure you want to delete this user?')"
             >
               Delete</a
             >

@@ -67,7 +67,7 @@ public class PlayersController {
         return "player/players";
     }
 
-    @GetMapping("/player/{playerId}")
+    @GetMapping("/players/{playerId}")
     public String viewPlayer(@PathVariable Long playerId,
                              @RequestParam(defaultValue = "1") int page,
                              @RequestParam(required = false) String openingIdFilter,

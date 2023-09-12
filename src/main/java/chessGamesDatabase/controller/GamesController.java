@@ -86,7 +86,7 @@ public class GamesController {
         return "game/games";
     }
 
-    @GetMapping("/game/{gameId}")
+    @GetMapping("/games/{gameId}")
     public String showGame(@PathVariable Long gameId, Model model) {
         Game game = gameService.findGameById(gameId);
         model.addAttribute("game", game);
