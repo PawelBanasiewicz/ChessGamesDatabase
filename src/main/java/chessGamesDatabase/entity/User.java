@@ -59,6 +59,14 @@ public class User {
     )
     private List<Game> favoriteGames = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "favorite_players",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    private List<Player> favoritePlayers = new ArrayList<>();
+
     public User() {
 
     }
@@ -147,5 +155,13 @@ public class User {
 
     public void setFavoriteGames(List<Game> favoriteGames) {
         this.favoriteGames = favoriteGames;
+    }
+
+    public List<Player> getFavoritePlayers() {
+        return favoritePlayers;
+    }
+
+    public void setFavoritePlayers(List<Player> favoritePlayers) {
+        this.favoritePlayers = favoritePlayers;
     }
 }

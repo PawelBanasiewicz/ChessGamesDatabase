@@ -65,6 +65,13 @@
             class="btn btn-success float-right"
             >Favorite Games</a
           >
+
+          <a
+            sec:authorize="isAuthenticated()"
+            th:href="@{/favorite-players}"
+            class="btn btn-success float-right"
+            >Favorite Players</a
+          >
         </div>
       </div>
     </div>
