@@ -6,15 +6,13 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
+    User findUserById(long userId);
 
-    User findById(long id);
-
-    User findByUsername(String username);
+    User findUserByUsername(String username);
 
     List<User> findUsersWithoutRole(String roleName);
 
-    void save(User user);
+    void saveUser(User user);
 
-    void deleteById(long id);
+    void deleteUserById(long userId);
 }

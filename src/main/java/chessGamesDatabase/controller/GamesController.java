@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -108,7 +109,7 @@ public class GamesController {
                                        @RequestParam(required = false) LocalDate dateToFilter,
                                        Authentication authentication,
                                        Model model) {
-        User user = userService.findByUsername(authentication.getName());
+        User user = userService.findUserByUsername(authentication.getName());
         List<Game> favoriteGames = user.getFavoriteGames().stream()
                 .filter(game ->
                         ((openingIdFilter == null || openingIdFilter.isEmpty()) || game.getOpening().getCode().equalsIgnoreCase(openingIdFilter)) &&

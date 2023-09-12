@@ -38,7 +38,7 @@ public class AdminController {
 
     @GetMapping("/admin/edit")
     public String editUser(@RequestParam long userId, Model model) {
-        User user = userService.findById(userId);
+        User user = userService.findUserById(userId);
         List<Role> allRoles = roleService.findAllRoles();
 
         model.addAttribute("user", user);
@@ -51,7 +51,7 @@ public class AdminController {
     public String saveEditedUser(@ModelAttribute User editedUser,
                                  @RequestParam("newPassword") String newPassword,
                                  @RequestParam("roles") List<Role> chosenRoles) {
-        User originalUser = userService.findById(editedUser.getUserId());
+        User originalUser = userService.findUserById(editedUser.getUserId());
         editedUser.setCreatedAt(originalUser.getCreatedAt());
         editedUser.setLastLogin(originalUser.getLastLogin());
         editedUser.setRoles(chosenRoles);
@@ -62,7 +62,7 @@ public class AdminController {
             editedUser.setPassword(originalUser.getPassword());
         }
 
-        userService.save(editedUser);
+        userService.saveUser(editedUser);
 
         return "redirect:/admin";
     }
@@ -70,7 +70,7 @@ public class AdminController {
 
     @GetMapping("/admin/delete")
     public String deleteUser(@RequestParam long userId) {
-        userService.deleteById(userId);
+        userService.deleteUserById(userId);
 
         return "redirect:/admin";
     }

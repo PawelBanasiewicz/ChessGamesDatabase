@@ -19,24 +19,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User findById(long id) {
-        Optional<User> foundUser = userRepository.findById(id);
+    public User findUserById(long userId) {
+        Optional<User> foundUser = userRepository.findById(userId);
 
         if (foundUser.isEmpty()) {
-            throw new RuntimeException("User not found for id: " + id);
+            throw new RuntimeException("User not found for userId: " + userId);
         }
 
         return foundUser.get();
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
     public List<User> findUsersWithoutRole(String roleName) {
@@ -44,12 +39,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
     @Override
-    public void deleteById(long id) {
-        userRepository.deleteById(id);
+    public void deleteUserById(long userId) {
+        userRepository.deleteById(userId);
     }
 }
