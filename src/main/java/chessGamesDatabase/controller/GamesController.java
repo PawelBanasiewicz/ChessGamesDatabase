@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -140,5 +139,18 @@ public class GamesController {
         model.addAttribute("dateToFilter", dateToFilter);
 
         return "game/favorite-games";
+    }
+
+    @GetMapping("/favorite-games/delete")
+    public String removeFavoriteGame(@RequestParam("gameId") Long gameId, Authentication authentication) {
+        User user = userService.findUserByUsername(authentication.getName());
+        Game game = gameService.findGameById(gameId);
+
+        if (user != null && game != null) {
+            user.removeFavoriteGame(game);
+            userService.saveUser(user);
+        }
+
+        return "redirect:/favorite-games";
     }
 }

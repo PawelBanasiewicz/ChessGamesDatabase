@@ -73,6 +73,10 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
+    public void removeFavoriteGame(Game game) {
+        favoriteGames.remove(game);
+    }
+
     public long getUserId() {
         return userId;
     }
