@@ -82,6 +82,7 @@ public class GamesController {
         model.addAttribute("movesNumberMaxFilter", movesNumberMaxFilter);
         model.addAttribute("dateFromFilter", dateFromFilter);
         model.addAttribute("dateToFilter", dateToFilter);
+        model.addAttribute("pageTitle", "Games");
 
         return "game/games";
     }
@@ -89,7 +90,9 @@ public class GamesController {
     @GetMapping("/games/{gameId}")
     public String showGame(@PathVariable Long gameId, Model model) {
         Game game = gameService.findGameById(gameId);
+
         model.addAttribute("game", game);
+        model.addAttribute("pageTitle", "Game details");
 
         return "game/game-details";
     }
@@ -137,6 +140,7 @@ public class GamesController {
         model.addAttribute("movesNumberMaxFilter", movesNumberMaxFilter);
         model.addAttribute("dateFromFilter", dateFromFilter);
         model.addAttribute("dateToFilter", dateToFilter);
+        model.addAttribute("pageTitle", "favorite games");
 
         return "game/favorite-games";
     }

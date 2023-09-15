@@ -43,6 +43,7 @@ public class OpeningController {
         model.addAttribute("codeFilter", codeFilter);
         model.addAttribute("nameFilter", nameFilter);
         model.addAttribute("pgnMovesFilter", pgnMovesFilter);
+        model.addAttribute("pageTitle", "Openings");
 
         return "opening/openings";
     }

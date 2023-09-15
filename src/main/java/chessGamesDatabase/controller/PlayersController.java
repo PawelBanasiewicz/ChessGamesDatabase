@@ -73,6 +73,7 @@ public class PlayersController {
         model.addAttribute("sexFilter", sexFilter);
         model.addAttribute("eloMinFilter", eloMinFilter);
         model.addAttribute("eloMaxFilter", eloMaxFilter);
+        model.addAttribute("pageTitle", "Players");
 
         return "player/players";
     }
@@ -132,6 +133,8 @@ public class PlayersController {
         model.addAttribute("movesNumberMaxFilter", movesNumberMaxFilter);
         model.addAttribute("dateFromFilter", dateFromFilter);
         model.addAttribute("dateToFilter", dateToFilter);
+        model.addAttribute("pageTitle", "Player details");
+
         return "player/player-details";
     }
 
@@ -171,6 +174,7 @@ public class PlayersController {
         model.addAttribute("sexFilter", sexFilter);
         model.addAttribute("eloMinFilter", eloMinFilter);
         model.addAttribute("eloMaxFilter", eloMaxFilter);
+        model.addAttribute("pageTitle", "Favorite players");
 
         return "player/favorite-players";
     }

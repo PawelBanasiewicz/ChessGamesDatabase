@@ -32,7 +32,10 @@ public class AdminController {
     @GetMapping("/admin")
     public String adminPanel(Model model) {
         List<User> users = userService.findUsersWithoutRole("ROLE_ADMINISTRATOR");
+
         model.addAttribute("users", users);
+        model.addAttribute("pageTitle", "Admin panel");
+
         return "admin/admin-panel";
     }
 
@@ -43,6 +46,7 @@ public class AdminController {
 
         model.addAttribute("user", user);
         model.addAttribute("allRoles", allRoles);
+        model.addAttribute("pageTitle", "Edit user");
 
         return "admin/edit-user";
     }
