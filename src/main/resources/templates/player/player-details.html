@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
-    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
-    <link th:href="@{/css/table.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/pagination.css}" />
+    <link rel="stylesheet" th:href="@{/css/table.css}" />
   </head>
   <body>
+    <div th:replace="fragment/header :: header"></div>
     <h2>Player Details</h2>
     <div>
       <p>First Name: <span th:text="${player.firstName}"></span></p>
@@ -112,42 +113,42 @@
     <h3>Player's Games</h3>
     <table>
       <thead>
-      <tr>
-        <th>Opening</th>
-        <th>Player 1</th>
-        <th>Player 2</th>
-        <th>Result</th>
-        <th>Moves Number</th>
-        <th>Date</th>
-        <th>Action</th>
-      </tr>
+        <tr>
+          <th>Opening</th>
+          <th>Player 1</th>
+          <th>Player 2</th>
+          <th>Result</th>
+          <th>Moves Number</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
       </thead>
       <tbody>
-      <tr th:each="game : ${actualPage.content}">
-        <td th:text="${game.opening.code}"></td>
-        <td>
-          <a
-                  th:href="@{/players/{playerId}(playerId=${game.player1.playerId})}"
-                  th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
-          ></a>
-        </td>
-        <td>
-          <a
-                  th:href="@{/players/{playerId}(playerId=${game.player2.playerId})}"
-                  th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
-          ></a>
-        </td>
-        <td th:text="${game.result}"></td>
-        <td th:text="${game.movesNumber}"></td>
-        <td th:text="${game.date}"></td>
-        <td>
-          <a
-                  th:href="@{/games/{gameId}(gameId=${game.gameId})}"
-                  class="btn btn-primary"
-          >View</a
-          >
-        </td>
-      </tr>
+        <tr th:each="game : ${actualPage.content}">
+          <td th:text="${game.opening.code}"></td>
+          <td>
+            <a
+              th:href="@{/players/{playerId}(playerId=${game.player1.playerId})}"
+              th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
+            ></a>
+          </td>
+          <td>
+            <a
+              th:href="@{/players/{playerId}(playerId=${game.player2.playerId})}"
+              th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
+            ></a>
+          </td>
+          <td th:text="${game.result}"></td>
+          <td th:text="${game.movesNumber}"></td>
+          <td th:text="${game.date}"></td>
+          <td>
+            <a
+              th:href="@{/games/{gameId}(gameId=${game.gameId})}"
+              class="btn btn-primary"
+              >View</a
+            >
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -244,7 +245,5 @@
         </li>
       </ul>
     </div>
-
-    <a th:href="@{/}" class="btn btn-primary">Back to Home Page</a>
   </body>
 </html>

@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
-    <link th:href="@{css/table.css}" rel="stylesheet" />
-    <link th:href="@{css/pagination.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{css/table.css}" />
+    <link rel="stylesheet" th:href="@{css/pagination.css}" />
   </head>
   <body>
+    <div th:replace="fragment/header :: header"></div>
     <h2>Favorite Games</h2>
 
     <form th:acion="@{/favorite-games}" method="get">
@@ -137,13 +138,12 @@
             >
 
             <a
-               th:href="@{favorite-games/delete(gameId=${game.gameId})}"
-               class="btn btn-danger"
-               onclick="return confirm('Are you sure you want to delete this user?')"
+              th:href="@{favorite-games/delete(gameId=${game.gameId})}"
+              class="btn btn-danger"
+              onclick="return confirm('Are you sure you want to delete this user?')"
             >
               Delete</a
             >
-
           </td>
         </tr>
       </tbody>
@@ -242,7 +242,5 @@
         </li>
       </ul>
     </div>
-
-    <a th:href="@{/}">Back to Home Page</a>
   </body>
 </html>

@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
-    <link th:href="@{/css/edit-user.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/edit-user.css}" />
   </head>
   <body>
+    <div th:replace="fragment/header :: header"></div>
     <h2>Edit User</h2>
     <form th:object="${user}" th:action="@{/admin/save}" method="POST">
       <input type="hidden" th:field="${user.userId}" />

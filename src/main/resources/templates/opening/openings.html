@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
-    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
-    <link th:href="@{/css/table.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/pagination.css}" />
+    <link rel="stylesheet" th:href="@{/css/table.css}" />
   </head>
   <body>
+    <div th:replace="fragment/header :: header"></div>
     <h2>Openings</h2>
     <form th:action="@{/openings}" method="get">
       <label for="codeFilter">Code:</label>
@@ -111,7 +112,5 @@
         </li>
       </ul>
     </div>
-
-    <a th:href="@{/}" class="btn btn-primary">Back to Home Page</a>
   </body>
 </html>

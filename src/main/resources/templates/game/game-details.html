@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
-    <link th:href="@{/css/pgn.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/pgn.css}" />
   </head>
   <body>
+    <div th:replace="fragment/header :: header"></div>
     <div>
       <p>Opening code: <span th:text="${game.opening.code}"></span></p>
       <p>
