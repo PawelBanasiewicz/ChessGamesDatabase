@@ -9,6 +9,72 @@
   <body>
     <div th:replace="fragment/header :: header"></div>
     <h2>Admin Panel</h2>
+
+    <form th:action="@{/admin}" method="get">
+      <label for="usernameFilter">Username: </label>
+      <input
+        type="text"
+        id="usernameFilter"
+        name="usernameFilter"
+        th:value="${usernameFilter}"
+      />
+
+      <label for="emailFilter">Email: </label>
+      <input
+        type="text"
+        id="emailFilter"
+        name="emailFilter"
+        th:value="${emailFilter}"
+      />
+
+      <label for="enabledFilter">Activity: </label>
+      <select
+        id="enabledFilter"
+        name="enabledFilter"
+        th:value="${enabledFilter}"
+      >
+        <option value="" selected>Any</option>
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+      </select>
+
+      <label for="createdDateFromFilter">Created date from: </label>
+      <input
+        type="datetime-local"
+        id="createdDateFromFilter"
+        name="createdDateFromFilter"
+        th:value="${createdDateFromFilter}"
+      />
+
+      <label for="createdDateToFilter">Created date to:</label>
+      <input
+        type="datetime-local"
+        id="createdDateToFilter"
+        name="createdDateToFilter"
+        th:value="${createdDateToFilter}"
+      />
+
+      <label for="lastTimeLoginDateFromFilter">Last login date from: </label>
+      <input
+        type="datetime-local"
+        id="lastTimeLoginDateFromFilter"
+        name="lastTimeLoginDateFromFilter"
+        th:value="${lastTimeLoginDateFromFilter}"
+      />
+
+      <label for="lastTimeLoginDateToFilter">Last login date to: </label>
+      <input
+        type="datetime-local"
+        id="lastTimeLoginDateToFilter"
+        name="lastTimeLoginDateToFilter"
+        th:value="${lastTimeLoginDateToFilter}"
+      />
+
+      <button type="submit">Search</button>
+    </form>
+
+    <a th:href="@{/admin}">Reset Filters</a>
+
     <table>
       <thead>
         <tr>
@@ -18,7 +84,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="user : ${users}">
+        <tr th:each="user : ${actualPage}">
           <td th:text="${user.username}"></td>
           <td th:text="${user.email}"></td>
           <td>
@@ -37,5 +103,79 @@
         </tr>
       </tbody>
     </table>
+
+    <div>
+      <ul class="pagination">
+        <li th:if="${actualPage.number > 0}">
+          <a
+            th:href="@{/admin(page=1,
+            usernameFilter=${usernameFilter},
+            emailFilter=${emailFilter},
+            activityFilter=${activityFilter},
+            createdDateFromFilter=${createdDateFromFilter},
+            createdDateToFilter=${createdDateToFilter},
+            lastTimeLoginDateFromFilter=${lastTimeLoginDateFromFilter},
+            lastTimeLoginDateToFilter=${lastTimeLoginDateFromFilter})}"
+            >First</a
+          >
+
+          <a
+            th:href="@{/admin(page=${actualPage.number},
+            usernameFilter=${usernameFilter},
+            emailFilter=${emailFilter},
+            activityFilter=${activityFilter},
+            createdDateFromFilter=${createdDateFromFilter},
+            createdDateToFilter=${createdDateToFilter},
+            lastTimeLoginDateFromFilter=${lastTimeLoginDateFromFilter},
+            lastTimeLoginDateToFilter=${lastTimeLoginDateFromFilter})}"
+            >Previous</a
+          >
+        </li>
+
+        <li
+          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
+          th:if="${i >= 0 and i < actualPage.totalPages}"
+        >
+          <a
+            th:href="@{/admin(page=${i + 1},
+            usernameFilter=${usernameFilter},
+            emailFilter=${emailFilter},
+            activityFilter=${activityFilter},
+            createdDateFromFilter=${createdDateFromFilter},
+            createdDateToFilter=${createdDateToFilter},
+            lastTimeLoginDateFromFilter=${lastTimeLoginDateFromFilter},
+            lastTimeLoginDateToFilter=${lastTimeLoginDateFromFilter})}"
+            th:text="${i + 1}"
+            th:classappend="${i == actualPage.number ? 'current-page' : ''}"
+          ></a>
+        </li>
+
+        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+          <a
+            th:href="@{/admin(page=${actualPage.number + 2},
+            usernameFilter=${usernameFilter},
+            emailFilter=${emailFilter},
+            activityFilter=${activityFilter},
+            createdDateFromFilter=${createdDateFromFilter},
+            createdDateToFilter=${createdDateToFilter},
+            lastTimeLoginDateFromFilter=${lastTimeLoginDateFromFilter},
+            lastTimeLoginDateToFilter=${lastTimeLoginDateFromFilter})}"
+            >Next</a
+          >
+
+          <a
+            th:href="@{/admin(page=${actualPage.totalPages},
+            usernameFilter=${usernameFilter},
+            emailFilter=${emailFilter},
+            activityFilter=${activityFilter},
+            createdDateFromFilter=${createdDateFromFilter},
+            createdDateToFilter=${createdDateToFilter},
+            lastTimeLoginDateFromFilter=${lastTimeLoginDateFromFilter},
+            lastTimeLoginDateToFilter=${lastTimeLoginDateFromFilter})}"
+            >Last</a
+          >
+        </li>
+      </ul>
+    </div>
   </body>
 </html>

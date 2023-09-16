@@ -5,6 +5,8 @@ import chessGamesDatabase.entity.User;
 import chessGamesDatabase.service.RoleService;
 import chessGamesDatabase.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -30,10 +33,22 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String adminPanel(Model model) {
-        List<User> users = userService.findUsersWithoutRole("ROLE_ADMINISTRATOR");
+    public String adminPanel(@RequestParam(defaultValue = "1") int page,
+                             @RequestParam(required = false) String usernameFilter,
+                             @RequestParam(required = false) String emailFilter,
+                             @RequestParam(required = false) Boolean enabledFilter,
+                             @RequestParam(required = false) LocalDateTime createdDateFromFilter,
+                             @RequestParam(required = false) LocalDateTime createdDateToFilter,
+                             @RequestParam(required = false) LocalDateTime lastTimeLoginDateFromFilter,
+                             @RequestParam(required = false) LocalDateTime lastTimeLoginDateToFilter,
+                             Model model) {
+        PageRequest pageRequest = PageRequest.of(page - 1, 30);
 
-        model.addAttribute("users", users);
+        Page<User> actualPage = userService.findUsersWithoutRolePageable("ROLE_ADMINISTRATOR",
+                usernameFilter, emailFilter, enabledFilter, createdDateFromFilter, createdDateToFilter,
+                lastTimeLoginDateFromFilter, lastTimeLoginDateToFilter, pageRequest);
+
+        model.addAttribute("actualPage", actualPage);
         model.addAttribute("pageTitle", "Admin panel");
 
         return "admin/admin-panel";

@@ -4,9 +4,11 @@ import chessGamesDatabase.dao.UserRepository;
 import chessGamesDatabase.entity.User;
 import chessGamesDatabase.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -34,8 +36,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByUsername(username);
     }
 
-    public List<User> findUsersWithoutRole(String roleName) {
-        return userRepository.findUsersWithoutAdminRole(roleName);
+    @Override
+    public Page<User> findUsersWithoutRolePageable(String roleName, String usernameFilter, String emailFilter, Boolean enabledFilter,
+                                                   LocalDateTime createdDateFromFilter, LocalDateTime createdDateToFilter,
+                                                   LocalDateTime lastTimeLoginDateFromFilter,
+                                                   LocalDateTime lastTimeLoginDateToFilter, Pageable pageable) {
+        return userRepository.findUsersWithoutAdminRole(roleName, usernameFilter, emailFilter, enabledFilter,
+                createdDateFromFilter, createdDateToFilter, lastTimeLoginDateFromFilter, lastTimeLoginDateToFilter, pageable);
     }
 
     @Override

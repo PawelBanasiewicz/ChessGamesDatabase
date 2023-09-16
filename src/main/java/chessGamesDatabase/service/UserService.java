@@ -1,8 +1,10 @@
 package chessGamesDatabase.service;
 
 import chessGamesDatabase.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 public interface UserService {
 
@@ -10,7 +12,10 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
-    List<User> findUsersWithoutRole(String roleName);
+    Page<User> findUsersWithoutRolePageable(String roleName, String usernameFilter, String emailFilter,
+                                            Boolean enabledFilter, LocalDateTime createdDateFromFilter,
+                                            LocalDateTime createdDateToFilter, LocalDateTime lastTimeLoginDateFromFilter,
+                                            LocalDateTime lastTimeLoginDateToFilter, Pageable pageable);
 
     void saveUser(User user);
 
