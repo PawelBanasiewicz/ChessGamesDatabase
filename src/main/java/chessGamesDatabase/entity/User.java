@@ -85,7 +85,7 @@ public class User {
         favoriteGames.add(game);
     }
 
-    public void removeFavoriteGame(Game game) {
+    public void deleteFavoriteGame(Game game) {
         favoriteGames.remove(game);
     }
 
@@ -93,7 +93,7 @@ public class User {
         favoritePlayers.add(player);
     }
 
-    public void removeFavoritePlayer(Player player) {
+    public void deleteFavoritePlayer(Player player) {
         favoritePlayers.remove(player);
     }
 

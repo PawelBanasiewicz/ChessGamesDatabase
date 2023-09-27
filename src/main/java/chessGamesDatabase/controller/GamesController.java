@@ -169,12 +169,12 @@ public class GamesController {
     }
 
     @GetMapping("/favorite-games/delete")
-    public String removeFavoriteGame(@RequestParam("gameId") Long gameId, Authentication authentication) {
+    public String deleteFavoriteGame(@RequestParam("gameId") Long gameId, Authentication authentication) {
         User user = userService.findUserByUsername(authentication.getName());
         Game game = gameService.findGameById(gameId);
 
         if (user != null && game != null) {
-            user.removeFavoriteGame(game);
+            user.deleteFavoriteGame(game);
             userService.saveUser(user);
         }
 

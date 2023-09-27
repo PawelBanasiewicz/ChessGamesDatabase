@@ -203,12 +203,12 @@ public class PlayersController {
     }
 
     @GetMapping("/favorite-players/delete")
-    public String removeFavoritePlayer(@RequestParam("playerId") Long playerId, Authentication authentication) {
+    public String deleteFavoritePlayer(@RequestParam("playerId") Long playerId, Authentication authentication) {
         User user = userService.findUserByUsername(authentication.getName());
         Player player = playerService.findPlayerById(playerId);
 
         if (user != null && player != null) {
-            user.removeFavoritePlayer(player);
+            user.deleteFavoritePlayer(player);
             userService.saveUser(user);
         }
 
