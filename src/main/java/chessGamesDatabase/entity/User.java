@@ -89,6 +89,14 @@ public class User {
         favoriteGames.remove(game);
     }
 
+    public void addFavoritePlayer(Player player) {
+        favoritePlayers.add(player);
+    }
+
+    public void removeFavoritePlayer(Player player) {
+        favoritePlayers.remove(player);
+    }
+
     public long getUserId() {
         return userId;
     }

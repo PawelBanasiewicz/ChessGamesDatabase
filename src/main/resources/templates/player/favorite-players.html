@@ -94,6 +94,13 @@
             <a th:href="@{/players/{playerId}(playerId=${player.playerId})}">
               View
             </a>
+
+            <a
+            th:href="@{favorite-players/delete(playerId=${player.playerId})}"
+            onclick="return confirm('Are you sure you want to delete this player?')"
+            >
+            Delete</a
+            >
           </td>
         </tr>
       </tbody>

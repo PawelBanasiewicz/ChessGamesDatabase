@@ -6,6 +6,7 @@ import chessGamesDatabase.entity.User;
 import chessGamesDatabase.service.GameService;
 import chessGamesDatabase.service.PlayerService;
 import chessGamesDatabase.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -177,5 +179,39 @@ public class PlayersController {
         model.addAttribute("pageTitle", "Favorite players");
 
         return "player/favorite-players";
+    }
+
+    @PostMapping("/favorite-players/add")
+    public String addFavoritePlayer(@RequestParam("playerId") Long playerId,
+                                    Authentication authentication,
+                                    HttpServletRequest httpServletRequest) {
+        User user = userService.findUserByUsername(authentication.getName());
+        Player player = playerService.findPlayerById(playerId);
+
+        if (user != null && player != null && !user.getFavoritePlayers().contains(player)) {
+            user.addFavoritePlayer(player);
+            userService.saveUser(user);
+        }
+
+        String referer = httpServletRequest.getHeader("Referer");
+
+        if (referer != null && !referer.isEmpty()) {
+            return "redirect:" + referer;
+        }
+
+        return "redirect:/favorite-players";
+    }
+
+    @GetMapping("/favorite-players/delete")
+    public String removeFavoritePlayer(@RequestParam("playerId") Long playerId, Authentication authentication) {
+        User user = userService.findUserByUsername(authentication.getName());
+        Player player = playerService.findPlayerById(playerId);
+
+        if (user != null && player != null) {
+            user.removeFavoritePlayer(player);
+            userService.saveUser(user);
+        }
+
+        return "redirect:/favorite-players";
     }
 }
