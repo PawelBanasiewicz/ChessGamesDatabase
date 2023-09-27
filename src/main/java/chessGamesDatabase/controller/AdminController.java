@@ -49,6 +49,12 @@ public class AdminController {
                 lastTimeLoginDateFromFilter, lastTimeLoginDateToFilter, pageRequest);
 
         model.addAttribute("actualPage", actualPage);
+        model.addAttribute("usernameFilter", usernameFilter);
+        model.addAttribute("emailFilter", emailFilter);
+        model.addAttribute("createdDateFromFilter", createdDateFromFilter);
+        model.addAttribute("createdDateToFilter", createdDateToFilter);
+        model.addAttribute("lastTimeLoginDateFromFilter", lastTimeLoginDateFromFilter);
+        model.addAttribute("lastTimeLoginDateToFilter", lastTimeLoginDateToFilter);
         model.addAttribute("pageTitle", "Admin panel");
 
         return "admin/admin-panel";
