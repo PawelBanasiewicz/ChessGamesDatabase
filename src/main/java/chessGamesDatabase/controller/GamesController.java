@@ -4,6 +4,7 @@ import chessGamesDatabase.entity.Game;
 import chessGamesDatabase.entity.User;
 import chessGamesDatabase.service.GameService;
 import chessGamesDatabase.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -143,6 +145,27 @@ public class GamesController {
         model.addAttribute("pageTitle", "favorite games");
 
         return "game/favorite-games";
+    }
+
+    @PostMapping("/favorite-games/add")
+    public String addFavoriteGame(@RequestParam("gameId") Long gameId,
+                                  Authentication authentication,
+                                  HttpServletRequest httpServletRequest) {
+        User user = userService.findUserByUsername(authentication.getName());
+        Game game = gameService.findGameById(gameId);
+
+        if (user != null && game != null && !user.getFavoriteGames().contains(game)) {
+            user.addFavoriteGame(game);
+            userService.saveUser(user);
+        }
+
+        String referer = httpServletRequest.getHeader("Referer");
+
+        if (referer != null && !referer.isEmpty()) {
+            return "redirect:" + referer;
+        }
+
+        return "redirect:/games";
     }
 
     @GetMapping("/favorite-games/delete")

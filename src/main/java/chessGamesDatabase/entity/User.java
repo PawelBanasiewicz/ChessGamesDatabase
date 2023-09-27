@@ -81,6 +81,10 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
+    public void addFavoriteGame(Game game) {
+        favoriteGames.add(game);
+    }
+
     public void removeFavoriteGame(Game game) {
         favoriteGames.remove(game);
     }
