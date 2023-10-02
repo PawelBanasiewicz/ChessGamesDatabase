@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
-    <link rel="stylesheet" th:href="@{/css/edit-user.css}" />
+    <link rel="stylesheet" th:href="@{/css/edit-form.css}" />
   </head>
   <body>
     <div th:replace="fragment/header :: header"></div>
@@ -40,17 +40,11 @@
         ></option>
       </select>
 
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        "
-      >
-        <button type="submit" class="btn btn-primary" style="font-size: 14px">
+      <div class="form-buttons">
+        <button type="submit" class="btn primary" style="font-size: 14px">
           Save
         </button>
-        <a th:href="@{/admin}" class="btn btn cancel" style="font-size: 14px"
+        <a th:href="@{/admin}" class="btn cancel" style="font-size: 14px"
           >Cancel</a
         >
       </div>

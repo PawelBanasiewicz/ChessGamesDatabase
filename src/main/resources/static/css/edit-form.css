@@ -42,7 +42,24 @@ input[type="checkbox"] {
   margin-top: 10px;
 }
 
-.btn {
+#pgn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn.primary {
   background-color: #007bff;
   color: #fff;
   border: none;

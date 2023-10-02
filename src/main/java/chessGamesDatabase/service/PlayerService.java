@@ -13,4 +13,6 @@ public interface PlayerService {
                                                    Character sex, Integer eloMin, Integer eloMax, Pageable pageable);
 
     Player findPlayerById(Long playerId);
+
+    Player findPlayerByFirstNameAndLastName(String firstName, String lastName);
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>[[${pageTitle}]] - Chess Database</title>
+    <link rel="stylesheet" th:href="@{/css/edit-form.css}" />
+  </head>
+  <body>
+    <div th:replace="fragment/header :: header"></div>
+    <h2>Add Game</h2>
+    <form th:object="${game}" th:action="@{/games/save}" method="POST">
+      <label for="player1FirstName">Player1 First Name:</label>
+      <input
+        type="text"
+        id="player1FirstName"
+        th:field="${game.player1.firstName}"
+        required
+      />
+
+      <label for="player1LastName">Player1 Last Name:</label>
+      <input
+        type="text"
+        id="player1LastName"
+        th:field="${game.player1.lastName}"
+        required
+      />
+
+      <label for="player2FirstName">Player2 First Name:</label>
+      <input
+        type="text"
+        id="player2FirstName"
+        th:field="${game.player2.firstName}"
+        required
+      />
+
+      <label for="player2LastName">Player2 Last Name:</label>
+      <input
+        type="text"
+        id="player2LastName"
+        th:field="${game.player2.lastName}"
+        required
+      />
+
+      <label for="pgn">PGN:</label>
+      <textarea id="pgn" name="pgn" th:field="${game.pgn}" required></textarea>
+
+      <label for="result">Result:</label>
+      <select id="result" name="result" th:field="${game.result}" required>
+        <option value="1-0">1-0</option>
+        <option value="0-1">0-1</option>
+        <option value="1/2-1/2">1/2-1/2</option>
+      </select>
+
+      <label for="date">Date:</label>
+      <input type="date" id="date" th:field="${game.date}" required />
+
+      <div class="form-buttons">
+        <button type="submit" class="btn primary" style="font-size: 14px">
+          Save
+        </button>
+        <a th:href="@{/games}" class="btn cancel" style="font-size: 14px"
+          >Cancel</a
+        >
+      </div>
+    </form>
+  </body>
+</html>

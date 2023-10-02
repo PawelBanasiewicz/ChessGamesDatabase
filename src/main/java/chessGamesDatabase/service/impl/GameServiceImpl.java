@@ -52,5 +52,10 @@ public class GameServiceImpl implements GameService {
     public Game findGameById(Long gameId) {
         return gameRepository.findById(gameId).orElse(null);
     }
+
+    @Override
+    public void saveGame(Game game) {
+        gameRepository.save(game);
+    }
 }
 

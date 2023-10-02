@@ -23,4 +23,6 @@ public interface GameService {
                                                      Pageable pageable);
 
     Game findGameById(Long gameId);
+
+    void saveGame(Game game);
 }

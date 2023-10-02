@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html
-      lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security6"
+>
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
@@ -19,18 +20,6 @@
       <p>Sex: <span th:text="${player.sex}"></span></p>
       <p>Elo: <span th:text="${player.elo}"></span></p>
     </div>
-
-    <form
-    sec:authorize="isAuthenticated()"
-    th:action="@{/favorite-players/add(playerId=${player.playerId})}"
-    method="POST"
-    >
-      <input type="hidden" name="playerId" th:value="${player.playerId}">
-      <button type="submit" class="link-button">Save</button>
-    </form>
-
-    <br>
-    <br>
 
     <form
       th:action="@{/players/{playerId}(playerId=${player.playerId})}"
@@ -163,10 +152,10 @@
               >View</a
             >
             <form
-            sec:authorize="isAuthenticated()"
-            th:action="@{/favorite-games/add(gameId=${game.gameId})}"
-            method="POST"
-            class="inline-form"
+              sec:authorize="isAuthenticated()"
+              th:action="@{/favorite-games/add(gameId=${game.gameId})}"
+              method="POST"
+              class="inline-form"
             >
               <input type="hidden" name="gameId" th:value="${game.gameId}" />
               <button type="submit" class="link-button">Save</button>

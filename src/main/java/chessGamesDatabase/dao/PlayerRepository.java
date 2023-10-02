@@ -27,4 +27,8 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
             @Param("eloMinFilter") Integer eloMinFilter,
             @Param("eloMaxFilter") Integer eloMaxFilter,
             Pageable pageable);
+
+    @Query("SELECT p FROM Player p WHERE p.firstName = :firstName AND p.lastName = :lastName")
+    Player findPlayerByFirstNameAndLastName(@Param("firstName") String firstName,
+                                            @Param("lastName") String lastName);
 }

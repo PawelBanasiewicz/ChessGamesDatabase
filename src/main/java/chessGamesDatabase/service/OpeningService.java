@@ -16,5 +16,6 @@ public interface OpeningService {
 
     Page<Opening> findByCodeAndNameAndPgnMovesIgnoreCasePageable(String codeFilter, String nameFilter,
                                                                  String pgnMovesFilter, Pageable pageable);
+    Opening findOpeningByPgn(String pgn);
 
 }

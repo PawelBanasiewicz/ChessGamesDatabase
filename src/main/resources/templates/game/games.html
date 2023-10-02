@@ -13,6 +13,18 @@
   <body>
     <div th:replace="fragment/header :: header"></div>
     <h2>Games</h2>
+
+    <div sec:authorize="hasRole('ADMINISTRATOR') or hasRole('MODERATOR')">
+      <a th:href="@{/games/addGame}">Add game</a>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+      <p th:text="${errorMessage}"></p>
+    </div>
+
+    <br />
+    <br />
+
     <form th:action="@{/games}" method="get">
       <label for="openingIdFilter">Opening code: </label>
       <input

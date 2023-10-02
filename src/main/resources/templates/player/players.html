@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html
-      lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security6"
+>
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
@@ -95,15 +96,20 @@
           <td>
             <a
               th:href="@{/players/{playerId}(playerId=${player.playerId})}"
+              class="btn btn-primary"
               >View</a
             >
             <form
-            sec:authorize="isAuthenticated()"
-            th:action="@{/favorite-players/add(playerId=${player.playerId})}"
-            method="POST"
-            class="inline-form"
+              sec:authorize="isAuthenticated()"
+              th:action="@{/favorite-players/add(playerId=${player.playerId})}"
+              method="POST"
+              class="inline-form"
             >
-              <input type="hidden" name="playerId" th:value="${player.playerId}" />
+              <input
+                type="hidden"
+                name="playerId"
+                th:value="${player.playerId}"
+              />
               <button type="submit" class="link-button">Save</button>
             </form>
           </td>

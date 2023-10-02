@@ -36,4 +36,9 @@ public class PlayerServiceImpl implements PlayerService {
         Optional<Player> player = playerRepository.findById(playerId);
         return player.orElse(null);
     }
+
+    @Override
+    public Player findPlayerByFirstNameAndLastName(String firstName, String lastName) {
+        return  playerRepository.findPlayerByFirstNameAndLastName(firstName, lastName);
+    }
 }

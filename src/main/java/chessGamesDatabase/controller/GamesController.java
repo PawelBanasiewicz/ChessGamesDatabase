@@ -1,8 +1,12 @@
 package chessGamesDatabase.controller;
 
 import chessGamesDatabase.entity.Game;
+import chessGamesDatabase.entity.Opening;
+import chessGamesDatabase.entity.Player;
 import chessGamesDatabase.entity.User;
 import chessGamesDatabase.service.GameService;
+import chessGamesDatabase.service.OpeningService;
+import chessGamesDatabase.service.PlayerService;
 import chessGamesDatabase.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,26 +16,34 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
 import static chessGamesDatabase.utils.Utils.paginate;
 
 @Controller
 public class GamesController {
-
-    GameService gameService;
-    UserService userService;
+    private static Pattern lastNumberWithDotPattern;
+    private final GameService gameService;
+    private final UserService userService;
+    private final PlayerService playerService;
+    private final OpeningService openingService;
 
     @Autowired
-    public GamesController(GameService gameService, UserService userService) {
+    public GamesController(GameService gameService, UserService userService, PlayerService playerService, OpeningService openingService) {
         this.gameService = gameService;
         this.userService = userService;
+        this.playerService = playerService;
+        this.openingService = openingService;
     }
 
     @GetMapping("/games")
@@ -97,6 +109,51 @@ public class GamesController {
         model.addAttribute("pageTitle", "Game details");
 
         return "game/game-details";
+    }
+
+    @GetMapping("/games/addGame")
+    public String showFormForAddGame(Model model) {
+        Game game = new Game();
+
+        model.addAttribute("game", game);
+        model.addAttribute("pageTitle", "Add game");
+
+        return "game/game-form";
+    }
+
+    @PostMapping("games/save")
+    public String saveGame(@ModelAttribute("game") Game game, RedirectAttributes redirectAttributes) {
+        Player player1 = playerService.findPlayerByFirstNameAndLastName(game.getPlayer1().getFirstName(), game.getPlayer1().getLastName());
+        Player player2 = playerService.findPlayerByFirstNameAndLastName(game.getPlayer2().getFirstName(), game.getPlayer2().getLastName());
+
+        if (player1 == null || player2 == null || game.getPgn().isEmpty() || game.getResult().isEmpty() || game.getDate() == null) {
+            return addRedirectAttributes(redirectAttributes);
+        }
+
+        game.setPlayer1(player1);
+        game.setPlayer2(player2);
+
+        if (lastNumberWithDotPattern == null) {
+            lastNumberWithDotPattern = Pattern.compile("(\\d+\\.)(?=(?!.*\\d+\\.))");
+        }
+
+        Matcher matcher = lastNumberWithDotPattern.matcher(game.getPgn());
+        if (matcher.find()) {
+            String lastNumberWithDot = matcher.group(1);
+            String lastNumber = lastNumberWithDot.replace(".", "");
+            game.setMovesNumber(Integer.parseInt(lastNumber));
+        } else {
+            return addRedirectAttributes(redirectAttributes);
+        }
+
+        Opening opening = openingService.findOpeningByPgn(game.getPgn());
+        if(opening == null) {
+            return addRedirectAttributes(redirectAttributes);
+        }
+        game.setOpening(opening);
+
+        gameService.saveGame(game);
+        return "redirect:/games";
     }
 
     @GetMapping("/favorite-games")
@@ -179,5 +236,10 @@ public class GamesController {
         }
 
         return "redirect:/favorite-games";
+    }
+
+    private static String addRedirectAttributes(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("errorMessage", "Failed to add the game. Check that the fields you filled in are correct");
+        return "redirect:/games";
     }
 }

@@ -42,4 +42,9 @@ public class OpeningServiceImpl implements OpeningService {
         return openingRepository.findByCodeContainingIgnoreCaseAndNameContainingIgnoreCaseAndPgnMovesContainingIgnoreCase
                 (codeFilter, nameFilter, pgnMovesFilter, pageable);
     }
+
+    @Override
+    public Opening findOpeningByPgn(String pgn) {
+        return openingRepository.findOpeningByPgn(pgn);
+    }
 }
