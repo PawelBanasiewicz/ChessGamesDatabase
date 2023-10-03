@@ -147,11 +147,17 @@
               sec:authorize="isAuthenticated()"
               th:action="@{/favorite-games/add(gameId=${game.gameId})}"
               method="POST"
-              class="inline-form"
+              class="inline-action"
             >
               <input type="hidden" name="gameId" th:value="${game.gameId}" />
               <button type="submit" class="link-button">Save</button>
             </form>
+            <div sec:authorize="hasRole('ADMINISTRATOR') or hasRole('MODERATOR')"
+                 class="inline-action"
+                 onclick="return confirm('Are you sure you want to delete this game?')"
+            >
+              <a th:href="@{games/delete(gameId=${game.gameId})}">Delete</a>
+            </div>
           </td>
         </tr>
       </tbody>

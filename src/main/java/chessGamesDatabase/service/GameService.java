@@ -25,4 +25,6 @@ public interface GameService {
     Game findGameById(Long gameId);
 
     void saveGame(Game game);
+
+    void deleteGameById(Long gameId);
 }

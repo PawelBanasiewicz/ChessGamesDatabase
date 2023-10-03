@@ -156,6 +156,12 @@ public class GamesController {
         return "redirect:/games";
     }
 
+    @GetMapping("games/delete")
+    public String deleteGame(@RequestParam Long gameId) {
+        gameService.deleteGameById(gameId);
+        return "redirect:/games";
+    }
+
     @GetMapping("/favorite-games")
     public String displayFavoriteGames(@RequestParam(defaultValue = "1") int page,
                                        @RequestParam(required = false) String openingIdFilter,
