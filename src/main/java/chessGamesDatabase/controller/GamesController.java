@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,13 +148,28 @@ public class GamesController {
         }
 
         Opening opening = openingService.findOpeningByPgn(game.getPgn());
-        if(opening == null) {
+        if (opening == null) {
             return addRedirectAttributes(redirectAttributes);
         }
         game.setOpening(opening);
 
         gameService.saveGame(game);
         return "redirect:/games";
+    }
+
+    @GetMapping("games/update")
+    public String showFormForUpdateGame(@RequestParam Long gameId, Model model) {
+        Game game = gameService.findGameById(gameId);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = game.getDate().format(formatter);
+
+        model.addAttribute("game", game);
+        model.addAttribute("formattedDate", formattedDate);
+        model.addAttribute("pageTitle", "Edit game");
+
+        System.out.println("Game date: " + game.getDate());
+
+        return "game/game-form";
     }
 
     @GetMapping("games/delete")
