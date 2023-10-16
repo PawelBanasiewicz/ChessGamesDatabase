@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 
 import static chessGamesDatabase.utils.Utils.addErrorMessageAndRedirect;
 import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
-import static chessGamesDatabase.utils.Utils.formatter;
 import static chessGamesDatabase.utils.Utils.paginate;
 
 @Controller
@@ -161,10 +160,8 @@ public class GamesController {
     @GetMapping("games/update")
     public String showFormForUpdateGame(@RequestParam Long gameId, Model model) {
         Game game = gameService.findGameById(gameId);
-        String formattedDate = game.getDate().format(formatter);
 
         model.addAttribute("game", game);
-        model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("pageTitle", "Edit game");
 
         return "game/game-form";

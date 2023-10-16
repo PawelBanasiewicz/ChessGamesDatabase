@@ -9,10 +9,13 @@
     <div th:replace="fragment/header :: header"></div>
     <h2>Add Game</h2>
     <form th:object="${game}" th:action="@{/games/save}" method="POST">
+      <input type="hidden" id="gameId" th:field="*{gameId}">
+
       <label for="player1FirstName">Player1 First Name:</label>
       <input
         type="text"
         id="player1FirstName"
+        name="player1FirstName"
         th:field="*{player1.firstName}"
         required
       />
@@ -21,6 +24,7 @@
       <input
         type="text"
         id="player1LastName"
+        name="player1LastName"
         th:field="*{player1.lastName}"
         required
       />
@@ -29,6 +33,7 @@
       <input
         type="text"
         id="player2FirstName"
+        name="player2FirstName"
         th:field="*{player2.firstName}"
         required
       />
@@ -37,6 +42,7 @@
       <input
         type="text"
         id="player2LastName"
+        name="player2LastName"
         th:field="*{player2.lastName}"
         required
       />
@@ -52,7 +58,13 @@
       </select>
 
       <label for="date">Date:</label>
-      <input type="date" id="date" th:value="${formattedDate}" required />
+      <input
+       type="date"
+       id="date"
+       name="date"
+       th:value="*{date}"
+       required
+      >
 
 
       <div class="form-buttons">
