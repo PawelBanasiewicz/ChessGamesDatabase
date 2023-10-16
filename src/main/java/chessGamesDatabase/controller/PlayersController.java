@@ -14,13 +14,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static chessGamesDatabase.utils.Utils.addErrorMessageAndRedirect;
 import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
 import static chessGamesDatabase.utils.Utils.paginate;
 
@@ -140,6 +143,59 @@ public class PlayersController {
         return "player/player-details";
     }
 
+    @GetMapping("players/addPlayer")
+    public String showFormForAddPlayer(Model model) {
+        Player player = new Player();
+
+        model.addAttribute("player", player);
+        model.addAttribute("pageTitle", "Add player");
+
+        return "player/player-form";
+    }
+
+    @PostMapping("players/save")
+    public String savePlayer(@ModelAttribute("player") Player player, RedirectAttributes redirectAttributes) {
+        Player existingPlayer = playerService.findPlayerByFirstNameAndLastName(player.getFirstName(), player.getLastName());
+
+        if (player.getPlayerId() == 0) {
+            if (existingPlayer != null) {
+                return addErrorMessageAndRedirectForPlayer(redirectAttributes);
+            }
+            playerService.savePlayer(player);
+        } else {
+            Player editedPlayer = playerService.findPlayerById(player.getPlayerId());
+            if (existingPlayer == null || editedPlayer.getPlayerId() == existingPlayer.getPlayerId()) {
+                editedPlayer.setFirstName(player.getFirstName());
+                editedPlayer.setLastName(player.getLastName());
+                editedPlayer.setBirthDate(player.getBirthDate());
+                editedPlayer.setSex(player.getSex());
+                editedPlayer.setElo(player.getElo());
+                playerService.savePlayer(editedPlayer);
+            } else {
+                return addErrorMessageAndRedirectForPlayer(redirectAttributes);
+            }
+
+        }
+        return "redirect:/players";
+    }
+
+    @GetMapping("players/update")
+    public String showFormForUpdatePlayer(@RequestParam Long playerId, Model model) {
+        Player player = playerService.findPlayerById(playerId);
+
+        model.addAttribute("player", player);
+        model.addAttribute("pageTitle", "Edit player");
+
+        return "player/player-form";
+    }
+
+    @GetMapping("players/delete")
+    public String deletePlayer(@RequestParam Long playerId, Model model) {
+        playerService.deletePlayerById(playerId);
+        return "redirect:/players";
+    }
+
+
     @GetMapping("/favorite-players")
     public String displayFavoritePlayers(@RequestParam(defaultValue = "1") int page,
                                          @RequestParam(required = false) String firstNameFilter,
@@ -213,5 +269,9 @@ public class PlayersController {
         }
 
         return "redirect:/favorite-players";
+    }
+
+    private static String addErrorMessageAndRedirectForPlayer(RedirectAttributes redirectAttributes) {
+        return addErrorMessageAndRedirect(redirectAttributes, "player");
     }
 }

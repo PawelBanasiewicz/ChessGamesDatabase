@@ -39,6 +39,16 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player findPlayerByFirstNameAndLastName(String firstName, String lastName) {
-        return  playerRepository.findPlayerByFirstNameAndLastName(firstName, lastName);
+        return playerRepository.findPlayerByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public void savePlayer(Player player) {
+        playerRepository.save(player);
+    }
+
+    @Override
+    public void deletePlayerById(Long playerId) {
+        playerRepository.deleteById(playerId);
     }
 }

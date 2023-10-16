@@ -149,7 +149,10 @@
               method="POST"
               class="inline-action"
             >
-              <input type="hidden" name="gameId" th:value="${game.gameId}" />
+              <input
+                      type="hidden"
+                      name="gameId"
+                      th:value="${game.gameId}" />
               <button type="submit" class="link-button">Save</button>
             </form>
             <div sec:authorize="hasRole('ADMINISTRATOR') or hasRole('MODERATOR')"

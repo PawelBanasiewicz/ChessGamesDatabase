@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${pageTitle}]] - Chess Database</title>
+    <link rel="stylesheet" th:href="@{/css/edit-form.css}">
+</head>
+<body>
+    <div th:replace="fragment/header :: header"></div>
+    <h2>Add Player</h2>
+
+    <form th:object="${player}" th:action="@{/players/save}" method="POST">
+        <input type="hidden" id="playerId" th:field="*{playerId}" />
+
+        <label for="firstName">Player First Name: </label>
+        <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        th:field="*{firstName}"
+        required
+        />
+
+        <label for="lastName">Player Last Name: </label>
+        <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        th:field="*{lastName}"
+        required
+        >
+
+        <label for="birthDate">Birthdate: </label>
+        <input
+        type="date"
+        id="birthDate"
+        name="birthDate"
+        th:value="*{birthDate}"
+        required
+        >
+
+        <label for="sex">Sex: </label>
+        <select id="sex" name="sex" th:field="*{sex}" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+        </select>
+
+        <label for="eloRating">ELO: </label>
+        <input
+        type="number"
+        id="eloRating"
+        name="elo"
+        th:field="*{elo}"
+        required
+        >
+
+        <div class="form-buttons">
+            <button type="submit" class="btn primary">
+                Save
+            </button>
+            <a th:href="@{/players}" class="btn cancel">Cancel</a>
+        </div>
+
+    </form>
+</body>
+</html>

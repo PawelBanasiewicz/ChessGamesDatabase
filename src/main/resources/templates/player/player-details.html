@@ -155,7 +155,7 @@
               sec:authorize="isAuthenticated()"
               th:action="@{/favorite-games/add(gameId=${game.gameId})}"
               method="POST"
-              class="inline-form"
+              class="inline-action"
             >
               <input type="hidden" name="gameId" th:value="${game.gameId}" />
               <button type="submit" class="link-button">Save</button>

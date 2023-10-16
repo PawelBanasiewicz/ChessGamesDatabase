@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static chessGamesDatabase.utils.Utils.addErrorMessageAndRedirect;
 import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
+import static chessGamesDatabase.utils.Utils.formatter;
 import static chessGamesDatabase.utils.Utils.paginate;
 
 @Controller
@@ -128,7 +129,7 @@ public class GamesController {
         Player player2 = playerService.findPlayerByFirstNameAndLastName(game.getPlayer2().getFirstName(), game.getPlayer2().getLastName());
 
         if (player1 == null || player2 == null || game.getPgn().isEmpty() || game.getResult().isEmpty() || game.getDate() == null) {
-            return addRedirectAttributes(redirectAttributes);
+            return addErrorMessageAndRedirectForGame(redirectAttributes);
         }
 
         game.setPlayer1(player1);
@@ -144,12 +145,12 @@ public class GamesController {
             String lastNumber = lastNumberWithDot.replace(".", "");
             game.setMovesNumber(Integer.parseInt(lastNumber));
         } else {
-            return addRedirectAttributes(redirectAttributes);
+            return addErrorMessageAndRedirectForGame(redirectAttributes);
         }
 
         Opening opening = openingService.findOpeningByPgn(game.getPgn());
         if (opening == null) {
-            return addRedirectAttributes(redirectAttributes);
+            return addErrorMessageAndRedirectForGame(redirectAttributes);
         }
         game.setOpening(opening);
 
@@ -160,14 +161,11 @@ public class GamesController {
     @GetMapping("games/update")
     public String showFormForUpdateGame(@RequestParam Long gameId, Model model) {
         Game game = gameService.findGameById(gameId);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = game.getDate().format(formatter);
 
         model.addAttribute("game", game);
         model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("pageTitle", "Edit game");
-
-        System.out.println("Game date: " + game.getDate());
 
         return "game/game-form";
     }
@@ -260,8 +258,7 @@ public class GamesController {
         return "redirect:/favorite-games";
     }
 
-    private static String addRedirectAttributes(RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("errorMessage", "Failed to add the game. Check that the fields you filled in are correct");
-        return "redirect:/games";
+    private static String addErrorMessageAndRedirectForGame(RedirectAttributes redirectAttributes) {
+        return addErrorMessageAndRedirect(redirectAttributes, "game");
     }
 }

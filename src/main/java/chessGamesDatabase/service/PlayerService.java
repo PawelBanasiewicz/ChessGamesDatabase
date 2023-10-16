@@ -15,4 +15,8 @@ public interface PlayerService {
     Player findPlayerById(Long playerId);
 
     Player findPlayerByFirstNameAndLastName(String firstName, String lastName);
+
+    void savePlayer(Player player);
+
+    void deletePlayerById(Long playerId);
 }
