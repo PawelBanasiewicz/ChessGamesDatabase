@@ -22,6 +22,18 @@
     </div>
 
     <form
+    sec:authorize="isAuthenticated()"
+    th:action="@{/favorite-players/add(playerId=${player.playerId})}"
+    method="POST"
+    >
+      <input type="hidden" name="playerId" th:value="${player.playerId}">
+      <button type="submit">Save</button>
+    </form>
+
+    <br />
+    <br />
+
+    <form
       th:action="@{/players/{playerId}(playerId=${player.playerId})}"
       method="get"
     >
