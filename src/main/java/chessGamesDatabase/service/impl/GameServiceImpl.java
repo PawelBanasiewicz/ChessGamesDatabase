@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -54,11 +56,18 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    public List<Game> findAllGamesPlayedByPlayer(Long playerId) {
+        return gameRepository.findAllGamesPlayedByPlayer(playerId);
+    }
+
+    @Override
+    @Transactional
     public void saveGame(Game game) {
         gameRepository.save(game);
     }
 
     @Override
+    @Transactional
     public void deleteGameById(Long gameId) {
         gameRepository.deleteById(gameId);
     }

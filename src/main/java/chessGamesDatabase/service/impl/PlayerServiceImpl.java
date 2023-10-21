@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -43,11 +44,13 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    @Transactional
     public void savePlayer(Player player) {
         playerRepository.save(player);
     }
 
     @Override
+    @Transactional
     public void deletePlayerById(Long playerId) {
         playerRepository.deleteById(playerId);
     }

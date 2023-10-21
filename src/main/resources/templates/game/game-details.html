@@ -16,17 +16,24 @@
       <p>
         Player with White:
         <a
+          th:if="${game.player1 != null && game.player1.playerId > 0}"
           th:href="@{/players/{playerId}(playerId=${game.player1.playerId})}"
           th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
         ></a>
+        <span th:unless="${game.player1 != null && game.player1.playerId > 0}"
+          >player deleted</span
+        >
       </p>
-
       <p>
         Player with Black:
         <a
+          th:if="${game.player2 != null && game.player2.playerId > 0}"
           th:href="@{/players/{playerId}(playerId=${game.player2.playerId})}"
           th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
         ></a>
+        <span th:unless="${game.player2 != null && game.player2.playerId > 0}"
+          >player deleted</span
+        >
       </p>
       <p>Result: <span th:text="${game.result}"></span></p>
       <p>Moves number: <span th:text="${game.movesNumber}"></span></p>

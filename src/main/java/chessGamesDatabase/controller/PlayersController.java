@@ -32,7 +32,6 @@ public class PlayersController {
 
     private final PlayerService playerService;
     private final GameService gameService;
-
     private final UserService userService;
 
     @Autowired
@@ -191,6 +190,23 @@ public class PlayersController {
 
     @GetMapping("players/delete")
     public String deletePlayer(@RequestParam Long playerId, Model model) {
+        Player player = playerService.findPlayerById(playerId);
+
+        List<Game> allGamesPlayedByPlayer = gameService.findAllGamesPlayedByPlayer(playerId);
+        for (Game game : allGamesPlayedByPlayer) {
+            if (game.getPlayer1() != null && game.getPlayer1().getPlayerId() == playerId) {
+                game.setPlayer1(null);
+            }
+            if (game.getPlayer2() != null && game.getPlayer2().getPlayerId() == playerId) {
+                game.setPlayer2(null);
+            }
+        }
+
+        List<User> users = player.getFollowers();
+        for (User user : users) {
+            user.deleteFavoritePlayer(player);
+        }
+
         playerService.deletePlayerById(playerId);
         return "redirect:/players";
     }

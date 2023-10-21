@@ -114,17 +114,25 @@
           <td th:text="${game.opening.code}"></td>
           <td>
             <a
+              th:if="${game.player1 != null && game.player1.playerId > 0}"
               th:href="@{/players/{playerId}(playerId=${game.player1.playerId})}"
               th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
             ></a>
+            <span
+              th:unless="${game.player1 != null && game.player1.playerId > 0}"
+              >player deleted</span
+            >
           </td>
-
           <td>
             <a
+              th:if="${game.player2 != null && game.player2.playerId > 0}"
               th:href="@{/players/{playerId}(playerId=${game.player2.playerId})}"
               th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
+            ></a>
+            <span
+              th:unless="${game.player2 != null && game.player2.playerId > 0}"
+              >player deleted</span
             >
-            </a>
           </td>
           <td th:text="${game.result}"></td>
           <td th:text="${game.movesNumber}"></td>
