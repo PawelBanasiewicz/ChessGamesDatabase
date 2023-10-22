@@ -169,6 +169,13 @@ public class GamesController {
 
     @GetMapping("games/delete")
     public String deleteGame(@RequestParam Long gameId) {
+        Game game = gameService.findGameById(gameId);
+        List<User> followers = game.getFollowers();
+
+        for (User user : followers) {
+            user.deleteFavoriteGame(game);
+        }
+
         gameService.deleteGameById(gameId);
         return "redirect:/games";
     }

@@ -6,10 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "games")
@@ -43,6 +46,9 @@ public class Game {
 
     @Column(name = "date")
     private LocalDate date;
+
+    @ManyToMany(mappedBy = "favoriteGames")
+    private List<User> followers = new ArrayList<>();
 
     public Game() {
     }
@@ -109,5 +115,13 @@ public class Game {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
     }
 }
