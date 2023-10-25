@@ -13,14 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
-
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
@@ -32,7 +33,7 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("")
     public String adminPanel(@RequestParam(defaultValue = "1") int page,
                              @RequestParam(required = false) String usernameFilter,
                              @RequestParam(required = false) String emailFilter,
@@ -60,7 +61,7 @@ public class AdminController {
         return "admin/admin-panel";
     }
 
-    @GetMapping("/admin/edit")
+    @GetMapping("/edit")
     public String editUser(@RequestParam long userId, Model model) {
         User user = userService.findUserById(userId);
         List<Role> allRoles = roleService.findAllRoles();
@@ -72,7 +73,7 @@ public class AdminController {
         return "admin/edit-user";
     }
 
-    @PostMapping("/admin/save")
+    @PostMapping("/save")
     public String saveEditedUser(@ModelAttribute User editedUser,
                                  @RequestParam("newPassword") String newPassword,
                                  @RequestParam("roles") List<Role> chosenRoles) {
@@ -88,15 +89,13 @@ public class AdminController {
         }
 
         userService.saveUser(editedUser);
-
         return "redirect:/admin";
     }
 
 
-    @GetMapping("/admin/delete")
+    @GetMapping("/delete")
     public String deleteUser(@RequestParam long userId) {
         userService.deleteUserById(userId);
-
         return "redirect:/admin";
     }
 }

@@ -8,11 +8,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/openings")
 public class OpeningController {
-
     private final OpeningService openingService;
 
     @Autowired
@@ -20,7 +21,7 @@ public class OpeningController {
         this.openingService = openingService;
     }
 
-    @GetMapping("/openings")
+    @GetMapping("")
     public String openings(@RequestParam(defaultValue = "1") int page,
                            @RequestParam(required = false) String codeFilter,
                            @RequestParam(required = false) String nameFilter,
