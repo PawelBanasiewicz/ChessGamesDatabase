@@ -48,7 +48,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="opening : ${actualPage.content}">
+        <tr th:each="opening : ${openingsOnCurrentPage.content}">
           <td th:text="${opening.code}"></td>
           <td th:text="${opening.name}"></td>
           <td th:text="${opening.pgnMoves}"></td>
@@ -58,9 +58,9 @@
 
     <div>
       <ul class="pagination">
-        <li th:if="${actualPage.number > 0}">
+        <li th:if="${openingsOnCurrentPage.number > 0}">
           <a
-            th:href="@{/openings(page=1,
+            th:href="@{/openings(currentPage=1,
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
@@ -68,7 +68,7 @@
             >First</a
           >
           <a
-            th:href="@{/openings(page=${actualPage.number},
+            th:href="@{/openings(currentPage=${openingsOnCurrentPage.number},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
@@ -78,23 +78,25 @@
         </li>
 
         <li
-          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number + 4)}"
-          th:if="${i >= 0 and i < actualPage.totalPages}"
+          th:each="i : ${#numbers.sequence(openingsOnCurrentPage.number - 5, openingsOnCurrentPage.number + 4)}"
+          th:if="${i >= 0 and i < openingsOnCurrentPage.totalPages}"
         >
           <a
-            th:href="@{/openings(page=${i + 1},
+            th:href="@{/openings(currentPage=${i + 1},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
             th:text="${i + 1}"
-            th:classappend="${i == actualPage.number ? 'current-page' : ''}"
+            th:classappend="${i == openingsOnCurrentPage.number ? 'current-page' : ''}"
             class="page-link"
           ></a>
         </li>
 
-        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+        <li
+          th:if="${openingsOnCurrentPage.number < openingsOnCurrentPage.totalPages - 1}"
+        >
           <a
-            th:href="@{/openings(page=${actualPage.number + 2},
+            th:href="@{/openings(currentPage=${openingsOnCurrentPage.number + 2},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
@@ -102,7 +104,7 @@
             >Next</a
           >
           <a
-            th:href="@{/openings(page=${actualPage.totalPages},
+            th:href="@{/openings(currentPage=${openingsOnCurrentPage.totalPages},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"

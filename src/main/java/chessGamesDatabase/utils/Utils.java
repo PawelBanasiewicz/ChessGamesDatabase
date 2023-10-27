@@ -11,6 +11,10 @@ public class Utils {
     private Utils() {
     }
 
+    public static PageRequest getPageRequest(int page, int size) {
+        return PageRequest.of(page - 1, size);
+    }
+
     public static <T> Page<T> paginate(List<T> list, int page, int pageSize) {
         int start = (page - 1) * pageSize;
         int end = Math.min(start + pageSize, list.size());

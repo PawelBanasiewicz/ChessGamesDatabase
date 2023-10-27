@@ -84,7 +84,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="user : ${actualPage}">
+        <tr th:each="user : ${usersOnCurrentPage}">
           <td th:text="${user.username}"></td>
           <td th:text="${user.email}"></td>
           <td>
@@ -106,7 +106,7 @@
 
     <div>
       <ul class="pagination">
-        <li th:if="${actualPage.number > 0}">
+        <li th:if="${usersOnCurrentPage.number > 0}">
           <a
             th:href="@{/admin(page=1,
             usernameFilter=${usernameFilter},
@@ -120,7 +120,7 @@
           >
 
           <a
-            th:href="@{/admin(page=${actualPage.number},
+            th:href="@{/admin(page=${usersOnCurrentPage.number},
             usernameFilter=${usernameFilter},
             emailFilter=${emailFilter},
             activityFilter=${activityFilter},
@@ -133,8 +133,8 @@
         </li>
 
         <li
-          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
-          th:if="${i >= 0 and i < actualPage.totalPages}"
+          th:each="i : ${#numbers.sequence(usersOnCurrentPage.number - 5, usersOnCurrentPage.number +4)}"
+          th:if="${i >= 0 and i < usersOnCurrentPage.totalPages}"
         >
           <a
             th:href="@{/admin(page=${i + 1},
@@ -146,13 +146,15 @@
             lastTimeLoginDateFromFilter=${lastTimeLoginDateFromFilter},
             lastTimeLoginDateToFilter=${lastTimeLoginDateFromFilter})}"
             th:text="${i + 1}"
-            th:classappend="${i == actualPage.number ? 'current-page' : ''}"
+            th:classappend="${i == usersOnCurrentPage.number ? 'current-page' : ''}"
           ></a>
         </li>
 
-        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+        <li
+          th:if="${usersOnCurrentPage.number < usersOnCurrentPage.totalPages - 1}"
+        >
           <a
-            th:href="@{/admin(page=${actualPage.number + 2},
+            th:href="@{/admin(page=${usersOnCurrentPage.number + 2},
             usernameFilter=${usernameFilter},
             emailFilter=${emailFilter},
             activityFilter=${activityFilter},
@@ -164,7 +166,7 @@
           >
 
           <a
-            th:href="@{/admin(page=${actualPage.totalPages},
+            th:href="@{/admin(page=${usersOnCurrentPage.totalPages},
             usernameFilter=${usernameFilter},
             emailFilter=${emailFilter},
             activityFilter=${activityFilter},

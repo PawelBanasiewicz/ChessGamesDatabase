@@ -23,22 +23,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Page<Game> findAllGamesPageable(Pageable pageable) {
-        return gameRepository.findAll(pageable);
-    }
-
-    @Override
     public Page<Game> findAllGamesWithFiltersPageable(String openingCodeFilter, String player1FirstNameFilter, String player1LastNameFilter,
                                                       String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
                                                       Integer movesNumberMinFilter, Integer movesNumberMaxFilter, LocalDate dateFromFilter, LocalDate dateToFilter,
                                                       Pageable pageable) {
         return gameRepository.findAllGamesWithFiltersPageable(openingCodeFilter, player1FirstNameFilter, player1LastNameFilter, player2FirstNameFilter, player2LastNameFilter,
                 resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageable);
-    }
-
-    @Override
-    public Page<Game> findAllGamesPlayedByPlayerPageable(Long playerId, Pageable pageable) {
-        return gameRepository.findAllGamesPlayedByPlayerPageable(playerId, pageable);
     }
 
     @Override

@@ -7,7 +7,6 @@ import chessGamesDatabase.service.GameService;
 import chessGamesDatabase.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static chessGamesDatabase.utils.Utils.addErrorMessageAndRedirect;
+import static chessGamesDatabase.utils.Utils.getPageRequest;
 
 @Controller
 @RequestMapping("/players")
@@ -36,7 +36,7 @@ public class PlayersController {
     }
 
     @GetMapping("")
-    public String players(@RequestParam(defaultValue = "1") int page,
+    public String players(@RequestParam(defaultValue = "1") int currentPage,
                           @RequestParam(required = false) String firstNameFilter,
                           @RequestParam(required = false) String lastNameFilter,
                           @RequestParam(required = false) LocalDate birthDateFromFilter,
@@ -45,25 +45,12 @@ public class PlayersController {
                           @RequestParam(required = false) Integer eloMinFilter,
                           @RequestParam(required = false) Integer eloMaxFilter,
                           Model model) {
+        Page<Player> playersOnCurrentPage = playerService.findAllPlayersWithFiltersPageable(
+                firstNameFilter, lastNameFilter, birthDateFromFilter, birthDateToFilter,
+                sexFilter, eloMinFilter, eloMaxFilter,
+                getPageRequest(currentPage, 30));
 
-        Page<Player> actualPage;
-        PageRequest pageRequest = PageRequest.of(page - 1, 30);
-
-        if ((firstNameFilter != null && !firstNameFilter.isEmpty()) ||
-                (lastNameFilter != null && !lastNameFilter.isEmpty()) ||
-                (birthDateFromFilter != null || birthDateToFilter != null) ||
-                (sexFilter != null) ||
-                (eloMinFilter != null || eloMaxFilter != null)) {
-
-            actualPage = playerService.findAllPlayersWithFiltersPageable(
-                    firstNameFilter, lastNameFilter, birthDateFromFilter, birthDateToFilter,
-                    sexFilter, eloMinFilter, eloMaxFilter,
-                    pageRequest);
-        } else {
-            actualPage = playerService.findAllPlayersPageable(pageRequest);
-        }
-
-        model.addAttribute("actualPage", actualPage);
+        model.addAttribute("actualPage", playersOnCurrentPage);
         model.addAttribute("firstNameFilter", firstNameFilter);
         model.addAttribute("lastNameFilter", lastNameFilter);
         model.addAttribute("birthDateFromFilter", birthDateFromFilter);
@@ -78,7 +65,7 @@ public class PlayersController {
 
     @GetMapping("/{playerId}")
     public String viewPlayer(@PathVariable Long playerId,
-                             @RequestParam(defaultValue = "1") int page,
+                             @RequestParam(defaultValue = "1") int currentPage,
                              @RequestParam(required = false) String openingIdFilter,
                              @RequestParam(required = false) String player1FirstNameFilter,
                              @RequestParam(required = false) String player1LastNameFilter,
@@ -90,37 +77,15 @@ public class PlayersController {
                              @RequestParam(required = false) LocalDate dateFromFilter,
                              @RequestParam(required = false) LocalDate dateToFilter,
                              Model model) {
-
-        Page<Game> actualPage;
-        PageRequest pageRequest = PageRequest.of(page - 1, 20);
-
-        if (openingIdFilter != null && !openingIdFilter.isEmpty() ||
-                (player1FirstNameFilter != null && !player1FirstNameFilter.isEmpty()) ||
-                (player1LastNameFilter != null && !player1LastNameFilter.isEmpty()) ||
-                (player2FirstNameFilter != null && !player2FirstNameFilter.isEmpty()) ||
-                (player2LastNameFilter != null && !player2LastNameFilter.isEmpty()) ||
-                (resultFilter != null && !resultFilter.isEmpty()) ||
-                (movesNumberMinFilter != null || movesNumberMaxFilter != null) ||
-                (dateFromFilter != null || dateToFilter != null)) {
-
-            if (openingIdFilter != null && openingIdFilter.isEmpty()) {
-                openingIdFilter = null;
-            }
-
-            if (resultFilter != null && resultFilter.isEmpty()) {
-                resultFilter = null;
-            }
-            actualPage = gameService.findAllGamesPlayedByPlayerWithFiltersPageable(playerId, openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
-                    player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter, movesNumberMaxFilter,
-                    dateFromFilter, dateToFilter, pageRequest);
-        } else {
-            actualPage = gameService.findAllGamesPlayedByPlayerPageable(playerId, pageRequest);
-        }
+        Page<Game> gamesOnCurrentPage = gameService.findAllGamesPlayedByPlayerWithFiltersPageable(
+                playerId, openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
+                player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter,
+                movesNumberMaxFilter, dateFromFilter, dateToFilter, getPageRequest(currentPage, 20));
 
         Player player = playerService.findPlayerById(playerId);
 
         model.addAttribute("player", player);
-        model.addAttribute("actualPage", actualPage);
+        model.addAttribute("gamesOnCurrentPage", gamesOnCurrentPage);
         model.addAttribute("openingIdFilter", openingIdFilter);
         model.addAttribute("player1FirstNameFilter", player1FirstNameFilter);
         model.addAttribute("player1LastNameFilter", player1LastNameFilter);

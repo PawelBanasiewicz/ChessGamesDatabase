@@ -17,10 +17,6 @@ public class OpeningServiceImpl implements OpeningService {
         this.openingRepository = openingRepository;
     }
 
-    public Page<Opening> findAllOpeningsPageable(Pageable pageable) {
-        return openingRepository.findAll(pageable);
-    }
-
     @Override
     public Page<Opening> findAllOpeningsWithFiltersPageable(String codeFilter, String nameFilter, String pgnMovesFilter, Pageable pageable) {
         return openingRepository.findOpeningsWithFiltersPageable(codeFilter, nameFilter, pgnMovesFilter, pageable);

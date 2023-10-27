@@ -4,12 +4,13 @@ import chessGamesDatabase.entity.Opening;
 import chessGamesDatabase.service.OpeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import static chessGamesDatabase.utils.Utils.getPageRequest;
 
 @Controller
 @RequestMapping("/openings")
@@ -22,26 +23,17 @@ public class OpeningController {
     }
 
     @GetMapping("")
-    public String openings(@RequestParam(defaultValue = "1") int page,
+    public String openings(@RequestParam(defaultValue = "1") int currentPage,
                            @RequestParam(required = false) String codeFilter,
                            @RequestParam(required = false) String nameFilter,
                            @RequestParam(required = false) String pgnMovesFilter,
                            Model model) {
 
-        Page<Opening> actualPage;
-        PageRequest pageRequest = PageRequest.of(page - 1, 30);
+        Page<Opening> openingsOnCurrentPage = openingService.findAllOpeningsWithFiltersPageable(
+                codeFilter, nameFilter, pgnMovesFilter,
+                getPageRequest(currentPage, 30));
 
-        if ((codeFilter != null && !codeFilter.isEmpty()) ||
-                (nameFilter != null && !nameFilter.isEmpty()) ||
-                (pgnMovesFilter != null && !pgnMovesFilter.isEmpty())) {
-            actualPage = openingService.findAllOpeningsWithFiltersPageable(
-                    codeFilter, nameFilter, pgnMovesFilter, pageRequest);
-
-        } else {
-            actualPage = openingService.findAllOpeningsPageable(pageRequest);
-        }
-
-        model.addAttribute("actualPage", actualPage);
+        model.addAttribute("openingsOnCurrentPage", openingsOnCurrentPage);
         model.addAttribute("codeFilter", codeFilter);
         model.addAttribute("nameFilter", nameFilter);
         model.addAttribute("pgnMovesFilter", pgnMovesFilter);

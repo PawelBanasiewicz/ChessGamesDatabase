@@ -9,7 +9,6 @@ import chessGamesDatabase.service.OpeningService;
 import chessGamesDatabase.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +25,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static chessGamesDatabase.utils.Utils.addErrorMessageAndRedirect;
+import static chessGamesDatabase.utils.Utils.getPageRequest;
 
 @Controller
 @RequestMapping("/games")
 public class GamesController {
-    private static Pattern lastNumberWithDotPattern;
+    private static final Pattern lastNumberWithDotPattern = Pattern.compile("(\\d+\\.)(?=(?!.*\\d+\\.))");
     private final GameService gameService;
     private final PlayerService playerService;
     private final OpeningService openingService;
@@ -43,7 +43,7 @@ public class GamesController {
     }
 
     @GetMapping("")
-    public String games(@RequestParam(defaultValue = "1") int page,
+    public String games(@RequestParam(defaultValue = "1") int currentPage,
                         @RequestParam(required = false) String openingIdFilter,
                         @RequestParam(required = false) String player1FirstNameFilter,
                         @RequestParam(required = false) String player1LastNameFilter,
@@ -55,33 +55,14 @@ public class GamesController {
                         @RequestParam(required = false) LocalDate dateFromFilter,
                         @RequestParam(required = false) LocalDate dateToFilter,
                         Model model) {
+        Page<Game> gamesOnCurrentPage = gameService.findAllGamesWithFiltersPageable(
+                openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
+                player2FirstNameFilter, player2LastNameFilter, resultFilter,
+                movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter,
+                dateToFilter, getPageRequest(currentPage, 30));
 
-        Page<Game> actualPage;
-        PageRequest pageRequest = PageRequest.of(page - 1, 30);
 
-        if (openingIdFilter != null && !openingIdFilter.isEmpty() ||
-                (player1FirstNameFilter != null && !player1FirstNameFilter.isEmpty()) ||
-                (player1LastNameFilter != null && !player1LastNameFilter.isEmpty()) ||
-                (player2FirstNameFilter != null && !player2FirstNameFilter.isEmpty()) ||
-                (player2LastNameFilter != null && !player2LastNameFilter.isEmpty()) ||
-                (resultFilter != null && !resultFilter.isEmpty()) ||
-                (movesNumberMinFilter != null || movesNumberMaxFilter != null) ||
-                (dateFromFilter != null || dateToFilter != null)) {
-
-            if (openingIdFilter != null && openingIdFilter.isEmpty()) {
-                openingIdFilter = null;
-            }
-
-            if (resultFilter != null && resultFilter.isEmpty()) {
-                resultFilter = null;
-            }
-            actualPage = gameService.findAllGamesWithFiltersPageable(openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
-                    player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageRequest);
-        } else {
-            actualPage = gameService.findAllGamesPageable(pageRequest);
-        }
-
-        model.addAttribute("actualPage", actualPage);
+        model.addAttribute("gamesOnCurrentPage", gamesOnCurrentPage);
         model.addAttribute("openingIdFilter", openingIdFilter);
         model.addAttribute("player1FirstNameFilter", player1FirstNameFilter);
         model.addAttribute("player1LastNameFilter", player1LastNameFilter);
@@ -119,19 +100,18 @@ public class GamesController {
 
     @PostMapping("/save")
     public String saveGame(@ModelAttribute("game") Game game, RedirectAttributes redirectAttributes) {
-        Player player1 = playerService.findPlayerByFirstNameAndLastName(game.getPlayer1().getFirstName(), game.getPlayer1().getLastName());
-        Player player2 = playerService.findPlayerByFirstNameAndLastName(game.getPlayer2().getFirstName(), game.getPlayer2().getLastName());
+        Player player1 = playerService.findPlayerByFirstNameAndLastName(
+                game.getPlayer1().getFirstName(), game.getPlayer1().getLastName());
+        Player player2 = playerService.findPlayerByFirstNameAndLastName(
+                game.getPlayer2().getFirstName(), game.getPlayer2().getLastName());
 
-        if (player1 == null || player2 == null || game.getPgn().isEmpty() || game.getResult().isEmpty() || game.getDate() == null) {
+        if (player1 == null || player2 == null || game.getPgn().isEmpty() ||
+                game.getResult().isEmpty() || game.getDate() == null) {
             return addErrorMessageAndRedirectForGame(redirectAttributes);
         }
 
         game.setPlayer1(player1);
         game.setPlayer2(player2);
-
-        if (lastNumberWithDotPattern == null) {
-            lastNumberWithDotPattern = Pattern.compile("(\\d+\\.)(?=(?!.*\\d+\\.))");
-        }
 
         Matcher matcher = lastNumberWithDotPattern.matcher(game.getPgn());
         if (matcher.find()) {

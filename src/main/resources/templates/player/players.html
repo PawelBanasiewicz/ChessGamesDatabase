@@ -124,14 +124,22 @@
               />
               <button type="submit" class="link-button">Save</button>
             </form>
-            <div sec:authorize="hasRole('ADMINISTRATOR') or hasRole('MODERATOR')"
-                 class="inline-action">
-              <a th:href="@{players/update(playerId=${player.playerId})}">Edit</a>
+            <div
+              sec:authorize="hasRole('ADMINISTRATOR') or hasRole('MODERATOR')"
+              class="inline-action"
+            >
+              <a th:href="@{players/update(playerId=${player.playerId})}"
+                >Edit</a
+              >
             </div>
-            <div sec:authorize="hasRole('ADMINISTRATOR') or hasRole('MODERATOR')"
-            class="inline-action"
-            onclick="return confirm('Are you sure you want to delete this player?')">
-              <a th:href="@{players/delete(playerId=${player.playerId})}">Delete</a>
+            <div
+              sec:authorize="hasRole('ADMINISTRATOR') or hasRole('MODERATOR')"
+              class="inline-action"
+              onclick="return confirm('Are you sure you want to delete this player?')"
+            >
+              <a th:href="@{players/delete(playerId=${player.playerId})}"
+                >Delete</a
+              >
             </div>
           </td>
         </tr>
@@ -142,7 +150,7 @@
       <ul class="pagination">
         <li th:if="${actualPage.number > 0}">
           <a
-            th:href="@{/players(page=1,
+            th:href="@{/players(currentPage=1,
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -155,7 +163,7 @@
           >
 
           <a
-            th:href="@{/players(page=${actualPage.number},
+            th:href="@{/players(currentPage=${actualPage.number},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -173,7 +181,7 @@
           th:if="${i >= 0 and i < actualPage.totalPages}"
         >
           <a
-            th:href="@{/players(page=${i + 1},
+            th:href="@{/players(currentPage=${i + 1},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -189,7 +197,7 @@
 
         <li th:if="${actualPage.number < actualPage.totalPages - 1}">
           <a
-            th:href="@{/players(page=${actualPage.number +2},
+            th:href="@{/players(currentPage=${actualPage.number +2},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -201,7 +209,7 @@
             >Next</a
           >
           <a
-            th:href="@{/players(page=${actualPage.totalPages},
+            th:href="@{/players(currentPage=${actualPage.totalPages},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},

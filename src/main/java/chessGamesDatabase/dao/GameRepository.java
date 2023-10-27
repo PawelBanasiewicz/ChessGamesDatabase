@@ -15,12 +15,12 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "LEFT JOIN g.player1 p1 " +
             "LEFT JOIN g.player2 p2 " +
             "JOIN g.opening o " +
-            "WHERE (:openingIdFilter IS NULL OR o.code = :openingIdFilter) " +
+            "WHERE (:openingIdFilter IS NULL OR LENGTH(:openingIdFilter) = 0 OR o.code = :openingIdFilter) " +
             "AND (:player1FirstNameFilter IS NULL OR p1 IS NULL OR p1.firstName LIKE %:player1FirstNameFilter%) " +
             "AND (:player1LastNameFilter IS NULL OR p1 IS NULL OR p1.lastName LIKE %:player1LastNameFilter%) " +
             "AND (:player2FirstNameFilter IS NULL OR p2 IS NULL OR p2.firstName LIKE %:player2FirstNameFilter%) " +
             "AND (:player2LastNameFilter IS NULL OR p2 IS NULL OR p2.lastName LIKE %:player2LastNameFilter%) " +
-            "AND (:resultFilter IS NULL OR g.result = :resultFilter)" +
+            "AND (:resultFilter IS NULL OR LENGTH(:resultFilter) = 0 OR g.result = :resultFilter) " +
             "AND (:movesNumberMinFilter IS NULL OR g.movesNumber >= :movesNumberMinFilter) " +
             "AND (:movesNumberMaxFilter IS NULL OR g.movesNumber <= :movesNumberMaxFilter) " +
             "AND (:dateFromFilter IS NULL OR g.date >= :dateFromFilter) " +
@@ -48,12 +48,12 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "LEFT JOIN g.player1 p1 " +
             "LEFT JOIN g.player2 p2 " +
             "WHERE (p1.playerId = :playerId OR p2.playerId = :playerId) " +
-            "AND (:openingCodeFilter IS NULL OR g.opening.code = :openingCodeFilter) " +
+            "AND (:openingCodeFilter IS NULL OR LENGTH(:openingCodeFilter) = 0 OR g.opening.code = :openingCodeFilter) " +
             "AND (:player1FirstNameFilter IS NULL OR p1 IS NULL OR g.player1.firstName LIKE %:player1FirstNameFilter%) " +
             "AND (:player1LastNameFilter IS NULL OR p1 IS NULL OR g.player1.lastName LIKE %:player1LastNameFilter%) " +
             "AND (:player2FirstNameFilter IS NULL OR p2 IS NULL OR g.player2.firstName LIKE %:player2FirstNameFilter%) " +
             "AND (:player2LastNameFilter IS NULL OR p2 IS NULL OR g.player2.lastName LIKE %:player2LastNameFilter%) " +
-            "AND (:resultFilter IS NULL OR g.result = :resultFilter) " +
+            "AND (:resultFilter IS NULL OR LENGTH(:resultFilter) = 0 OR g.result = :resultFilter) " +
             "AND (:movesNumberMinFilter IS NULL OR g.movesNumber >= :movesNumberMinFilter) " +
             "AND (:movesNumberMaxFilter IS NULL OR g.movesNumber <= :movesNumberMaxFilter) " +
             "AND (:dateFromFilter IS NULL OR g.date >= :dateFromFilter) " +

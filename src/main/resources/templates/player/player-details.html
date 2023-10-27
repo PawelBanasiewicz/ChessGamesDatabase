@@ -140,7 +140,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="game : ${actualPage.content}">
+        <tr th:each="game : ${gamesOnCurrentPage.content}">
           <td th:text="${game.opening.code}"></td>
           <td>
             <a
@@ -189,7 +189,7 @@
 
     <div class="pagination">
       <ul class="pagination">
-        <li th:if="${actualPage.number > 0}">
+        <li th:if="${gamesOnCurrentPage.number > 0}">
           <a
             th:href="@{/players/{playerId}(playerId=${player.playerId}, page=1,
                 openingIdFilter=${openingIdFilter},
@@ -207,7 +207,7 @@
           >
 
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, page=${actualPage.number},
+            th:href="@{/players/{playerId}(playerId=${player.playerId}, page=${gamesOnCurrentPage.number},
                 openingIdFilter=${openingIdFilter},
                 player1FirstNameFilter=${player1FirstNameFilter},
                 player1LastNameFilter=${player1LastNameFilter},
@@ -224,8 +224,8 @@
         </li>
 
         <li
-          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number + 4)}"
-          th:if="${i >= 0 and i < actualPage.totalPages}"
+          th:each="i : ${#numbers.sequence(gamesOnCurrentPage.number - 5, gamesOnCurrentPage.number + 4)}"
+          th:if="${i >= 0 and i < gamesOnCurrentPage.totalPages}"
         >
           <a
             th:href="@{/players/{playerId}(playerId=${player.playerId}, page=${i + 1},
@@ -240,14 +240,16 @@
                 dateFromFilter=${dateFromFilter},
                 dateToFilter=${dateToFilter})}"
             th:text="${i + 1}"
-            th:classappend="${i == actualPage.number ? 'current-page' : ''}"
+            th:classappend="${i == gamesOnCurrentPage.number ? 'current-page' : ''}"
             class="page-link"
           ></a>
         </li>
 
-        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+        <li
+          th:if="${gamesOnCurrentPage.number < gamesOnCurrentPage.totalPages - 1}"
+        >
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, page=${actualPage.nextPageable().pageNumber + 1},
+            th:href="@{/players/{playerId}(playerId=${player.playerId}, page=${gamesOnCurrentPage.nextPageable().pageNumber + 1},
                 openingIdFilter=${openingIdFilter},
                 player1FirstNameFilter=${player1FirstNameFilter},
                 player1LastNameFilter=${player1LastNameFilter},
@@ -263,7 +265,7 @@
           >
 
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, page=${actualPage.totalPages},
+            th:href="@{/players/{playerId}(playerId=${player.playerId}, page=${gamesOnCurrentPage.totalPages},
                 openingIdFilter=${openingIdFilter},
                 player1FirstNameFilter=${player1FirstNameFilter},
                 player1LastNameFilter=${player1LastNameFilter},

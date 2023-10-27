@@ -8,15 +8,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface GameService {
-
-    Page<Game> findAllGamesPageable(Pageable pageable);
-
     Page<Game> findAllGamesWithFiltersPageable(String openingCodeFilter, String player1FirstNameFilter, String player1LastNameFilter,
                                                String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
                                                Integer movesNumberMinFilter, Integer movesNumberMaxFilter, LocalDate dateFromFilter, LocalDate dateToFilter,
                                                Pageable pageable);
-
-    Page<Game> findAllGamesPlayedByPlayerPageable(Long playerId, Pageable pageable);
 
     Page<Game> findAllGamesPlayedByPlayerWithFiltersPageable(Long playerId, String openingCodeFilter, String player1FirstNameFilter, String player1LastNameFilter,
                                                              String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
