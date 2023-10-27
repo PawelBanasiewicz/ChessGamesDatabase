@@ -12,10 +12,10 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
-    Page<User> findUsersWithoutRolePageable(String roleName, String usernameFilter, String emailFilter,
-                                            Boolean enabledFilter, LocalDateTime createdDateFromFilter,
-                                            LocalDateTime createdDateToFilter, LocalDateTime lastTimeLoginDateFromFilter,
-                                            LocalDateTime lastTimeLoginDateToFilter, Pageable pageable);
+    Page<User> findUsersWithoutRoleWithFiltersPageable(String roleName, String usernameFilter, String emailFilter,
+                                                       Boolean enabledFilter, LocalDateTime createdDateFromFilter,
+                                                       LocalDateTime createdDateToFilter, LocalDateTime lastTimeLoginDateFromFilter,
+                                                       LocalDateTime lastTimeLoginDateToFilter, Pageable pageable);
 
     void saveUser(User user);
 

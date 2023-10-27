@@ -17,30 +17,13 @@ public class OpeningServiceImpl implements OpeningService {
         this.openingRepository = openingRepository;
     }
 
-    @Override
-    public Page<Opening> findAllPageable(Pageable pageable) {
+    public Page<Opening> findAllOpeningsPageable(Pageable pageable) {
         return openingRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Opening> findByCodeContainingIgnoreCasePageable(String codeFilter, Pageable pageable) {
-        return openingRepository.findByCodeContainingIgnoreCase(codeFilter, pageable);
-    }
-
-    @Override
-    public Page<Opening> findByNameContainingIgnoreCasePageable(String nameFilter, Pageable pageable) {
-        return openingRepository.findByNameContainingIgnoreCase(nameFilter, pageable);
-    }
-
-    @Override
-    public Page<Opening> findByPgnMovesContainingIgnoreCasePageable(String pgnMovesFilter, Pageable pageable) {
-        return openingRepository.findByPgnMovesContainingIgnoreCase(pgnMovesFilter, pageable);
-    }
-
-    @Override
-    public Page<Opening> findByCodeAndNameAndPgnMovesIgnoreCasePageable(String codeFilter, String nameFilter, String pgnMovesFilter, Pageable pageable) {
-        return openingRepository.findByCodeContainingIgnoreCaseAndNameContainingIgnoreCaseAndPgnMovesContainingIgnoreCase
-                (codeFilter, nameFilter, pgnMovesFilter, pageable);
+    public Page<Opening> findAllOpeningsWithFiltersPageable(String codeFilter, String nameFilter, String pgnMovesFilter, Pageable pageable) {
+        return openingRepository.findOpeningsWithFiltersPageable(codeFilter, nameFilter, pgnMovesFilter, pageable);
     }
 
     @Override

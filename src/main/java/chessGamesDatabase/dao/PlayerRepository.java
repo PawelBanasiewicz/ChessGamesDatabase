@@ -18,7 +18,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
             "AND (:sexFilter IS NULL OR p.sex = :sexFilter) " +
             "AND (:eloMinFilter IS NULL OR p.elo >= :eloMinFilter) " +
             "AND (:eloMaxFilter IS NULL OR p.elo <= :eloMaxFilter)")
-    Page<Player> findAllPlayersWithFilters(
+    Page<Player> findAllPlayersWithFiltersPageable(
             @Param("firstNameFilter") String firstNameFilter,
             @Param("lastNameFilter") String lastNameFilter,
             @Param("birthDateFromFilter") LocalDate birthDateFromFilter,

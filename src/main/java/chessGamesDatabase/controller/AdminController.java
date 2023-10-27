@@ -45,7 +45,7 @@ public class AdminController {
                              Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 30);
 
-        Page<User> actualPage = userService.findUsersWithoutRolePageable("ROLE_ADMINISTRATOR",
+        Page<User> actualPage = userService.findUsersWithoutRoleWithFiltersPageable("ROLE_ADMINISTRATOR",
                 usernameFilter, emailFilter, enabledFilter, createdDateFromFilter, createdDateToFilter,
                 lastTimeLoginDateFromFilter, lastTimeLoginDateToFilter, pageRequest);
 
@@ -91,7 +91,6 @@ public class AdminController {
         userService.saveUser(editedUser);
         return "redirect:/admin";
     }
-
 
     @GetMapping("/delete")
     public String deleteUser(@RequestParam long userId) {

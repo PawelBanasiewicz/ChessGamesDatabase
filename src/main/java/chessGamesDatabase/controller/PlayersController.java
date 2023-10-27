@@ -110,11 +110,11 @@ public class PlayersController {
             if (resultFilter != null && resultFilter.isEmpty()) {
                 resultFilter = null;
             }
-            actualPage = gameService.findAllGamesPlayedByPlayerWithFilters(playerId, openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
+            actualPage = gameService.findAllGamesPlayedByPlayerWithFiltersPageable(playerId, openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
                     player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter, movesNumberMaxFilter,
                     dateFromFilter, dateToFilter, pageRequest);
         } else {
-            actualPage = gameService.findAllGamesPlayedByPlayer(playerId, pageRequest);
+            actualPage = gameService.findAllGamesPlayedByPlayerPageable(playerId, pageRequest);
         }
 
         Player player = playerService.findPlayerById(playerId);

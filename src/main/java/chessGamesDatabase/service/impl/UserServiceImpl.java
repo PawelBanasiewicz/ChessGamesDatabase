@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findUsersWithoutRolePageable(String roleName, String usernameFilter, String emailFilter, Boolean enabledFilter,
-                                                   LocalDateTime createdDateFromFilter, LocalDateTime createdDateToFilter,
-                                                   LocalDateTime lastTimeLoginDateFromFilter,
-                                                   LocalDateTime lastTimeLoginDateToFilter, Pageable pageable) {
-        return userRepository.findUsersWithoutAdminRole(roleName, usernameFilter, emailFilter, enabledFilter,
+    public Page<User> findUsersWithoutRoleWithFiltersPageable(String roleName, String usernameFilter, String emailFilter, Boolean enabledFilter,
+                                                              LocalDateTime createdDateFromFilter, LocalDateTime createdDateToFilter,
+                                                              LocalDateTime lastTimeLoginDateFromFilter,
+                                                              LocalDateTime lastTimeLoginDateToFilter, Pageable pageable) {
+        return userRepository.findUsersWithoutRoleWithFiltersPageable(roleName, usernameFilter, emailFilter, enabledFilter,
                 createdDateFromFilter, createdDateToFilter, lastTimeLoginDateFromFilter, lastTimeLoginDateToFilter, pageable);
     }
 

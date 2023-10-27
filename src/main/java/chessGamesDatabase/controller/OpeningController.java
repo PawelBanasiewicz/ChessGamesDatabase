@@ -34,10 +34,11 @@ public class OpeningController {
         if ((codeFilter != null && !codeFilter.isEmpty()) ||
                 (nameFilter != null && !nameFilter.isEmpty()) ||
                 (pgnMovesFilter != null && !pgnMovesFilter.isEmpty())) {
-            actualPage = openingService.findByCodeAndNameAndPgnMovesIgnoreCasePageable(codeFilter, nameFilter, pgnMovesFilter, pageRequest);
+            actualPage = openingService.findAllOpeningsWithFiltersPageable(
+                    codeFilter, nameFilter, pgnMovesFilter, pageRequest);
 
         } else {
-            actualPage = openingService.findAllPageable(pageRequest);
+            actualPage = openingService.findAllOpeningsPageable(pageRequest);
         }
 
         model.addAttribute("actualPage", actualPage);

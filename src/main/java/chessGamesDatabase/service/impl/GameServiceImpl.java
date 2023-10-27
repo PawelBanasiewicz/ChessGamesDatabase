@@ -32,21 +32,21 @@ public class GameServiceImpl implements GameService {
                                                       String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
                                                       Integer movesNumberMinFilter, Integer movesNumberMaxFilter, LocalDate dateFromFilter, LocalDate dateToFilter,
                                                       Pageable pageable) {
-        return gameRepository.findAllGamesWithFilters(openingCodeFilter, player1FirstNameFilter, player1LastNameFilter, player2FirstNameFilter, player2LastNameFilter,
+        return gameRepository.findAllGamesWithFiltersPageable(openingCodeFilter, player1FirstNameFilter, player1LastNameFilter, player2FirstNameFilter, player2LastNameFilter,
                 resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageable);
     }
 
     @Override
-    public Page<Game> findAllGamesPlayedByPlayer(Long playerId, Pageable pageable) {
-        return gameRepository.findAllGamesPlayedByPlayer(playerId, pageable);
+    public Page<Game> findAllGamesPlayedByPlayerPageable(Long playerId, Pageable pageable) {
+        return gameRepository.findAllGamesPlayedByPlayerPageable(playerId, pageable);
     }
 
     @Override
-    public Page<Game> findAllGamesPlayedByPlayerWithFilters(Long playerId, String openingCodeFilter, String player1FirstNameFilter, String player1LastNameFilter,
-                                                            String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
-                                                            Integer movesNumberMinFilter, Integer movesNumberMaxFilter,
-                                                            LocalDate dateFromFilter, LocalDate dateToFilter, Pageable pageable) {
-        return gameRepository.findAllGamesPlayedByPlayerWithFilters(playerId, openingCodeFilter, player1FirstNameFilter, player1LastNameFilter,
+    public Page<Game> findAllGamesPlayedByPlayerWithFiltersPageable(Long playerId, String openingCodeFilter, String player1FirstNameFilter, String player1LastNameFilter,
+                                                                    String player2FirstNameFilter, String player2LastNameFilter, String resultFilter,
+                                                                    Integer movesNumberMinFilter, Integer movesNumberMaxFilter,
+                                                                    LocalDate dateFromFilter, LocalDate dateToFilter, Pageable pageable) {
+        return gameRepository.findAllGamesPlayedByPlayerWithFiltersPageable(playerId, openingCodeFilter, player1FirstNameFilter, player1LastNameFilter,
                 player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageable);
     }
 

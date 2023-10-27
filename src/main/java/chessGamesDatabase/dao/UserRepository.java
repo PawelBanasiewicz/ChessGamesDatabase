@@ -21,15 +21,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "AND (:createdDateToFilter IS NULL OR u.createdAt <= :createdDateToFilter) " +
             "AND (:lastTimeLoginDateFromFilter IS NULL OR u.lastLogin >= :lastTimeLoginDateFromFilter) " +
             "AND (:lastTimeLoginDateToFilter IS NULL OR u.lastLogin <= :lastTimeLoginDateToFilter)"
-
     )
-    Page<User> findUsersWithoutAdminRole(@Param("roleNameFilter") String roleNameFilter,
-                                         @Param("usernameFilter") String usernameFilter,
-                                         @Param("emailFilter") String emailFilter,
-                                         @Param("enabledFilter") Boolean enableFilter,
-                                         @Param("createdDateFromFilter") LocalDateTime createdDateFromFilter,
-                                         @Param("createdDateToFilter") LocalDateTime createdDateToFilter,
-                                         @Param("lastTimeLoginDateFromFilter") LocalDateTime lastTimeLoginDateFromFilter,
-                                         @Param("lastTimeLoginDateToFilter") LocalDateTime lastTimeLoginDateToFilter,
-                                         Pageable pageable);
+    Page<User> findUsersWithoutRoleWithFiltersPageable(@Param("roleNameFilter") String roleNameFilter,
+                                                       @Param("usernameFilter") String usernameFilter,
+                                                       @Param("emailFilter") String emailFilter,
+                                                       @Param("enabledFilter") Boolean enableFilter,
+                                                       @Param("createdDateFromFilter") LocalDateTime createdDateFromFilter,
+                                                       @Param("createdDateToFilter") LocalDateTime createdDateToFilter,
+                                                       @Param("lastTimeLoginDateFromFilter") LocalDateTime lastTimeLoginDateFromFilter,
+                                                       @Param("lastTimeLoginDateToFilter") LocalDateTime lastTimeLoginDateToFilter,
+                                                       Pageable pageable);
 }

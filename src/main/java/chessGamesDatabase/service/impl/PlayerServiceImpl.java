@@ -29,7 +29,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Page<Player> findAllPlayersWithFiltersPageable(String firstName, String lastName, LocalDate birthDateFrom, LocalDate birthDateTo,
                                                           Character sex, Integer eloMin, Integer eloMax, Pageable pageable) {
-        return playerRepository.findAllPlayersWithFilters(firstName, lastName, birthDateFrom, birthDateTo, sex, eloMin, eloMax, pageable);
+        return playerRepository.findAllPlayersWithFiltersPageable(firstName, lastName, birthDateFrom, birthDateTo, sex, eloMin, eloMax, pageable);
     }
 
     @Override
