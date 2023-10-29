@@ -68,10 +68,10 @@
 
       <label for="resultFilter">Result: </label>
       <select id="resultFilter" name="resultFilter" th:value="${resultFilter}">
-        <option value="" selected>Any</option>
-        <option value="1-0">White wins</option>
-        <option value="0-1">Black wins</option>
-        <option value="1/2-1/2">Draw</option>
+        <option value="" th:selected="${resultFilter == null}">Any</option>
+        <option value="1-0" th:selected="${resultFilter == '1-0'}">White wins</option>
+        <option value="0-1" th:selected="${resultFilter == '0-1'}">Black wins</option>
+        <option value="1/2-1/2" th:selected="${resultFilter == '1/2-1/2'}">Draw</option>
       </select>
 
       <label for="movesNumberMinFilter">Moves number min: </label>

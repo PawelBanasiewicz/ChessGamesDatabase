@@ -55,7 +55,7 @@ public class PlayersController {
         model.addAttribute("lastNameFilter", lastNameFilter);
         model.addAttribute("birthDateFromFilter", birthDateFromFilter);
         model.addAttribute("birthDateToFilter", birthDateToFilter);
-        model.addAttribute("sexFilter", sexFilter);
+        model.addAttribute("sexFilter", String.valueOf(sexFilter));
         model.addAttribute("eloMinFilter", eloMinFilter);
         model.addAttribute("eloMaxFilter", eloMaxFilter);
         model.addAttribute("pageTitle", "Players");

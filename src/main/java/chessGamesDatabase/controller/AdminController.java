@@ -53,6 +53,7 @@ public class AdminController {
         model.addAttribute("usersOnCurrentPage", usersOnCurrentPage);
         model.addAttribute("usernameFilter", usernameFilter);
         model.addAttribute("emailFilter", emailFilter);
+        model.addAttribute("enabledFilter", enabledFilter);
         model.addAttribute("createdDateFromFilter", createdDateFromFilter);
         model.addAttribute("createdDateToFilter", createdDateToFilter);
         model.addAttribute("lastTimeLoginDateFromFilter", lastTimeLoginDateFromFilter);
