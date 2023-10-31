@@ -66,7 +66,7 @@ public class FavoritePlayersController {
         model.addAttribute("lastNameFilter", lastNameFilter);
         model.addAttribute("birthDateFromFilter", birthDateFromFilter);
         model.addAttribute("birthDateToFilter", birthDateToFilter);
-        model.addAttribute("sexFilter", String.valueOf(sexFilter));
+        model.addAttribute("sexFilter", (sexFilter == null) ? null : String.valueOf(sexFilter));
         model.addAttribute("eloMinFilter", eloMinFilter);
         model.addAttribute("eloMaxFilter", eloMaxFilter);
         model.addAttribute("pageTitle", "Favorite players");
