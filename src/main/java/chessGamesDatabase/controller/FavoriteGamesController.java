@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.util.List;
 
+import static chessGamesDatabase.utils.Pagination.ROWS_ON_NORMAL_PAGE;
+import static chessGamesDatabase.utils.Pagination.paginate;
 import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
-import static chessGamesDatabase.utils.Utils.paginate;
 
 @Controller
 @RequestMapping("/favorite-games")
@@ -63,7 +64,7 @@ public class FavoriteGamesController {
                 )
                 .toList();
 
-        Page<Game> actualPage = paginate(favoriteGames, page, 30);
+        Page<Game> actualPage = paginate(favoriteGames, page, ROWS_ON_NORMAL_PAGE);
 
         model.addAttribute("actualPage", actualPage);
         model.addAttribute("openingIdFilter", openingIdFilter);

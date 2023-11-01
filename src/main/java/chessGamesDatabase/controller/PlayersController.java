@@ -20,8 +20,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
+import static chessGamesDatabase.utils.Pagination.ROWS_ON_DETAILS_PAGE;
+import static chessGamesDatabase.utils.Pagination.ROWS_ON_NORMAL_PAGE;
+import static chessGamesDatabase.utils.Pagination.getPageRequest;
 import static chessGamesDatabase.utils.Utils.addErrorMessageAndRedirect;
-import static chessGamesDatabase.utils.Utils.getPageRequest;
 
 @Controller
 @RequestMapping("/players")
@@ -37,6 +39,8 @@ public class PlayersController {
 
     @GetMapping("")
     public String players(@RequestParam(defaultValue = "1") int currentPage,
+                          @RequestParam(defaultValue = "firstName", required = false) String sortField,
+                          @RequestParam(defaultValue = "asc", required = false) String sortDirection,
                           @RequestParam(required = false) String firstNameFilter,
                           @RequestParam(required = false) String lastNameFilter,
                           @RequestParam(required = false) LocalDate birthDateFromFilter,
@@ -48,9 +52,11 @@ public class PlayersController {
         Page<Player> playersOnCurrentPage = playerService.findAllPlayersWithFiltersPageable(
                 firstNameFilter, lastNameFilter, birthDateFromFilter, birthDateToFilter,
                 sexFilter, eloMinFilter, eloMaxFilter,
-                getPageRequest(currentPage, 30));
+                getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE, sortField, sortDirection));
 
         model.addAttribute("actualPage", playersOnCurrentPage);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("firstNameFilter", firstNameFilter);
         model.addAttribute("lastNameFilter", lastNameFilter);
         model.addAttribute("birthDateFromFilter", birthDateFromFilter);
@@ -66,6 +72,8 @@ public class PlayersController {
     @GetMapping("/{playerId}")
     public String viewPlayer(@PathVariable Long playerId,
                              @RequestParam(defaultValue = "1") int currentPage,
+                             @RequestParam(defaultValue = "opening", required = false) String sortField,
+                             @RequestParam(defaultValue = "asc", required = false) String sortDirection,
                              @RequestParam(required = false) String openingIdFilter,
                              @RequestParam(required = false) String player1FirstNameFilter,
                              @RequestParam(required = false) String player1LastNameFilter,
@@ -80,12 +88,15 @@ public class PlayersController {
         Page<Game> gamesOnCurrentPage = gameService.findAllGamesPlayedByPlayerWithFiltersPageable(
                 playerId, openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
                 player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter,
-                movesNumberMaxFilter, dateFromFilter, dateToFilter, getPageRequest(currentPage, 20));
+                movesNumberMaxFilter, dateFromFilter, dateToFilter,
+                getPageRequest(currentPage, ROWS_ON_DETAILS_PAGE, sortField, sortDirection));
 
         Player player = playerService.findPlayerById(playerId);
 
         model.addAttribute("player", player);
         model.addAttribute("gamesOnCurrentPage", gamesOnCurrentPage);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("openingIdFilter", openingIdFilter);
         model.addAttribute("player1FirstNameFilter", player1FirstNameFilter);
         model.addAttribute("player1LastNameFilter", player1LastNameFilter);
@@ -113,7 +124,8 @@ public class PlayersController {
 
     @PostMapping("/save")
     public String savePlayer(@ModelAttribute("player") Player player, RedirectAttributes redirectAttributes) {
-        Player existingPlayer = playerService.findPlayerByFirstNameAndLastName(player.getFirstName(), player.getLastName());
+        Player existingPlayer = playerService.findPlayerByFirstNameAndLastName
+                (player.getFirstName(), player.getLastName());
 
         if (player.getPlayerId() == 0) {
             if (existingPlayer != null) {
@@ -132,7 +144,6 @@ public class PlayersController {
             } else {
                 return addErrorMessageAndRedirectForPlayer(redirectAttributes);
             }
-
         }
         return "redirect:/players";
     }

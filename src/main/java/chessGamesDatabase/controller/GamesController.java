@@ -24,8 +24,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static chessGamesDatabase.utils.Pagination.ROWS_ON_NORMAL_PAGE;
+import static chessGamesDatabase.utils.Pagination.getPageRequest;
 import static chessGamesDatabase.utils.Utils.addErrorMessageAndRedirect;
-import static chessGamesDatabase.utils.Utils.getPageRequest;
 
 @Controller
 @RequestMapping("/games")
@@ -44,6 +45,8 @@ public class GamesController {
 
     @GetMapping("")
     public String games(@RequestParam(defaultValue = "1") int currentPage,
+                        @RequestParam(defaultValue = "opening", required = false) String sortField,
+                        @RequestParam(defaultValue = "asc", required = false) String sortDirection,
                         @RequestParam(required = false) String openingIdFilter,
                         @RequestParam(required = false) String player1FirstNameFilter,
                         @RequestParam(required = false) String player1LastNameFilter,
@@ -59,10 +62,13 @@ public class GamesController {
                 openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
                 player2FirstNameFilter, player2LastNameFilter, resultFilter,
                 movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter,
-                dateToFilter, getPageRequest(currentPage, 30));
+                dateToFilter, getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE,
+                        sortField, sortDirection));
 
 
         model.addAttribute("gamesOnCurrentPage", gamesOnCurrentPage);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("openingIdFilter", openingIdFilter);
         model.addAttribute("player1FirstNameFilter", player1FirstNameFilter);
         model.addAttribute("player1LastNameFilter", player1LastNameFilter);

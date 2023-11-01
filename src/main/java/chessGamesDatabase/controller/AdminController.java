@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static chessGamesDatabase.utils.Utils.getPageRequest;
+import static chessGamesDatabase.utils.Pagination.ROWS_ON_NORMAL_PAGE;
+import static chessGamesDatabase.utils.Pagination.getPageRequest;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -48,7 +50,7 @@ public class AdminController {
         Page<User> usersOnCurrentPage = userService.findUsersWithoutRoleWithFiltersPageable(
                 "ROLE_ADMINISTRATOR", usernameFilter, emailFilter, enabledFilter,
                 createdDateFromFilter, createdDateToFilter, lastTimeLoginDateFromFilter,
-                lastTimeLoginDateToFilter, getPageRequest(currentPage, 30));
+                lastTimeLoginDateToFilter, getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE));
 
         model.addAttribute("usersOnCurrentPage", usersOnCurrentPage);
         model.addAttribute("usernameFilter", usernameFilter);

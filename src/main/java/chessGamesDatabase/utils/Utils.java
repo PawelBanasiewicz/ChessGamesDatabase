@@ -1,27 +1,9 @@
 package chessGamesDatabase.utils;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 public class Utils {
     private Utils() {
-    }
-
-    public static PageRequest getPageRequest(int page, int size) {
-        return PageRequest.of(page - 1, size);
-    }
-
-    public static <T> Page<T> paginate(List<T> list, int page, int pageSize) {
-        int start = (page - 1) * pageSize;
-        int end = Math.min(start + pageSize, list.size());
-
-        List<T> subList = list.subList(start, end);
-
-        return new PageImpl<>(subList, PageRequest.of(page - 1, pageSize), list.size());
     }
 
     public static String addErrorMessageAndRedirect(RedirectAttributes redirectAttributes, String savingObjectName) {

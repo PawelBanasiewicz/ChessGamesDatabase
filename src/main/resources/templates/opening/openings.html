@@ -10,6 +10,29 @@
     <div th:replace="fragment/header :: header"></div>
     <h2>Openings</h2>
     <form th:action="@{/openings}" method="get">
+      <label for="sortField">Sort by:</label>
+      <select name="sortField" id="sortField">
+        <option th:value="code" th:selected="${sortField == 'code'}">
+          Code
+        </option>
+        <option th:value="name" th:selected="${sortField == 'name'}">
+          Name
+        </option>
+      </select>
+
+      <label for="sortDirection">Sort direction:</label>
+      <select name="sortDirection" id="sortDirection">
+        <option th:value="asc" th:selected="${sortDirection == 'asc'}">
+          Ascending
+        </option>
+        <option th:value="desc" th:selected="${sortDirection == 'desc'}">
+          Descending
+        </option>
+      </select>
+
+      <br />
+      <br />
+
       <label for="codeFilter">Code:</label>
       <input
         type="text"
@@ -61,6 +84,8 @@
         <li th:if="${openingsOnCurrentPage.number > 0}">
           <a
             th:href="@{/openings(currentPage=1,
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
@@ -69,6 +94,8 @@
           >
           <a
             th:href="@{/openings(currentPage=${openingsOnCurrentPage.number},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
@@ -83,6 +110,8 @@
         >
           <a
             th:href="@{/openings(currentPage=${i + 1},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
@@ -97,6 +126,8 @@
         >
           <a
             th:href="@{/openings(currentPage=${openingsOnCurrentPage.number + 2},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"
@@ -105,6 +136,8 @@
           >
           <a
             th:href="@{/openings(currentPage=${openingsOnCurrentPage.totalPages},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             codeFilter=${codeFilter},
             nameFilter=${nameFilter},
             pgnMovesFilter=${pgnMovesFilter})}"

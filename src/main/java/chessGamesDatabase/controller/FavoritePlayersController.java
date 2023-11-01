@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.util.List;
 
+import static chessGamesDatabase.utils.Pagination.paginate;
 import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
-import static chessGamesDatabase.utils.Utils.paginate;
 
 @Controller
 @RequestMapping("/favorite-players")
