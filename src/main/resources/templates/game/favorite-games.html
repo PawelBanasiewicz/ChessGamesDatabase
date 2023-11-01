@@ -11,6 +11,35 @@
     <h2>Favorite Games</h2>
 
     <form th:acion="@{/favorite-games}" method="get">
+      <label for="sortField">Sort by:</label>
+      <select name="sortField" id="sortField">
+        <option th:value="opening" th:selected="${sortField == 'opening'}">
+          Opening
+        </option>
+        <option th:value="date" th:selected="${sortField == 'date'}">
+          Date
+        </option>
+        <option
+          th:value="movesNumber"
+          th:selected="${sortField == 'movesNumber'}"
+        >
+          Moves number
+        </option>
+      </select>
+
+      <label for="sortDirection">Sort direction:</label>
+      <select name="sortDirection" id="sortDirection">
+        <option th:value="asc" th:selected="${sortDirection == 'asc'}">
+          Ascending
+        </option>
+        <option th:value="desc" th:selected="${sortDirection == 'desc'}">
+          Descending
+        </option>
+      </select>
+
+      <br />
+      <br />
+
       <label for="openingIdFilter">Opening code:</label>
       <input
         type="text"
@@ -54,9 +83,15 @@
       <label for="resultFilter">Result: </label>
       <select id="resultFilter" name="resultFilter" th:value="${resultFilter}">
         <option value="" th:selected="${resultFilter == null}">Any</option>
-        <option value="1-0" th:selected="${resultFilter == '1-0'}">White wins</option>
-        <option value="0-1" th:selected="${resultFilter == '0-1'}">Black wins</option>
-        <option value="1/2-1/2" th:selected="${resultFilter == '1/2-1/2'}">Draw</option>
+        <option value="1-0" th:selected="${resultFilter == '1-0'}">
+          White wins
+        </option>
+        <option value="0-1" th:selected="${resultFilter == '0-1'}">
+          Black wins
+        </option>
+        <option value="1/2-1/2" th:selected="${resultFilter == '1/2-1/2'}">
+          Draw
+        </option>
       </select>
 
       <label for="movesNumberMinFilter">Moves number min: </label>
@@ -160,23 +195,27 @@
       <ul class="pagination">
         <li th:if="${actualPage.number > 0}">
           <a
-            th:href="@{/favorite-games(page=1,
-             openingIdFilter=${openingIdFilter},
-             player1FistNameFilter=${player1FistNameFilter},
-             player1LastNameFilter=${player1LastNameFilter},
-             player2FirstNameFilter=${player2FirstNameFilter},
-             player2LastNameFilter=${player2LastNameFilter},
-             resultFilter=${resultFilter},
-             movesNumberMinFilter=${movesNumberMinFilter},
-             movesNumberMaxFilter=${movesNumberMaxFilter},
-             dateFromFilter=${dateFromFilter},
-             dateToFilter=${dateToFiler})}"
+            th:href="@{/favorite-games(currentPage=1,
+            sortField=${sortField},
+            sortDirection=${sortDirection},
+            openingIdFilter=${openingIdFilter},
+            player1FistNameFilter=${player1FistNameFilter},
+            player1LastNameFilter=${player1LastNameFilter},
+            player2FirstNameFilter=${player2FirstNameFilter},
+            player2LastNameFilter=${player2LastNameFilter},
+            resultFilter=${resultFilter},
+            movesNumberMinFilter=${movesNumberMinFilter},
+            movesNumberMaxFilter=${movesNumberMaxFilter},
+            dateFromFilter=${dateFromFilter},
+            dateToFilter=${dateToFiler})}"
             class="page-link"
             >First</a
           >
 
           <a
-            th:href="@{/favorite-games(page=${actualPage.number},
+            th:href="@{/favorite-games(currentPage=${actualPage.number},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
             player1FirstNameFilter=${player1FirstNameFilter},
             player1LastNameFilter=${player1LastNameFilter},
@@ -197,7 +236,9 @@
           th:if="${i >= 0 and i < actualPage.totalPages}"
         >
           <a
-            th:href="@{/favorite-games(page=${i + 1},
+            th:href="@{/favorite-games(currentPage=${i + 1},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
             player1FirstNameFilter=${player1FirstNameFilter},
             player1LastNameFilter=${player1LastNameFilter},
@@ -217,7 +258,9 @@
 
         <li th:if="${actualPage.number < actualPage.totalPages - 1}">
           <a
-            th:href="@{/favorite-games(page=${actualPage.number + 2},
+            th:href="@{/favorite-games(currentPage=${actualPage.number + 2},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
             player1FirstNameFilter=${player1FirstNameFilter},
             player1LastNameFilter=${player1LastNameFilter},
@@ -232,7 +275,9 @@
             >Next</a
           >
           <a
-            th:href="@{/favorite-games(page=${actualPage.totalPages},
+            th:href="@{/favorite-games(currentPage=${actualPage.totalPages},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
             player1FirstNameFilter=${player1FirstNameFilter},
             player1LastNameFilter=${player1LastNameFilter},

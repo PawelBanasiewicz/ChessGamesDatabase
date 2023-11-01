@@ -10,6 +10,33 @@
     <div th:replace="fragment/header :: header"></div>
     <h2>Favorite Players</h2>
     <form th:action="@{/favorite-players}" method="get">
+      <label for="sortField">Sort by:</label>
+      <select name="sortField" id="sortField">
+        <option th:value="firstName" th:selected="${sortField == 'firstName'}">
+          First name
+        </option>
+        <option th:value="lastName" th:selected="${sortField == 'lastName'}">
+          Last name
+        </option>
+        <option th:value="birthDate" th:selected="${sortField == 'birthDate'}">
+          BirthDate
+        </option>
+        <option th:value="elo" th:selected="${sortField == 'elo'}">Elo</option>
+      </select>
+
+      <label for="sortDirection">Sort direction:</label>
+      <select name="sortDirection" id="sortDirection">
+        <option th:value="asc" th:selected="${sortDirection == 'asc'}">
+          Ascending
+        </option>
+        <option th:value="desc" th:selected="${sortDirection == 'desc'}">
+          Descending
+        </option>
+      </select>
+
+      <br />
+      <br />
+
       <label for="firstNameFilter">First name: </label>
       <input
         type="text"
@@ -83,7 +110,7 @@
       </thead>
 
       <tbody>
-        <tr th:each="player : ${actualPage.content}">
+        <tr th:each="player : ${favoritePlayersOnCurrentPage.content}">
           <td th:text="${player.firstName}"></td>
           <td th:text="${player.LastName}"></td>
           <td th:text="${player.birthDate}"></td>
@@ -108,9 +135,11 @@
 
     <div>
       <ul class="pagination">
-        <li th:if="${actualPage.number > 0}">
+        <li th:if="${favoritePlayersOnCurrentPage.number > 0}">
           <a
-            th:href="@{/favorite-players(page=1,
+            th:href="@{/favorite-players(currentPage=1,
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -123,7 +152,9 @@
           >
 
           <a
-            th:href="@{/favorite-players(page=${actualPage.number},
+            th:href="@{/favorite-players(currentPage=${favoritePlayersOnCurrentPage.number},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -137,11 +168,13 @@
         </li>
 
         <li
-          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
-          th:if="${i >= 0 and i < actualPage.totalPages}"
+          th:each="i : ${#numbers.sequence(favoritePlayersOnCurrentPage.number - 5, favoritePlayersOnCurrentPage.number +4)}"
+          th:if="${i >= 0 and i < favoritePlayersOnCurrentPage.totalPages}"
         >
           <a
-            th:href="@{/favorite-players(page=${i + 1},
+            th:href="@{/favorite-players(currentPage=${i + 1},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -150,14 +183,18 @@
             eloMinFilter=${eloMinFilter},
             eloMaxFilter=${eloMaxFilter})}"
             th:text="${i + 1}"
-            th:classappend="${i == actualPage.number ? 'current-page' : ''}"
+            th:classappend="${i == favoritePlayersOnCurrentPage.number ? 'current-page' : ''}"
             class="page-link"
           ></a>
         </li>
 
-        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+        <li
+          th:if="${favoritePlayersOnCurrentPage.number < favoritePlayersOnCurrentPage.totalPages - 1}"
+        >
           <a
-            th:href="@{/favorite-players(page=${actualPage.number +2},
+            th:href="@{/favorite-players(currentPage=${favoritePlayersOnCurrentPage.number +2},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},
@@ -169,7 +206,9 @@
             >Next</a
           >
           <a
-            th:href="@{/favorite-players(page=${actualPage.totalPages},
+            th:href="@{/favorite-players(currentPage=${favoritePlayersOnCurrentPage.totalPages},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
             lastNameFilter=${lastNameFilter},
             birthDateFromFilter=${birthDateFromFilter},

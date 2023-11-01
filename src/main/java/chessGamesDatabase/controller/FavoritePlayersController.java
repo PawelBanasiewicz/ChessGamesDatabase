@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import static chessGamesDatabase.utils.Pagination.paginate;
-import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
+import static chessGamesDatabase.utils.Pagination.ROWS_ON_NORMAL_PAGE;
+import static chessGamesDatabase.utils.Pagination.getPageRequest;
 
 @Controller
 @RequestMapping("/favorite-players")
@@ -34,7 +33,9 @@ public class FavoritePlayersController {
     }
 
     @GetMapping("")
-    public String displayFavoritePlayers(@RequestParam(defaultValue = "1") int page,
+    public String displayFavoritePlayers(@RequestParam(defaultValue = "1") int currentPage,
+                                         @RequestParam(defaultValue = "firstName", required = false) String sortField,
+                                         @RequestParam(defaultValue = "asc", required = false) String sortDirection,
                                          @RequestParam(required = false) String firstNameFilter,
                                          @RequestParam(required = false) String lastNameFilter,
                                          @RequestParam(required = false) LocalDate birthDateFromFilter,
@@ -47,21 +48,14 @@ public class FavoritePlayersController {
 
         User user = userService.findUserByUsername(authentication.getName());
 
-        List<Player> favoritePlayers = user.getFavoritePlayers().stream()
-                .filter(player ->
-                        ((firstNameFilter == null || firstNameFilter.isEmpty()) || containsIgnoreCase(player.getFirstName(), firstNameFilter)) &&
-                                ((lastNameFilter == null || lastNameFilter.isEmpty()) || containsIgnoreCase(player.getLastName(), lastNameFilter)) &&
-                                (birthDateFromFilter == null || !player.getBirthDate().isBefore(birthDateFromFilter)) &&
-                                (birthDateToFilter == null || !player.getBirthDate().isAfter(birthDateToFilter)) &&
-                                (sexFilter == null || player.getSex() == sexFilter) &&
-                                (eloMinFilter == null || player.getElo() > eloMinFilter) &&
-                                (eloMaxFilter == null || player.getElo() < eloMaxFilter)
-                )
-                .toList();
+        Page<Player> favoritePlayersOnCurrentPage = playerService.findAllUsersFavoritePlayersWithFiltersPageable
+                (user.getUserId(), firstNameFilter, lastNameFilter, birthDateFromFilter, birthDateToFilter,
+                        sexFilter, eloMinFilter, eloMaxFilter,
+                        getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE, sortField, sortDirection));
 
-        Page<Player> actualPage = paginate(favoritePlayers, page, 30);
-
-        model.addAttribute("actualPage", actualPage);
+        model.addAttribute("favoritePlayersOnCurrentPage", favoritePlayersOnCurrentPage);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("firstNameFilter", firstNameFilter);
         model.addAttribute("lastNameFilter", lastNameFilter);
         model.addAttribute("birthDateFromFilter", birthDateFromFilter);

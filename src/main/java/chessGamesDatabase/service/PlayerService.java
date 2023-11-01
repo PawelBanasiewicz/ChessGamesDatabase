@@ -7,8 +7,10 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 
 public interface PlayerService {
-    Page<Player> findAllPlayersWithFiltersPageable(String firstName, String lastName, LocalDate birthDateFrom, LocalDate birthDateTo,
-                                                   Character sex, Integer eloMin, Integer eloMax, Pageable pageable);
+    Page<Player> findAllPlayersWithFiltersPageable(String firstName, String lastName, LocalDate birthDateFrom,
+                                                   LocalDate birthDateTo, Character sex, Integer eloMin,
+                                                   Integer eloMax, Pageable pageable);
+
     Player findPlayerById(Long playerId);
 
     Player findPlayerByFirstNameAndLastName(String firstName, String lastName);
@@ -16,4 +18,10 @@ public interface PlayerService {
     void savePlayer(Player player);
 
     void deletePlayerById(Long playerId);
+
+    Page<Player> findAllUsersFavoritePlayersWithFiltersPageable(Long userId, String firstNameFilter,
+                                                                String lastNameFilter, LocalDate birthDateFromFilter,
+                                                                LocalDate birthDateToFilter, Character sexFilter,
+                                                                Integer eloMinFilter, Integer eloMaxFilter,
+                                                                Pageable pageable);
 }

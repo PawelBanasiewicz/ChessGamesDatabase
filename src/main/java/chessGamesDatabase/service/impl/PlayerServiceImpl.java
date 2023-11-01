@@ -49,4 +49,13 @@ public class PlayerServiceImpl implements PlayerService {
     public void deletePlayerById(Long playerId) {
         playerRepository.deleteById(playerId);
     }
+
+    @Override
+    public Page<Player> findAllUsersFavoritePlayersWithFiltersPageable(Long userId, String firstNameFilter, String lastNameFilter,
+                                                                       LocalDate birthDateFromFilter, LocalDate birthDateToFilter,
+                                                                       Character sexFilter, Integer eloMinFilter,
+                                                                       Integer eloMaxFilter, Pageable pageable) {
+        return playerRepository.findAllUsersFavoritePlayersWithFiltersPageable(userId, firstNameFilter, lastNameFilter,
+                birthDateFromFilter, birthDateToFilter, sexFilter, eloMinFilter, eloMaxFilter, pageable);
+    }
 }

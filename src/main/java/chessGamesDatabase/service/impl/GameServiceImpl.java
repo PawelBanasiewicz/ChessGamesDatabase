@@ -61,5 +61,12 @@ public class GameServiceImpl implements GameService {
     public void deleteGameById(Long gameId) {
         gameRepository.deleteById(gameId);
     }
+
+    @Override
+    public Page<Game> findAllUsersFavoriteGamesWithFiltersPageable(Long userId, String openingCodeFilter, String player1FirstNameFilter, String player1LastNameFilter, String player2FirstNameFilter, String player2LastNameFilter, String resultFilter, Integer movesNumberMinFilter, Integer movesNumberMaxFilter, LocalDate dateFromFilter, LocalDate dateToFilter, Pageable pageable) {
+        return gameRepository.findAllUsersFavoriteGamesWithFiltersPageable(userId, openingCodeFilter,
+                player1FirstNameFilter, player1LastNameFilter, player2FirstNameFilter, player2LastNameFilter,
+                resultFilter, movesNumberMinFilter, movesNumberMaxFilter, dateFromFilter, dateToFilter, pageable);
+    }
 }
 

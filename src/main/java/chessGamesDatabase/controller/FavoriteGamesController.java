@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static chessGamesDatabase.utils.Pagination.ROWS_ON_NORMAL_PAGE;
-import static chessGamesDatabase.utils.Pagination.paginate;
-import static chessGamesDatabase.utils.Utils.containsIgnoreCase;
+import static chessGamesDatabase.utils.Pagination.getPageRequest;
 
 @Controller
 @RequestMapping("/favorite-games")
@@ -35,7 +33,9 @@ public class FavoriteGamesController {
     }
 
     @GetMapping("")
-    public String displayFavoriteGames(@RequestParam(defaultValue = "1") int page,
+    public String displayFavoriteGames(@RequestParam(defaultValue = "1") int currentPage,
+                                       @RequestParam(defaultValue = "opening", required = false) String sortField,
+                                       @RequestParam(defaultValue = "asc", required = false) String sortDirection,
                                        @RequestParam(required = false) String openingIdFilter,
                                        @RequestParam(required = false) String player1FirstNameFilter,
                                        @RequestParam(required = false) String player1LastNameFilter,
@@ -49,24 +49,16 @@ public class FavoriteGamesController {
                                        Authentication authentication,
                                        Model model) {
         User user = userService.findUserByUsername(authentication.getName());
-        List<Game> favoriteGames = user.getFavoriteGames().stream()
-                .filter(game ->
-                        ((openingIdFilter == null || openingIdFilter.isEmpty()) || game.getOpening().getCode().equalsIgnoreCase(openingIdFilter)) &&
-                                ((player1FirstNameFilter == null || player1FirstNameFilter.isEmpty()) || containsIgnoreCase(game.getPlayer1().getFirstName(), player1FirstNameFilter)) &&
-                                ((player1LastNameFilter == null || player1LastNameFilter.isEmpty()) || containsIgnoreCase(game.getPlayer1().getLastName(), player1LastNameFilter)) &&
-                                ((player2FirstNameFilter == null || player2FirstNameFilter.isEmpty()) || containsIgnoreCase(game.getPlayer2().getFirstName(), player2FirstNameFilter)) &&
-                                ((player2LastNameFilter == null || player2LastNameFilter.isEmpty()) || containsIgnoreCase(game.getPlayer2().getLastName(), player2LastNameFilter)) &&
-                                ((resultFilter == null || resultFilter.isEmpty()) || game.getResult().equalsIgnoreCase(resultFilter)) &&
-                                (movesNumberMinFilter == null || game.getMovesNumber() > movesNumberMinFilter) &&
-                                (movesNumberMaxFilter == null || game.getMovesNumber() < movesNumberMaxFilter) &&
-                                (dateFromFilter == null || !game.getDate().isBefore(dateFromFilter)) &&
-                                (dateToFilter == null || !game.getDate().isAfter(dateToFilter))
-                )
-                .toList();
 
-        Page<Game> actualPage = paginate(favoriteGames, page, ROWS_ON_NORMAL_PAGE);
+        Page<Game> favoriteGamessOnCurrentPage = gameService.findAllUsersFavoriteGamesWithFiltersPageable(
+                user.getUserId(), openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
+                player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter,
+                movesNumberMaxFilter, dateFromFilter, dateToFilter,
+                getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE, sortField, sortDirection));
 
-        model.addAttribute("actualPage", actualPage);
+        model.addAttribute("actualPage", favoriteGamessOnCurrentPage);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("openingIdFilter", openingIdFilter);
         model.addAttribute("player1FirstNameFilter", player1FirstNameFilter);
         model.addAttribute("player1LastNameFilter", player1LastNameFilter);

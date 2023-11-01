@@ -17,7 +17,8 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
             "AND (:birthDateToFilter IS NULL OR p.birthDate <= :birthDateToFilter) " +
             "AND (:sexFilter IS NULL OR p.sex = :sexFilter) " +
             "AND (:eloMinFilter IS NULL OR p.elo >= :eloMinFilter) " +
-            "AND (:eloMaxFilter IS NULL OR p.elo <= :eloMaxFilter)")
+            "AND (:eloMaxFilter IS NULL OR p.elo <= :eloMaxFilter)"
+    )
     Page<Player> findAllPlayersWithFiltersPageable(
             @Param("firstNameFilter") String firstNameFilter,
             @Param("lastNameFilter") String lastNameFilter,
@@ -31,4 +32,27 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Query("SELECT p FROM Player p WHERE p.firstName = :firstName AND p.lastName = :lastName")
     Player findPlayerByFirstNameAndLastName(@Param("firstName") String firstName,
                                             @Param("lastName") String lastName);
+
+    @Query("SELECT p FROM Player p " +
+            "JOIN p.followers u " +
+            "WHERE u.userId = :userId " +
+            "AND (:firstNameFilter IS NULL OR p.firstName LIKE %:firstNameFilter%) " +
+            "AND (:lastNameFilter IS NULL OR p.lastName LIKE %:lastNameFilter%) " +
+            "AND (:birthDateFromFilter IS NULL OR p.birthDate >= :birthDateFromFilter) " +
+            "AND (:birthDateToFilter IS NULL OR p.birthDate <= :birthDateToFilter) " +
+            "AND (:sexFilter IS NULL OR p.sex = :sexFilter) " +
+            "AND (:eloMinFilter IS NULL OR p.elo >= :eloMinFilter) " +
+            "AND (:eloMaxFilter IS NULL OR p.elo <= :eloMaxFilter)"
+    )
+    Page<Player> findAllUsersFavoritePlayersWithFiltersPageable(
+            @Param("userId") Long userId,
+            @Param("firstNameFilter") String firstNameFilter,
+            @Param("lastNameFilter") String lastNameFilter,
+            @Param("birthDateFromFilter") LocalDate birthDateFromFilter,
+            @Param("birthDateToFilter") LocalDate birthDateToFilter,
+            @Param("sexFilter") Character sexFilter,
+            @Param("eloMinFilter") Integer eloMinFilter,
+            @Param("eloMaxFilter") Integer eloMaxFilter,
+            Pageable pageable
+    );
 }
