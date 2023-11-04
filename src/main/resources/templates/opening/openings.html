@@ -132,7 +132,7 @@
           th:if="${openingsOnCurrentPage.number < openingsOnCurrentPage.totalPages - 1}"
         >
           <a
-            th:href="@{/openings(currentPage=${openingsOnCurrentPage.number + 2},
+            th:href="@{/openings(currentPage=${openingsOnCurrentPage.nextPageable().pageNumber + 1},
             sortField=${sortField},
             sortDirection=${sortDirection},
             codeFilter=${codeFilter},

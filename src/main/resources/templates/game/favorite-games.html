@@ -260,7 +260,7 @@
           th:if="${favoriteGamesOnCurrentPage.number < favoriteGamesOnCurrentPage.totalPages - 1}"
         >
           <a
-            th:href="@{/favorite-games(currentPage=${favoriteGamesOnCurrentPage.number + 2},
+            th:href="@{/favorite-games(currentPage=${favoriteGamesOnCurrentPage.nextPageable().pageNumber + 1},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},

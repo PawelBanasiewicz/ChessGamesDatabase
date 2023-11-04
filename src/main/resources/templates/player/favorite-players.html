@@ -192,7 +192,7 @@
           th:if="${favoritePlayersOnCurrentPage.number < favoritePlayersOnCurrentPage.totalPages - 1}"
         >
           <a
-            th:href="@{/favorite-players(currentPage=${favoritePlayersOnCurrentPage.number + 2},
+            th:href="@{/favorite-players(currentPage=${favoritePlayersOnCurrentPage.nextPageable().pageNumber + 1},
             sortField=${sortField},
             sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},

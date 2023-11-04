@@ -283,7 +283,7 @@
           th:if="${gamesOnCurrentPage.number < gamesOnCurrentPage.totalPages - 1}"
         >
           <a
-            th:href="@{/games(currentPage=${gamesOnCurrentPage.number + 2},
+            th:href="@{/games(currentPage=${gamesOnCurrentPage.nextPageable().pageNumber + 1},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},

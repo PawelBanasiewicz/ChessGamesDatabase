@@ -154,7 +154,7 @@
           th:if="${usersOnCurrentPage.number < usersOnCurrentPage.totalPages - 1}"
         >
           <a
-            th:href="@{/admin(page=${usersOnCurrentPage.number + 2},
+            th:href="@{/admin(page=${usersOnCurrentPage.nextPageable().pageNumber + 1},
             usernameFilter=${usernameFilter},
             emailFilter=${emailFilter},
             activityFilter=${activityFilter},

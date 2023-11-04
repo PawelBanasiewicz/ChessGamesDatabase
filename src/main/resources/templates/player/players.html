@@ -232,7 +232,7 @@
           th:if="${playersOnCurrentPage.number < playersOnCurrentPage.totalPages - 1}"
         >
           <a
-            th:href="@{/players(currentPage=${playersOnCurrentPage.number + 2},
+            th:href="@{/players(currentPage=${playersOnCurrentPage.nextPageable().pageNumber + 1},
             sortField=${sortField},
             sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
