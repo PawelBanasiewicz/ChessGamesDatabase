@@ -9,4 +9,6 @@ public interface OpeningService {
     Page<Opening> findAllOpeningsWithFiltersPageable(String codeFilter, String nameFilter,
                                                      String pgnMovesFilter, Pageable pageable);
     Opening findOpeningByPgn(String pgn);
+
+    Opening findOpeningById(Long openingId);
 }

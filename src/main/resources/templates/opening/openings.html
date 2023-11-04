@@ -68,6 +68,7 @@
           <th>Code</th>
           <th>Name</th>
           <th>Pgn</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -75,6 +76,12 @@
           <td th:text="${opening.code}"></td>
           <td th:text="${opening.name}"></td>
           <td th:text="${opening.pgnMoves}"></td>
+          <td>
+            <a
+              th:href="@{/openings/{openingId}(openingId=${opening.openingId})}"
+              >View</a
+            >
+          </td>
         </tr>
       </tbody>
     </table>

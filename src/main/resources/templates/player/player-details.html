@@ -226,7 +226,8 @@
       <ul class="pagination">
         <li th:if="${gamesOnCurrentPage.number > 0}">
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, currentPage=1,
+            th:href="@{/players/{playerId}(playerId=${player.playerId},
+            currentPage=1,
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
@@ -244,7 +245,8 @@
           >
 
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, currentPage=${gamesOnCurrentPage.number},
+            th:href="@{/players/{playerId}(playerId=${player.playerId},
+            currentPage=${gamesOnCurrentPage.number},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
@@ -267,7 +269,8 @@
           th:if="${i >= 0 and i < gamesOnCurrentPage.totalPages}"
         >
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, currentPage=${i + 1},
+            th:href="@{/players/{playerId}(playerId=${player.playerId},
+            currentPage=${i + 1},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
@@ -290,7 +293,8 @@
           th:if="${gamesOnCurrentPage.number < gamesOnCurrentPage.totalPages - 1}"
         >
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, currentPage=${gamesOnCurrentPage.nextPageable().pageNumber + 1},
+            th:href="@{/players/{playerId}(playerId=${player.playerId},
+            currentPage=${gamesOnCurrentPage.nextPageable().pageNumber + 1},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
@@ -308,7 +312,8 @@
           >
 
           <a
-            th:href="@{/players/{playerId}(playerId=${player.playerId}, currentPage=${gamesOnCurrentPage.totalPages},
+            th:href="@{/players/{playerId}(playerId=${player.playerId},
+            currentPage=${gamesOnCurrentPage.totalPages},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},

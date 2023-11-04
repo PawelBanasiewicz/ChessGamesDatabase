@@ -14,8 +14,8 @@ public class Pagination {
         return PageRequest.of(page - 1, size);
     }
 
-    public static PageRequest getPageRequest(int page, int size, String sortField, String sortDestination) {
-        return PageRequest.of(page - 1, size, createSort(sortField, sortDestination));
+    public static PageRequest getPageRequest(int page, int size, String sortField, String sortDirection) {
+        return PageRequest.of(page - 1, size, createSort(sortField, sortDirection));
     }
 
     private static Sort createSort(String sortField, String sortDirection) {

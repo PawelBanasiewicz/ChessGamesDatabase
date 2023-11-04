@@ -24,4 +24,7 @@ public interface OpeningRepository extends JpaRepository<Opening, Long> {
             "ORDER BY LENGTH(o.pgnMoves) DESC " +
             "LIMIT 1")
     Opening findOpeningByPgn(@Param("pgnMoves") String pgnMovesFilter);
+
+    @Query("SELECT o FROM Opening o WHERE o.openingId = :openingId")
+    Opening findOpeningById(Long openingId);
 }

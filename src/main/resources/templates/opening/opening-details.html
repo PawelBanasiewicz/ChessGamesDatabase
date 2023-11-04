@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>[[${pageTitle}]] - Chess Database</title>
+    <link rel="stylesheet" th:href="@{/css/pagination.css}" />
+    <link rel="stylesheet" th:href="@{/css/table.css}" />
+  </head>
+  <body>
+    <div th:replace="fragment/header :: header"></div>
+    <div>
+      <p>Code: <span th:text="${opening.code}"></span></p>
+      <p>Name: <span th:text="${opening.name}"></span></p>
+      <p>Pgn: <span th:text="${opening.pgnMoves}"></span></p>
+
+      <br />
+      <br />
+
+      <form
+        th:action="@{/openings/{openingId}(openingId=${opening.openingId})}"
+        method="get"
+      >
+        <label for="sortField">Sort by:</label>
+        <select name="sortField" id="sortField">
+          <option th:value="date" th:selected="${sortField == 'date'}">
+            Date
+          </option>
+          <option
+            th:value="movesNumber"
+            th:selected="${sortField == 'movesNumber'}"
+          >
+            Moves number
+          </option>
+        </select>
+
+        <label for="sortDirection">Sort direction:</label>
+        <select name="sortDirection" id="sortDirection">
+          <option th:value="asc" th:selected="${sortDirection == 'asc'}">
+            Ascending
+          </option>
+          <option th:value="desc" th:selected="${sortDirection == 'desc'}">
+            Descending
+          </option>
+        </select>
+
+        <br />
+        <br />
+
+        <label for="player1FirstNameFilter">Player1 first name: </label>
+        <input
+          type="text"
+          id="player1FirstNameFilter"
+          name="player1FirstNameFilter"
+          th:value="${player1FirstNameFilter}"
+        />
+
+        <label for="player1LastNameFilter">Player1 last name: </label>
+        <input
+          type="text"
+          id="player1LastNameFilter"
+          name="player1LastNameFilter"
+          th:value="${player1LastNameFilter}"
+        />
+
+        <label for="player2FirstNameFilter">Player2 first name: </label>
+        <input
+          type="text"
+          id="player2FirstNameFilter"
+          name="player2FirstNameFilter"
+          th:value="${player2FirstNameFilter}"
+        />
+
+        <label for="player2LastNameFilter">Player2 last name: </label>
+        <input
+          type="text"
+          id="player2LastNameFilter"
+          name="player2LastNameFilter"
+          th:value="${player2LastNameFilter}"
+        />
+
+        <label for="resultFilter">Result: </label>
+        <select
+          id="resultFilter"
+          name="resultFilter"
+          th:value="${resultFilter}"
+        >
+          <option value="" th:selected="${resultFilter == null}">Any</option>
+          <option value="1-0" th:selected="${resultFilter == '1-0'}">
+            White wins
+          </option>
+          <option value="0-1" th:selected="${resultFilter == '0-1'}">
+            Black wins
+          </option>
+          <option value="1/2-1/2" th:selected="${resultFilter == '1/2-1/2'}">
+            Draw
+          </option>
+        </select>
+
+        <label for="movesNumberMinFilter">Moves number min: </label>
+        <input
+          type="number"
+          id="movesNumberMinFilter"
+          name="movesNumberMinFilter"
+          th:value="${movesNumberMinFilter}"
+        />
+
+        <label for="movesNumberMaxFilter">Moves number max: </label>
+        <input
+          type="number"
+          id="movesNumberMaxFilter"
+          name="movesNumberMaxFilter"
+          th:value="${movesNumberMaxFilter}"
+        />
+
+        <label for="dateFromFilter">Date from: </label>
+        <input
+          type="date"
+          id="dateFromFilter"
+          name="dateFromFilter"
+          th:value="${dateFromFilter}"
+        />
+
+        <label for="dateToFilter">Date to: </label>
+        <input
+          type="date"
+          id="dateToFilter"
+          name="dateToFilter"
+          th:value="${dateToFilter}"
+        />
+
+        <button type="submit">Search</button>
+      </form>
+
+      <a th:href="@{/openings/{openingId}(openingId=${opening.openingId})}"
+        >Reset Filters</a
+      >
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Player1</th>
+          <th>Player2</th>
+          <th>Result</th>
+          <th>Moves Number</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr th:each="game : ${gamesOnCurrentPage.content}">
+          <td>
+            <a
+              th:if="${game.player1 != null && game.player1.playerId > 0}"
+              th:href="@{/players/{playerId}(playerId=${game.player1.playerId})}"
+              th:text="${game.player1.firstName + ' ' + game.player1.lastName}"
+            ></a>
+            <span
+              th:unless="${game.player1 != null && game.player1.playerId > 0}"
+              >player deleted</span
+            >
+          </td>
+          <td>
+            <a
+              th:if="${game.player2 != null && game.player2.playerId > 0}"
+              th:href="@{/players/{playerId}(playerId=${game.player2.playerId})}"
+              th:text="${game.player2.firstName + ' ' + game.player2.lastName}"
+            ></a>
+            <span
+              th:unless="${game.player2 != null && game.player2.playerId > 0}"
+              >player deleted</span
+            >
+          </td>
+          <td th:text="${game.result}"></td>
+          <td th:text="${game.movesNumber}"></td>
+          <td th:text="${game.date}"></td>
+          <td>
+            <a
+              th:href="@{/games/{gameId}(gameId=${game.gameId})}"
+              class="btn btn-primary"
+              >View</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <ul class="pagination">
+        <li th:if="${gamesOnCurrentPage.number > 0}">
+          <a
+            th:href="@{openings/{openingId}(openingId=${opening.openingId},
+                currentPage=1,
+                sortField=${sortField},
+                sortDirection=${sortDirection},
+                player1FirstNameFilter=${player1FirstNameFilter},
+                player1LastNameFilter=${player1LastNameFilter},
+                player2FirstNameFilter=${player2FirstNameFilter},
+                player2LastNameFilter=${player2LastNameFilter},
+                resultFilter=${resultFilter},
+                movesNumberMinFilter=${movesNumberMinFilter},
+                movesNumberMaxFilter=${movesNumberMaxFilter},
+                dateFromFilter=${dateFromFilter},
+                dateToFilter=${dateToFilter})}"
+            class="page-link"
+            >First</a
+          >
+
+          <a
+            th:href="@{openings/{openingId}(openingId=${opening.openingId},
+                  currentPage=${gamesOnCurrentPage.number},
+                  sortField=${sortField},
+                  sortDirection=${sortDirection},
+                  player1FirstNameFilter=${player1FirstNameFilter},
+                  player1LastNameFilter=${player1LastNameFilter},
+                  player2FirstNameFilter=${player2FirstNameFilter},
+                  player2LastNameFilter=${player2LastNameFilter},
+                  resultFilter=${resultFilter},
+                  movesNumberMinFilter=${movesNumberMinFilter},
+                  movesNumberMaxFilter=${movesNumberMaxFilter},
+                  dateFromFilter=${dateFromFilter},
+                  dateToFilter=${dateToFilter})}"
+            class="page-link"
+            >Previous</a
+          >
+        </li>
+
+        <li
+          th:each="i : ${#numbers.sequence(gamesOnCurrentPage.number - 5, gamesOnCurrentPage.number + 4)}"
+          th:if="${i >= 0 and i < gamesOnCurrentPage.totalPages}"
+        >
+          <a
+            th:href="@{openings/{openingId}(openingId=${opening.openingId},
+                  currentPage=${i + 1},
+                  sortField=${sortField},
+                  sortDirection=${sortDirection},
+                  player1FirstNameFilter=${player1FirstNameFilter},
+                  player1LastNameFilter=${player1LastNameFilter},
+                  player2FirstNameFilter=${player2FirstNameFilter},
+                  player2LastNameFilter=${player2LastNameFilter},
+                  resultFilter=${resultFilter},
+                  movesNumberMinFilter=${movesNumberMinFilter},
+                  movesNumberMaxFilter=${movesNumberMaxFilter},
+                  dateFromFilter=${dateFromFilter},
+                  dateToFilter=${dateToFilter})}"
+            th:text="${i + 1}"
+            th:classappend="${i == gamesOnCurrentPage.number ? 'current-page' : ''}"
+            class="page-link"
+          ></a>
+        </li>
+
+        <li
+          th:if="${gamesOnCurrentPage.number < gamesOnCurrentPage.totalPages - 1}"
+        >
+          <a
+            th:href="@{openings/{openingId}(openingId=${opening.openingId},
+                  currentPage=${i + 1},
+                  sortField=${sortField},
+                  sortDirection=${sortDirection},
+                  player1FirstNameFilter=${player1FirstNameFilter},
+                  player1LastNameFilter=${player1LastNameFilter},
+                  player2FirstNameFilter=${player2FirstNameFilter},
+                  player2LastNameFilter=${player2LastNameFilter},
+                  resultFilter=${resultFilter},
+                  movesNumberMinFilter=${movesNumberMinFilter},
+                  movesNumberMaxFilter=${movesNumberMaxFilter},
+                  dateFromFilter=${dateFromFilter},
+                  dateToFilter=${dateToFilter})}"
+            class="page-link"
+            >Next</a
+          >
+
+          <a
+            th:href="@{openings/{openingId}(openingId=${opening.openingId},
+                currentPage=${gamesOnCurrentPage.totalPages},
+                sortField=${sortField},
+                sortDirection=${sortDirection},
+                player1FirstNameFilter=${player1FirstNameFilter},
+                player1LastNameFilter=${player1LastNameFilter},
+                player2FirstNameFilter=${player2FirstNameFilter},
+                player2LastNameFilter=${player2LastNameFilter},
+                resultFilter=${resultFilter},
+                movesNumberMinFilter=${movesNumberMinFilter},
+                movesNumberMaxFilter=${movesNumberMaxFilter},
+                dateFromFilter=${dateFromFilter},
+                dateToFilter=${dateToFilter})}"
+            class="page-link"
+            >Last</a
+          >
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

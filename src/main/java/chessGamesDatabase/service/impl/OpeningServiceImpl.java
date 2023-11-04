@@ -26,4 +26,9 @@ public class OpeningServiceImpl implements OpeningService {
     public Opening findOpeningByPgn(String pgn) {
         return openingRepository.findOpeningByPgn(pgn);
     }
+
+    @Override
+    public Opening findOpeningById(Long openingId) {
+        return openingRepository.findOpeningById(openingId);
+    }
 }
