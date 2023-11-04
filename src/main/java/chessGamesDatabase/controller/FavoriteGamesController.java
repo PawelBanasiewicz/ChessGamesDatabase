@@ -50,13 +50,13 @@ public class FavoriteGamesController {
                                        Model model) {
         User user = userService.findUserByUsername(authentication.getName());
 
-        Page<Game> favoriteGamessOnCurrentPage = gameService.findAllUsersFavoriteGamesWithFiltersPageable(
+        Page<Game> favoriteGamesOnCurrentPage = gameService.findAllUsersFavoriteGamesWithFiltersPageable(
                 user.getUserId(), openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
                 player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter,
                 movesNumberMaxFilter, dateFromFilter, dateToFilter,
                 getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE, sortField, sortDirection));
 
-        model.addAttribute("actualPage", favoriteGamessOnCurrentPage);
+        model.addAttribute("favoriteGamesOnCurrentPage", favoriteGamesOnCurrentPage);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("openingIdFilter", openingIdFilter);

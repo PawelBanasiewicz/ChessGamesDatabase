@@ -125,7 +125,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="player : ${actualPage.content}">
+        <tr th:each="player : ${playersOnCurrentPage.content}">
           <td th:text="${player.firstName}"></td>
           <td th:text="${player.lastName}"></td>
           <td th:text="${player.birthDate}"></td>
@@ -175,7 +175,7 @@
 
     <div>
       <ul class="pagination">
-        <li th:if="${actualPage.number > 0}">
+        <li th:if="${playersOnCurrentPage.number > 0}">
           <a
             th:href="@{/players(currentPage=1,
             sortField=${sortField},
@@ -192,7 +192,7 @@
           >
 
           <a
-            th:href="@{/players(currentPage=${actualPage.number},
+            th:href="@{/players(currentPage=${playersOnCurrentPage.number},
             sortField=${sortField},
             sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
@@ -208,8 +208,8 @@
         </li>
 
         <li
-          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number +4)}"
-          th:if="${i >= 0 and i < actualPage.totalPages}"
+          th:each="i : ${#numbers.sequence(playersOnCurrentPage.number - 5, playersOnCurrentPage.number +4)}"
+          th:if="${i >= 0 and i < playersOnCurrentPage.totalPages}"
         >
           <a
             th:href="@{/players(currentPage=${i + 1},
@@ -223,14 +223,16 @@
             eloMinFilter=${eloMinFilter},
             eloMaxFilter=${eloMaxFilter})}"
             th:text="${i + 1}"
-            th:classappend="${i == actualPage.number ? 'current-page' : ''}"
+            th:classappend="${i == playersOnCurrentPage.number ? 'current-page' : ''}"
             class="page-link"
           ></a>
         </li>
 
-        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+        <li
+          th:if="${playersOnCurrentPage.number < playersOnCurrentPage.totalPages - 1}"
+        >
           <a
-            th:href="@{/players(currentPage=${actualPage.number +2},
+            th:href="@{/players(currentPage=${playersOnCurrentPage.number + 2},
             sortField=${sortField},
             sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},
@@ -244,7 +246,7 @@
             >Next</a
           >
           <a
-            th:href="@{/players(currentPage=${actualPage.totalPages},
+            th:href="@{/players(currentPage=${playersOnCurrentPage.totalPages},
             sortField=${sortField},
             sortDirection=${sortDirection},
             firstNameFilter=${firstNameFilter},

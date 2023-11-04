@@ -91,7 +91,7 @@ public class OpeningController {
         model.addAttribute("movesNumberMaxFilter", movesNumberMaxFilter);
         model.addAttribute("dateFromFilter", dateFromFilter);
         model.addAttribute("dateToFilter", dateToFilter);
-        model.addAttribute("PageTitle", "Opening Details");
+        model.addAttribute("pageTitle", "Opening Details");
 
         return "opening/opening-details";
     }

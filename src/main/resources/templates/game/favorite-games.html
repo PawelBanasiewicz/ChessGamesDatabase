@@ -145,7 +145,7 @@
       </thead>
 
       <tbody>
-        <tr th:each="game : ${actualPage}">
+        <tr th:each="game : ${favoriteGamesOnCurrentPage}">
           <td th:text="${game.opening.code}"></td>
           <td>
             <a
@@ -193,7 +193,7 @@
 
     <div>
       <ul class="pagination">
-        <li th:if="${actualPage.number > 0}">
+        <li th:if="${favoriteGamesOnCurrentPage.number > 0}">
           <a
             th:href="@{/favorite-games(currentPage=1,
             sortField=${sortField},
@@ -213,7 +213,7 @@
           >
 
           <a
-            th:href="@{/favorite-games(currentPage=${actualPage.number},
+            th:href="@{/favorite-games(currentPage=${favoriteGamesOnCurrentPage.number},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
@@ -232,8 +232,8 @@
         </li>
 
         <li
-          th:each="i : ${#numbers.sequence(actualPage.number - 5, actualPage.number + 4)}"
-          th:if="${i >= 0 and i < actualPage.totalPages}"
+          th:each="i : ${#numbers.sequence(favoriteGamesOnCurrentPage.number - 5, favoriteGamesOnCurrentPage.number + 4)}"
+          th:if="${i >= 0 and i < favoriteGamesOnCurrentPage.totalPages}"
         >
           <a
             th:href="@{/favorite-games(currentPage=${i + 1},
@@ -250,15 +250,17 @@
             dateFromFilter=${dateFromFilter},
             dateToFilter=${dateToFilter})}"
             th:text="${i + 1}"
-            th:classappend="${i == actualPage.number ? 'current-page' : ' '}"
+            th:classappend="${i == favoriteGamesOnCurrentPage.number ? 'current-page' : ' '}"
             class="page-link"
           >
           </a>
         </li>
 
-        <li th:if="${actualPage.number < actualPage.totalPages - 1}">
+        <li
+          th:if="${favoriteGamesOnCurrentPage.number < favoriteGamesOnCurrentPage.totalPages - 1}"
+        >
           <a
-            th:href="@{/favorite-games(currentPage=${actualPage.number + 2},
+            th:href="@{/favorite-games(currentPage=${favoriteGamesOnCurrentPage.number + 2},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},
@@ -275,7 +277,7 @@
             >Next</a
           >
           <a
-            th:href="@{/favorite-games(currentPage=${actualPage.totalPages},
+            th:href="@{/favorite-games(currentPage=${favoriteGamesOnCurrentPage.totalPages},
             sortField=${sortField},
             sortDirection=${sortDirection},
             openingIdFilter=${openingIdFilter},

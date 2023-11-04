@@ -54,7 +54,7 @@ public class PlayersController {
                 sexFilter, eloMinFilter, eloMaxFilter,
                 getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE, sortField, sortDirection));
 
-        model.addAttribute("actualPage", playersOnCurrentPage);
+        model.addAttribute("playersOnCurrentPage", playersOnCurrentPage);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("firstNameFilter", firstNameFilter);
