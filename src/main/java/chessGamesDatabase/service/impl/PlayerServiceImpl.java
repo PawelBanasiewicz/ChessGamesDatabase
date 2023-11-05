@@ -51,11 +51,11 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Page<Player> findAllUsersFavoritePlayersWithFiltersPageable(Long userId, String firstNameFilter, String lastNameFilter,
-                                                                       LocalDate birthDateFromFilter, LocalDate birthDateToFilter,
-                                                                       Character sexFilter, Integer eloMinFilter,
-                                                                       Integer eloMaxFilter, Pageable pageable) {
-        return playerRepository.findAllUsersFavoritePlayersWithFiltersPageable(userId, firstNameFilter, lastNameFilter,
+    public Page<Player> findUsersFavoritePlayersWithFiltersPageable(Long userId, String firstNameFilter, String lastNameFilter,
+                                                                    LocalDate birthDateFromFilter, LocalDate birthDateToFilter,
+                                                                    Character sexFilter, Integer eloMinFilter,
+                                                                    Integer eloMaxFilter, Pageable pageable) {
+        return playerRepository.findUsersFavoritePlayersWithFiltersPageable(userId, firstNameFilter, lastNameFilter,
                 birthDateFromFilter, birthDateToFilter, sexFilter, eloMinFilter, eloMaxFilter, pageable);
     }
 }

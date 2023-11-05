@@ -123,7 +123,8 @@ public class PlayersController {
     }
 
     @PostMapping("/save")
-    public String savePlayer(@ModelAttribute("player") Player player, RedirectAttributes redirectAttributes) {
+    public String savePlayer(@ModelAttribute("player") Player player,
+                             RedirectAttributes redirectAttributes) {
         Player existingPlayer = playerService.findPlayerByFirstNameAndLastName
                 (player.getFirstName(), player.getLastName());
 
@@ -159,7 +160,7 @@ public class PlayersController {
     }
 
     @GetMapping("/delete")
-    public String deletePlayer(@RequestParam Long playerId, Model model) {
+    public String deletePlayer(@RequestParam Long playerId) {
         Player player = playerService.findPlayerById(playerId);
 
         List<Game> allGamesPlayedByPlayer = gameService.findAllGamesPlayedByPlayer(playerId);

@@ -18,7 +18,8 @@ public class OpeningServiceImpl implements OpeningService {
     }
 
     @Override
-    public Page<Opening> findAllOpeningsWithFiltersPageable(String codeFilter, String nameFilter, String pgnMovesFilter, Pageable pageable) {
+    public Page<Opening> findAllOpeningsWithFiltersPageable(String codeFilter, String nameFilter,
+                                                            String pgnMovesFilter, Pageable pageable) {
         return openingRepository.findOpeningsWithFiltersPageable(codeFilter, nameFilter, pgnMovesFilter, pageable);
     }
 
@@ -30,5 +31,13 @@ public class OpeningServiceImpl implements OpeningService {
     @Override
     public Opening findOpeningById(Long openingId) {
         return openingRepository.findOpeningById(openingId);
+    }
+
+    @Override
+    public Page<Opening> findUsersFavoriteOpeningsWithFiltersPageable(Long userId, String codeFilter, String nameFilter,
+                                                                      String pgnMovesFilter, Pageable pageable) {
+        return openingRepository.findUsersFavoriteOpeningsWithFiltersPageable(
+                userId, codeFilter, nameFilter, pgnMovesFilter, pageable
+        );
     }
 }

@@ -33,24 +33,25 @@ public class FavoriteGamesController {
     }
 
     @GetMapping("")
-    public String displayFavoriteGames(@RequestParam(defaultValue = "1") int currentPage,
-                                       @RequestParam(defaultValue = "opening", required = false) String sortField,
-                                       @RequestParam(defaultValue = "asc", required = false) String sortDirection,
-                                       @RequestParam(required = false) String openingIdFilter,
-                                       @RequestParam(required = false) String player1FirstNameFilter,
-                                       @RequestParam(required = false) String player1LastNameFilter,
-                                       @RequestParam(required = false) String player2FirstNameFilter,
-                                       @RequestParam(required = false) String player2LastNameFilter,
-                                       @RequestParam(required = false) String resultFilter,
-                                       @RequestParam(required = false) Integer movesNumberMinFilter,
-                                       @RequestParam(required = false) Integer movesNumberMaxFilter,
-                                       @RequestParam(required = false) LocalDate dateFromFilter,
-                                       @RequestParam(required = false) LocalDate dateToFilter,
-                                       Authentication authentication,
-                                       Model model) {
+    public String displayFavoriteGames(
+            @RequestParam(defaultValue = "1") int currentPage,
+            @RequestParam(defaultValue = "opening", required = false) String sortField,
+            @RequestParam(defaultValue = "asc", required = false) String sortDirection,
+            @RequestParam(required = false) String openingIdFilter,
+            @RequestParam(required = false) String player1FirstNameFilter,
+            @RequestParam(required = false) String player1LastNameFilter,
+            @RequestParam(required = false) String player2FirstNameFilter,
+            @RequestParam(required = false) String player2LastNameFilter,
+            @RequestParam(required = false) String resultFilter,
+            @RequestParam(required = false) Integer movesNumberMinFilter,
+            @RequestParam(required = false) Integer movesNumberMaxFilter,
+            @RequestParam(required = false) LocalDate dateFromFilter,
+            @RequestParam(required = false) LocalDate dateToFilter,
+            Authentication authentication,
+            Model model) {
         User user = userService.findUserByUsername(authentication.getName());
 
-        Page<Game> favoriteGamesOnCurrentPage = gameService.findAllUsersFavoriteGamesWithFiltersPageable(
+        Page<Game> favoriteGamesOnCurrentPage = gameService.findUsersFavoriteGamesWithFiltersPageable(
                 user.getUserId(), openingIdFilter, player1FirstNameFilter, player1LastNameFilter,
                 player2FirstNameFilter, player2LastNameFilter, resultFilter, movesNumberMinFilter,
                 movesNumberMaxFilter, dateFromFilter, dateToFilter,
@@ -69,7 +70,7 @@ public class FavoriteGamesController {
         model.addAttribute("movesNumberMaxFilter", movesNumberMaxFilter);
         model.addAttribute("dateFromFilter", dateFromFilter);
         model.addAttribute("dateToFilter", dateToFilter);
-        model.addAttribute("pageTitle", "favorite games");
+        model.addAttribute("pageTitle", "Favorite games");
 
         return "game/favorite-games";
     }
@@ -96,7 +97,8 @@ public class FavoriteGamesController {
     }
 
     @GetMapping("/delete")
-    public String deleteFavoriteGame(@RequestParam("gameId") Long gameId, Authentication authentication) {
+    public String deleteFavoriteGame(@RequestParam("gameId") Long gameId,
+                                     Authentication authentication) {
         User user = userService.findUserByUsername(authentication.getName());
         Game game = gameService.findGameById(gameId);
 

@@ -11,4 +11,8 @@ public interface OpeningService {
     Opening findOpeningByPgn(String pgn);
 
     Opening findOpeningById(Long openingId);
+
+    Page<Opening> findUsersFavoriteOpeningsWithFiltersPageable(
+            Long userId, String codeFilter, String nameFilter,
+            String pgnMovesFilter, Pageable pageable);
 }

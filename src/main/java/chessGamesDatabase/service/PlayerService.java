@@ -19,9 +19,9 @@ public interface PlayerService {
 
     void deletePlayerById(Long playerId);
 
-    Page<Player> findAllUsersFavoritePlayersWithFiltersPageable(Long userId, String firstNameFilter,
-                                                                String lastNameFilter, LocalDate birthDateFromFilter,
-                                                                LocalDate birthDateToFilter, Character sexFilter,
-                                                                Integer eloMinFilter, Integer eloMaxFilter,
-                                                                Pageable pageable);
+    Page<Player> findUsersFavoritePlayersWithFiltersPageable(Long userId, String firstNameFilter,
+                                                             String lastNameFilter, LocalDate birthDateFromFilter,
+                                                             LocalDate birthDateToFilter, Character sexFilter,
+                                                             Integer eloMinFilter, Integer eloMaxFilter,
+                                                             Pageable pageable);
 }

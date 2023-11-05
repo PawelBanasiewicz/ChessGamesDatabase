@@ -27,4 +27,20 @@ public interface OpeningRepository extends JpaRepository<Opening, Long> {
 
     @Query("SELECT o FROM Opening o WHERE o.openingId = :openingId")
     Opening findOpeningById(Long openingId);
+
+    @Query("SELECT o FROM Opening o " +
+            "JOIN o.followers u " +
+            "WHERE u.userId = :userId " +
+            "AND (:codeFilter IS NULL OR LENGTH(:codeFilter) = 0 OR o.code = :codeFilter) " +
+            "AND (:nameFilter IS NULL OR o.name LIKE %:nameFilter%) " +
+            "AND (:pgnMovesFilter IS NULL OR o.pgnMoves LIKE %:pgnMovesFilter%)"
+    )
+    Page<Opening> findUsersFavoriteOpeningsWithFiltersPageable(
+            @Param("userId") Long userId,
+            @Param("codeFilter") String codeFilter,
+            @Param("nameFilter") String nameFilter,
+            @Param("pgnMovesFilter") String pgnMovesFilter,
+            Pageable pageable
+    );
+
 }

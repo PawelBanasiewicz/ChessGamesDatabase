@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security6"
+>
   <head>
     <meta charset="UTF-8" />
     <title>[[${pageTitle}]] - Chess Database</title>
@@ -81,6 +85,19 @@
               th:href="@{/openings/{openingId}(openingId=${opening.openingId})}"
               >View</a
             >
+            <form
+              sec:authorize="isAuthenticated()"
+              th:action="@{/favorite-openings/add(gameId=${opening.openingId})}"
+              method="POST"
+              class="inline-action"
+            >
+              <input
+                type="hidden"
+                name="openingId"
+                th:value="${opening.openingId}"
+              />
+              <button type="submit" class="link-button">Save</button>
+            </form>
           </td>
         </tr>
       </tbody>

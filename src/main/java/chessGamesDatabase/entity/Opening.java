@@ -5,7 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "openings")
@@ -30,6 +34,9 @@ public class Opening {
 
     @Column(name = "uci_moves")
     private String uciMoves;
+
+    @ManyToMany(mappedBy = "favoriteOpenings")
+    private List<User> followers = new ArrayList<>();
 
     public Opening() {
     }
@@ -80,5 +87,13 @@ public class Opening {
 
     public void setUciMoves(String uciMoves) {
         this.uciMoves = uciMoves;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
     }
 }

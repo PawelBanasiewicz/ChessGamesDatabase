@@ -67,6 +67,14 @@ public class User {
     )
     private List<Player> favoritePlayers = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "favorite_openings",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "opening_id")
+    )
+    private List<Opening> favoriteOpenings = new ArrayList<>();
+
     public User() {
 
     }
@@ -95,6 +103,14 @@ public class User {
 
     public void deleteFavoritePlayer(Player player) {
         favoritePlayers.remove(player);
+    }
+
+    public void addFavoriteOpening(Opening opening) {
+        favoriteOpenings.add(opening);
+    }
+
+    public void deleteFavoriteOpening(Opening opening) {
+        favoriteOpenings.remove(opening);
     }
 
     public long getUserId() {
@@ -175,5 +191,13 @@ public class User {
 
     public void setFavoritePlayers(List<Player> favoritePlayers) {
         this.favoritePlayers = favoritePlayers;
+    }
+
+    public List<Opening> getFavoriteOpenings() {
+        return favoriteOpenings;
+    }
+
+    public void setFavoriteOpenings(List<Opening> favoriteOpenings) {
+        this.favoriteOpenings = favoriteOpenings;
     }
 }

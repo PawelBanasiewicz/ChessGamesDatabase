@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS favorite_games;
 DROP TABLE IF EXISTS favorite_players;
+DROP TABLE IF EXISTS favorite_openings;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS games;
@@ -77,4 +78,12 @@ CREATE TABLE IF NOT EXISTS favorite_players (
     PRIMARY KEY (user_id, player_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (player_id) REFERENCES players(player_id)
+);
+
+CREATE TABLE IF NOT EXISTS favorite_openings (
+	user_id INT,
+    opening_id INT,
+    PRIMARY KEY (user_id, opening_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (opening_id) REFERENCES openings(opening_id)
 );

@@ -63,18 +63,24 @@
 
           <a
             sec:authorize="isAuthenticated()"
-            th:href="@{/favorite-games}"
+            th:href="@{/favorite-openings}"
             class="btn btn-success float-right"
           >
-            Favorite Games
+            Favorite Openings
           </a>
-
           <a
             sec:authorize="isAuthenticated()"
             th:href="@{/favorite-players}"
             class="btn btn-success float-right"
           >
             Favorite Players
+          </a>
+          <a
+            sec:authorize="isAuthenticated()"
+            th:href="@{/favorite-games}"
+            class="btn btn-success float-right"
+          >
+            Favorite Games
           </a>
         </div>
       </div>

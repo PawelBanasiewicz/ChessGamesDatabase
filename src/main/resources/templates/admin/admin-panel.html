@@ -34,8 +34,12 @@
         th:value="${enabledFilter}"
       >
         <option value="" th:selected="${enabledFilter == null}">Any</option>
-        <option value="true" th:selected="${enabledFilter == true}">Active</option>
-        <option value="false" th:selected="${enabledFilter == false}">Inactive</option>
+        <option value="true" th:selected="${enabledFilter == true}">
+          Active
+        </option>
+        <option value="false" th:selected="${enabledFilter == false}">
+          Inactive
+        </option>
       </select>
 
       <label for="createdDateFromFilter">Created date from: </label>

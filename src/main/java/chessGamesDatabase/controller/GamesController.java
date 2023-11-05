@@ -105,7 +105,8 @@ public class GamesController {
     }
 
     @PostMapping("/save")
-    public String saveGame(@ModelAttribute("game") Game game, RedirectAttributes redirectAttributes) {
+    public String saveGame(@ModelAttribute("game") Game game,
+                           RedirectAttributes redirectAttributes) {
         Player player1 = playerService.findPlayerByFirstNameAndLastName(
                 game.getPlayer1().getFirstName(), game.getPlayer1().getLastName());
         Player player2 = playerService.findPlayerByFirstNameAndLastName(

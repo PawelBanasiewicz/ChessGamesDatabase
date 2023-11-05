@@ -37,15 +37,16 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String adminPanel(@RequestParam(defaultValue = "1") int currentPage,
-                             @RequestParam(required = false) String usernameFilter,
-                             @RequestParam(required = false) String emailFilter,
-                             @RequestParam(required = false) Boolean enabledFilter,
-                             @RequestParam(required = false) LocalDateTime createdDateFromFilter,
-                             @RequestParam(required = false) LocalDateTime createdDateToFilter,
-                             @RequestParam(required = false) LocalDateTime lastTimeLoginDateFromFilter,
-                             @RequestParam(required = false) LocalDateTime lastTimeLoginDateToFilter,
-                             Model model) {
+    public String adminPanel(
+            @RequestParam(defaultValue = "1") int currentPage,
+            @RequestParam(required = false) String usernameFilter,
+            @RequestParam(required = false) String emailFilter,
+            @RequestParam(required = false) Boolean enabledFilter,
+            @RequestParam(required = false) LocalDateTime createdDateFromFilter,
+            @RequestParam(required = false) LocalDateTime createdDateToFilter,
+            @RequestParam(required = false) LocalDateTime lastTimeLoginDateFromFilter,
+            @RequestParam(required = false) LocalDateTime lastTimeLoginDateToFilter,
+            Model model) {
 
         Page<User> usersOnCurrentPage = userService.findUsersWithoutRoleWithFiltersPageable(
                 "ROLE_ADMINISTRATOR", usernameFilter, emailFilter, enabledFilter,
@@ -66,7 +67,9 @@ public class AdminController {
     }
 
     @GetMapping("/edit")
-    public String editUser(@RequestParam long userId, Model model) {
+    public String editUser(@RequestParam
+                           Long userId,
+                           Model model) {
         User user = userService.findUserById(userId);
         List<Role> allRoles = roleService.findAllRoles();
 
@@ -97,7 +100,7 @@ public class AdminController {
     }
 
     @GetMapping("/delete")
-    public String deleteUser(@RequestParam long userId) {
+    public String deleteUser(@RequestParam Long userId) {
         userService.deleteUserById(userId);
         return "redirect:/admin";
     }

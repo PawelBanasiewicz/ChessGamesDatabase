@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>[[${pageTitle}]] - Chess Database</title>
+    <link rel="stylesheet" th:href="@{css/table.css}" />
+    <link rel="stylesheet" th:href="@{css/pagination.css}" />
+  </head>
+  <body>
+    <div th:replace="fragment/header :: header"></div>
+    <h2>Favorite Openings</h2>
+    <form th:action="@{/favorite-openings}" method="get">
+      <label for="sortField">Sort by:</label>
+      <select name="sortField" id="sortField">
+        <option th:value="code" th:selected="${sortField == 'code'}">
+          Code
+        </option>
+        <option th:value="name" th:selected="${sortField == 'name'}">
+          Name
+        </option>
+      </select>
+
+      <label for="sortDirection">Sort direction:</label>
+      <select name="sortDirection" id="sortDirection">
+        <option th:value="asc" th:selected="${sortDirection == 'asc'}">
+          Ascending
+        </option>
+        <option th:value="desc" th:selected="${sortDirection == 'desc'}">
+          Descending
+        </option>
+      </select>
+
+      <br />
+      <br />
+
+      <label for="codeFilter">Code:</label>
+      <input
+        type="text"
+        id="codeFilter"
+        name="codeFilter"
+        th:value="${codeFilter}"
+      />
+
+      <label for="nameFilter">Name:</label>
+      <input
+        type="text"
+        id="nameFilter"
+        name="nameFilter"
+        th:value="${nameFilter}"
+      />
+
+      <label for="pgnMovesFilter">Pgn:</label>
+      <input
+        type="text"
+        id="pgnMovesFilter"
+        name="pgnMovesFilter"
+        th:value="${pgnMovesFilter}"
+      />
+
+      <button type="submit">Search</button>
+    </form>
+
+    <a th:href="@{/favorite-openings}" class="btn btn-primary">Reset Filters</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Pgn</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr th:each="opening : ${favoriteOpeningsOnCurrentPage.content}">
+          <td th:text="${opening.code}"></td>
+          <td th:text="${opening.name}"></td>
+          <td th:text="${opening.pgnMoves}"></td>
+          <td>
+            <a
+              th:href="@{/openings/{openingId}(openingId=${opening.openingId})}"
+              class="btn btn primary"
+            >
+              View
+            </a>
+
+            <a
+              th:href="@{favorite-openings/delete(openingId=${opening.openingId})}"
+              onclick="return confirm('Are you sure you want to delete this opening?')"
+              >Delete</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      <ul class="pagination">
+        <li th:if="${favoriteOpeningsOnCurrentPage.number > 0}">
+          <a
+            th:href="@{/favorite-openings(currentPage=1,
+            sortField=${sortField},
+            sortDirection=${sortDirection},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}"
+            class="page-link"
+            >First</a
+          >
+          <a
+            th:href="@{/favorite-openings(currentPage=${favoriteOpeningsOnCurrentPage.number},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}"
+            class="page-link"
+            >Previous</a
+          >
+        </li>
+
+        <li
+          th:each="i : ${#numbers.sequence(favoriteOpeningsOnCurrentPage.number - 5, favoriteOpeningsOnCurrentPage.number + 4)}"
+          th:if="${i >= 0 and i < favoriteOpeningsOnCurrentPage.totalPages}"
+        >
+          <a
+            th:href="@{/favorite-openings(currentPage=${i + 1},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}"
+            th:text="${i + 1}"
+            th:classappend="${i == favoriteOpeningsOnCurrentPage.number ? 'current-page' : ''}"
+            class="page-link"
+          ></a>
+        </li>
+
+        <li
+          th:if="${favoriteOpeningsOnCurrentPage.number < favoriteOpeningsOnCurrentPage.totalPages - 1}"
+        >
+          <a
+            th:href="@{/favorite-openings(currentPage=${favoriteOpeningsOnCurrentPage.nextPageable().pageNumber + 1},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}"
+            class="page-link"
+            >Next</a
+          >
+          <a
+            th:href="@{/favorite-openings(currentPage=${favoriteOpeningsOnCurrentPage.totalPages},
+            sortField=${sortField},
+            sortDirection=${sortDirection},
+            codeFilter=${codeFilter},
+            nameFilter=${nameFilter},
+            pgnMovesFilter=${pgnMovesFilter})}"
+            class="page-link"
+            >Last</a
+          >
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

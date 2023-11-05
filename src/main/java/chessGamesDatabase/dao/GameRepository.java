@@ -87,7 +87,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "AND (:dateFromFilter IS NULL OR g.date >= :dateFromFilter) " +
             "AND (:dateToFilter IS NULL OR g.date <= :dateToFilter)"
     )
-    Page <Game> findAllUsersFavoriteGamesWithFiltersPageable(
+    Page <Game> findUsersFavoriteGamesWithFiltersPageable(
             @Param("userId") Long userId,
             @Param("openingCodeFilter") String openingCodeFilter,
             @Param("player1FirstNameFilter") String player1FirstNameFilter,

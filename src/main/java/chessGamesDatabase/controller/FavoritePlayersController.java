@@ -33,22 +33,23 @@ public class FavoritePlayersController {
     }
 
     @GetMapping("")
-    public String displayFavoritePlayers(@RequestParam(defaultValue = "1") int currentPage,
-                                         @RequestParam(defaultValue = "firstName", required = false) String sortField,
-                                         @RequestParam(defaultValue = "asc", required = false) String sortDirection,
-                                         @RequestParam(required = false) String firstNameFilter,
-                                         @RequestParam(required = false) String lastNameFilter,
-                                         @RequestParam(required = false) LocalDate birthDateFromFilter,
-                                         @RequestParam(required = false) LocalDate birthDateToFilter,
-                                         @RequestParam(required = false) Character sexFilter,
-                                         @RequestParam(required = false) Integer eloMinFilter,
-                                         @RequestParam(required = false) Integer eloMaxFilter,
-                                         Authentication authentication,
-                                         Model model) {
+    public String displayFavoritePlayers(
+            @RequestParam(defaultValue = "1") int currentPage,
+            @RequestParam(defaultValue = "firstName", required = false) String sortField,
+            @RequestParam(defaultValue = "asc", required = false) String sortDirection,
+            @RequestParam(required = false) String firstNameFilter,
+            @RequestParam(required = false) String lastNameFilter,
+            @RequestParam(required = false) LocalDate birthDateFromFilter,
+            @RequestParam(required = false) LocalDate birthDateToFilter,
+            @RequestParam(required = false) Character sexFilter,
+            @RequestParam(required = false) Integer eloMinFilter,
+            @RequestParam(required = false) Integer eloMaxFilter,
+            Authentication authentication,
+            Model model) {
 
         User user = userService.findUserByUsername(authentication.getName());
 
-        Page<Player> favoritePlayersOnCurrentPage = playerService.findAllUsersFavoritePlayersWithFiltersPageable
+        Page<Player> favoritePlayersOnCurrentPage = playerService.findUsersFavoritePlayersWithFiltersPageable
                 (user.getUserId(), firstNameFilter, lastNameFilter, birthDateFromFilter, birthDateToFilter,
                         sexFilter, eloMinFilter, eloMaxFilter,
                         getPageRequest(currentPage, ROWS_ON_NORMAL_PAGE, sortField, sortDirection));
@@ -90,7 +91,9 @@ public class FavoritePlayersController {
     }
 
     @GetMapping("/delete")
-    public String deleteFavoritePlayer(@RequestParam("playerId") Long playerId, Authentication authentication) {
+    public String deleteFavoritePlayer(@RequestParam("playerId")
+                                       Long playerId,
+                                       Authentication authentication) {
         User user = userService.findUserByUsername(authentication.getName());
         Player player = playerService.findPlayerById(playerId);
 
