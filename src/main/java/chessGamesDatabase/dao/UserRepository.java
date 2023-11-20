@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByUsername(String username);
 
+    User findUserByEmail(String email);
+
     @Query("SELECT DISTINCT u FROM User u " +
             "WHERE NOT EXISTS (SELECT r FROM u.roles r WHERE r.roleName = :roleNameFilter) " +
             "AND (:usernameFilter IS NULL OR u.username LIKE %:usernameFilter%) " +

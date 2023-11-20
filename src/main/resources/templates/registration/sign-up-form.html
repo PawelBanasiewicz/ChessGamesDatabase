@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>[[${pageTitle}]] - Chess Database</title>
+    <link rel="stylesheet" th:href="@{/css/edit-form.css}" />
+    <link rel="stylesheet" th:href="@{/css/sign-up.css}" />
+  </head>
+  <body>
+    <div th:replace="fragment/header :: header"></div>
+
+    <h2>Sign up</h2>
+
+    <form
+      th:object="${user}"
+      th:action="@{/registration/send-confirmation}"
+      method="POST"
+    >
+      <label for="username">Username: </label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        th:field="*{username}"
+        required
+      />
+
+      <div th:if="${usernameError}" class="error-message">
+        <p th:text="${usernameError}"></p>
+      </div>
+
+      <label for="email">Email: </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        th:field="*{email}"
+        required
+      />
+
+      <div th:if="${emailError}" class="error-message">
+        <p th:text="${emailError}"></p>
+      </div>
+
+      <label for="password">Password: </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        th:field="*{password}"
+        required
+      />
+
+      <label for="repeatedPassword">Repeat password: </label>
+      <input
+      type="password"
+      id="repeatedPassword"
+      name="repeatedPassword"
+      required
+      />
+
+      <div th:if="${passwordError}" class="error-message">
+        <p th:text="${passwordError}"></p>
+      </div>
+
+      <div class="form-buttons">
+        <button type="submit" class="btn primary">Sign up</button>
+        <a th:href="@{/}" class="btn cancel">Cancel</a>
+      </div>
+    </form>
+  </body>
+</html>

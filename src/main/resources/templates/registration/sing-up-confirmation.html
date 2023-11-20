@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>[[${pageTitle}]] - Chess Database</title>
+    <link rel="stylesheet" href="/css/sign-up.css" />
+  </head>
+  <body>
+    <div th:replace="fragment/header :: header"></div>
+    <div class="center-container">
+      <h3>You have signed up successfully</h3>
+      <p>
+        Username: <span th:text="${username}"></span>
+        Email: <span th:text="${email}"></span>
+      </p>
+      <h4>
+        <a th:href="@{/login}">Click here to login</a>
+      </h4>
+    </div>
+  </body>
+</html>

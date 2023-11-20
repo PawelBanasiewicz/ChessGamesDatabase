@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
     public Page<User> findUsersWithoutRoleWithFiltersPageable(String roleName, String usernameFilter, String emailFilter, Boolean enabledFilter,
                                                               LocalDateTime createdDateFromFilter, LocalDateTime createdDateToFilter,
                                                               LocalDateTime lastTimeLoginDateFromFilter,

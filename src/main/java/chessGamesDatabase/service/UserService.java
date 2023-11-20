@@ -12,6 +12,8 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
+    User findUserByEmail(String email);
+
     Page<User> findUsersWithoutRoleWithFiltersPageable(String roleName, String usernameFilter, String emailFilter,
                                                        Boolean enabledFilter, LocalDateTime createdDateFromFilter,
                                                        LocalDateTime createdDateToFilter, LocalDateTime lastTimeLoginDateFromFilter,
